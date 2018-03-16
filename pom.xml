@@ -11,7 +11,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.book.keeper</groupId>
+    <groupId>io.github.ghacupha</groupId>
     <artifactId>book-keeper</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -841,10 +841,10 @@
 
     <scm>
         <!--//Todo amend this ASAP-->
-        <connection>scm:git:https://github.com//ghacupha/book-keeper.git</connection>
+        <connection>scm:git:https://github.com/ghacupha/book-keeper.git</connection>
         <tag>master</tag>
-        <developerConnection>scm:git:https://github.com//ghacupha/book-keeper.git</developerConnection>
-        <url>https://github.com/JavaMoney/jsr354-ri</url>
+        <developerConnection>scm:git:https://github.com/ghacupha/book-keeper.git</developerConnection>
+        <url>https://github.com/ghacupha/book-keeper</url>
     </scm>
 
     <distributionManagement>
@@ -866,7 +866,7 @@
         <dependency>
             <groupId>org.javamoney</groupId>
             <artifactId>moneta</artifactId>
-            <version>0.9</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.joda/joda-money -->

@@ -1,7 +1,7 @@
-package io.book.keeper;
+package io.github.ghacupha.book_keeper;
 
-import io.book.keeper.balance.AccountBalance;
-import io.book.keeper.time.TimePoint;
+import io.github.ghacupha.book_keeper.balance.AccountBalance;
+import io.github.ghacupha.book_keeper.time.TimePoint;
 
 /**
  * Forms a collection of related {@link Entry}. The {@link javax.money.CurrencyUnit} of the

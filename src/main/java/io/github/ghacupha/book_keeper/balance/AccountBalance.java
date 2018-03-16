@@ -1,4 +1,4 @@
-package io.book.keeper.balance;
+package io.github.ghacupha.book_keeper.balance;
 
 import org.javamoney.moneta.Money;
 import org.slf4j.Logger;

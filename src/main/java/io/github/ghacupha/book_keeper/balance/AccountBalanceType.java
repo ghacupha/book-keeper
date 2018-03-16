@@ -1,4 +1,4 @@
-package io.book.keeper.balance;
+package io.github.ghacupha.book_keeper.balance;
 
 public enum AccountBalanceType {
 

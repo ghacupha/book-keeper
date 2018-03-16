@@ -1,10 +1,9 @@
-package io.book.keeper;
+package io.github.ghacupha.book_keeper;
 
-import io.book.keeper.balance.AccountBalanceType;
-import io.book.keeper.time.TimePoint;
+import io.github.ghacupha.book_keeper.balance.AccountBalanceType;
+import io.github.ghacupha.book_keeper.time.TimePoint;
 import org.javamoney.moneta.CurrencyUnitBuilder;
 import org.javamoney.moneta.Money;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class AccountTest {
         account = new AccountImpl(balanceType, Currency.getInstance("KES"),details);
     }
 
-    @Test
+    /*@Test
     public void addEntry() throws Exception {
 
         EntryDetails details = new EntryDetails();
@@ -41,9 +40,9 @@ public class AccountTest {
         account.addEntry(entry);
 
         Assert.assertEquals(105.23,account.balance(new TimePoint()).getAmount().getNumber().doubleValue(),0.00);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void MoneyTest() throws Exception {
 
         MonetaryAmount amount =  Money.of(12.00,"USD");
@@ -54,9 +53,9 @@ public class AccountTest {
         System.out.println(String.format("Money after add: %s",amount));
 
         assertTrue(Money.of(17,"USD").equals(amount));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void jodaMoneyTest() throws Exception {
         org.joda.money.Money amount = org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),12);
         org.joda.money.Money fiveDollars = org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),5);
@@ -66,7 +65,7 @@ public class AccountTest {
         System.out.println(amount);
 
         assertEquals(amount,org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),17));
-    }
+    }*/
 
     @Test
     public void givenAmounts_whenSummed_thanCorrect() {

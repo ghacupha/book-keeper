@@ -1,4 +1,4 @@
-package io.book.keeper;
+package io.github.ghacupha.book_keeper;
 
 /**
  * Container for additional details for {@link Entry}

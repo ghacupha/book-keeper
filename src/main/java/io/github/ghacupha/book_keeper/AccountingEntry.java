@@ -1,6 +1,6 @@
-package io.book.keeper;
+package io.github.ghacupha.book_keeper;
 
-import io.book.keeper.time.TimePoint;
+import io.github.ghacupha.book_keeper.time.TimePoint;
 import org.javamoney.moneta.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

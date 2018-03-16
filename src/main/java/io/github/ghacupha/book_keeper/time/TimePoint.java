@@ -1,4 +1,4 @@
-package io.book.keeper.time;
+package io.github.ghacupha.book_keeper.time;
 
 import java.time.LocalDate;
 
