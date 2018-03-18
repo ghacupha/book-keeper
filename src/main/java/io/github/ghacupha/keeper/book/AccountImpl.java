@@ -87,7 +87,7 @@ public class AccountImpl implements Account{
         entries.stream()
                 .filter(entry -> dateRange.includes(entry.getBookingDate()))
                 .map(filteredEntry -> {
-                    Emoney amount = filteredEntry.getAmount();
+                    Emonetary amount = filteredEntry.getAmount();
                     log.debug("Accounting entry : {} added into the balance with amount : {}",filteredEntry,amount);
                     return amount;
                 }
