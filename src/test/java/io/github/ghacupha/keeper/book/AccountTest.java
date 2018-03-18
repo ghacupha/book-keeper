@@ -64,8 +64,4 @@ public class AccountTest {
         Assert.assertEquals(105.23,account.balance(new TimePoint(2018,02,13)).getAmount().getNumber().doubleValue(),0.00);
     }
 
-    @Test
-    public void balance1() throws Exception {
-    }
-
 }
