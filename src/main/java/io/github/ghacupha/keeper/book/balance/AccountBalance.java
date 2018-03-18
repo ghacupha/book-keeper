@@ -1,6 +1,7 @@
-package io.github.ghacupha.book_keeper.balance;
+package io.github.ghacupha.keeper.book.balance;
 
-import org.javamoney.moneta.Money;
+import io.github.ghacupha.keeper.book.unit.money.Emonetary;
+import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,10 @@ public class AccountBalance {
 
     private static final Logger log = LoggerFactory.getLogger(AccountBalance.class);
 
-    private final Money amount;
+    private final Emonetary amount;
     private final AccountBalanceType accountBalanceType;
 
-    public AccountBalance(Money amount, AccountBalanceType accountBalanceType) {
+    public AccountBalance(Emoney amount, AccountBalanceType accountBalanceType) {
         this.amount = amount;
         this.accountBalanceType = accountBalanceType;
 
@@ -28,7 +29,7 @@ public class AccountBalance {
         return amount.getNumber().doubleValue() + "."+accountBalanceType;
     }
 
-    public Money getAmount() {
+    public Emonetary getAmount() {
         return amount;
     }
 

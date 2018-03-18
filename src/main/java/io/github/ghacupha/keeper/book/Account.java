@@ -1,10 +1,10 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.balance.AccountBalance;
-import io.github.ghacupha.book_keeper.time.TimePoint;
+import io.github.ghacupha.keeper.book.balance.AccountBalance;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * Forms a collection of related {@link Entry}. The {@link javax.money.CurrencyUnit} of the
+ * Forms a collection of related {@link Entry}. The {@link org.joda.money.CurrencyUnit} of the
  * {@link Entry} must the same with that of the {@link Account}
  *
  * @author edwin.njeru

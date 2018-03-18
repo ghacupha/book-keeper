@@ -1,7 +1,7 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.time.TimePoint;
-import org.javamoney.moneta.Money;
+import io.github.ghacupha.keeper.book.unit.money.Emoney;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +13,9 @@ public class AccountingEntry implements Entry {
     private boolean open;
     private TimePoint bookingDate;
     private Account forAccount;
-    private Money amount;
+    private Emoney amount;
 
-    AccountingEntry(Account forAccount, EntryDetails entryDetails, Money amount, TimePoint bookingDate) {
+    AccountingEntry(Account forAccount, EntryDetails entryDetails, Emoney amount, TimePoint bookingDate) {
         this.bookingDate=bookingDate;
         this.open=true;
         this.amount=amount;
@@ -31,7 +31,7 @@ public class AccountingEntry implements Entry {
     }
 
     @Override
-    public Entry newEntry(AccountImpl account, EntryDetails entryDetails, Money amount, TimePoint bookingDate) {
+    public Entry newEntry(AccountImpl account, EntryDetails entryDetails, Emoney amount, TimePoint bookingDate) {
 
         return new AccountingEntry(account,entryDetails,amount,bookingDate);
 
@@ -45,9 +45,9 @@ public class AccountingEntry implements Entry {
     }
 
     @Override
-    public Money getAmount() {
+    public Emoney getAmount() {
 
-        log.debug("Returning money amount : {} from accountingEntry : {}",amount,this);
+        log.debug("Returning unit amount : {} from accountingEntry : {}",amount,this);
         return amount;
     }
 

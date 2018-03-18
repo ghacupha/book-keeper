@@ -1,10 +1,9 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.balance.AccountBalance;
-import io.github.ghacupha.book_keeper.balance.AccountBalanceType;
-import io.github.ghacupha.book_keeper.time.TimePoint;
-import io.github.ghacupha.book_keeper.time.DateRange;
-import org.javamoney.moneta.Money;
+import io.github.ghacupha.keeper.book.balance.AccountBalance;
+import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
+import io.github.ghacupha.keeper.book.unit.money.Emonetary;
+import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +48,7 @@ public class AccountImpl implements Account{
 
             entries.add(entry); // done
 
-        } catch (WrongEntryCurrencyException e) {
+        } catch (MismatchedCurrencyException e) {
             log.error("Exception encountered when adding amount : {} to account : {}", entry.getAmount(), accountDetails.getAccountName());
             e.printStackTrace();
         } catch (UntimelyBookingDateException e) {
@@ -69,36 +68,36 @@ public class AccountImpl implements Account{
         }
     }
 
-    private void assertCurrency(Currency currency) throws WrongEntryCurrencyException {
+    private void assertCurrency(Currency currency) throws MismatchedCurrencyException {
 
         if (!this.currency.equals(currency)) {
 
             String message = String.format("The monetary amount added is inconsistent with this account :" +
                     "Expected currency : %s but found %s", this.currency.toString(), currency.toString());
-            throw new WrongEntryCurrencyException(message);
+            throw new MismatchedCurrencyException(message);
         }
     }
 
     private AccountBalance balance(DateRange dateRange) {
 
-        Money result = Money.of(0, currency.getCurrencyCode());
+        final Emonetary result = new Emoney(0,currency);
 
         entries.stream()
                 .filter(entry -> dateRange.includes(entry.getBookingDate()))
                 .map(filteredEntry -> {
-                    Money amount = filteredEntry.getAmount();
+                    Emoney amount = filteredEntry.getAmount();
                     log.debug("Accounting entry : {} added into the balance with amount : {}",filteredEntry,amount);
                     return amount;
                 }
                     )
                 .forEachOrdered(orderedAmount -> {
                     log.debug("Adding amount : {}",orderedAmount);
-                    result.add(orderedAmount);
+                    result = result.plus(orderedAmount);
                 });
 
-        log.debug("Returning balance of amount : {} on the {} side",result,accountBalanceType);
+        log.debug("Returning balance of amount : {} on the {} side", result[0],accountBalanceType);
 
-        return new AccountBalance(result, accountBalanceType);
+        return new AccountBalance(result[0], accountBalanceType);
     }
 
     @Override

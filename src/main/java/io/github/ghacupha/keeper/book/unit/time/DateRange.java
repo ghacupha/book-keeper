@@ -1,4 +1,4 @@
-package io.github.ghacupha.book_keeper.time;
+package io.github.ghacupha.keeper.book.unit.time;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

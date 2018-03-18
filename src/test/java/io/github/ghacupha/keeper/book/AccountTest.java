@@ -1,7 +1,7 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.balance.AccountBalanceType;
-import io.github.ghacupha.book_keeper.time.TimePoint;
+import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import org.javamoney.moneta.CurrencyUnitBuilder;
 import org.javamoney.moneta.Money;
 import org.junit.Before;
@@ -57,14 +57,14 @@ public class AccountTest {
 
     /*@Test
     public void jodaMoneyTest() throws Exception {
-        org.joda.money.Money amount = org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),12);
-        org.joda.money.Money fiveDollars = org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),5);
+        org.joda.unit.Money amount = org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),12);
+        org.joda.unit.Money fiveDollars = org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),5);
 
         amount.plus(fiveDollars);
 
         System.out.println(amount);
 
-        assertEquals(amount,org.joda.money.Money.of(org.joda.money.CurrencyUnit.getInstance("USD"),17));
+        assertEquals(amount,org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),17));
     }*/
 
     @Test

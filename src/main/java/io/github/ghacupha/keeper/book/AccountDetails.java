@@ -1,6 +1,6 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.time.TimePoint;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
  * Encapsulates information concerning the nature of an {@link AccountImpl} to which

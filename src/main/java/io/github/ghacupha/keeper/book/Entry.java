@@ -1,7 +1,7 @@
-package io.github.ghacupha.book_keeper;
+package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.book_keeper.time.TimePoint;
-import org.javamoney.moneta.Money;
+import io.github.ghacupha.keeper.book.unit.money.Emoney;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
  * Collection of this {@link Entry} objects forms the {@link AccountImpl}, which is one of the
@@ -13,13 +13,13 @@ import org.javamoney.moneta.Money;
  */
 public interface Entry {
 
-    Entry newEntry(AccountImpl account, EntryDetails entryDetails, Money amount, TimePoint bookingDate);
+    Entry newEntry(AccountImpl account, EntryDetails entryDetails, Emoney amount, TimePoint bookingDate);
 
     EntryDetails getEntryDetails();
 
     void setEntryDetails(EntryDetails entryDetails) throws ImmutableEntryException;
 
-    Money getAmount();
+    Emoney getAmount();
 
     TimePoint getBookingDate();
 }
