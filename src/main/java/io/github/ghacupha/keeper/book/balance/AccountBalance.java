@@ -17,7 +17,7 @@ public class AccountBalance {
     private final Emonetary amount;
     private final AccountBalanceType accountBalanceType;
 
-    public AccountBalance(Emoney amount, AccountBalanceType accountBalanceType) {
+    public AccountBalance(Emonetary amount, AccountBalanceType accountBalanceType) {
         this.amount = amount;
         this.accountBalanceType = accountBalanceType;
 

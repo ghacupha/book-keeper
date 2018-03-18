@@ -4,6 +4,8 @@ import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
 import io.github.ghacupha.keeper.book.unit.money.Emonetary;
 import io.github.ghacupha.keeper.book.unit.money.Emoney;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.unit.time.DateRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +82,7 @@ public class AccountImpl implements Account{
 
     private AccountBalance balance(DateRange dateRange) {
 
-        final Emonetary result = new Emoney(0,currency);
+        final Emonetary[] result = {new Emoney(0, currency)};
 
         entries.stream()
                 .filter(entry -> dateRange.includes(entry.getBookingDate()))
@@ -92,7 +94,7 @@ public class AccountImpl implements Account{
                     )
                 .forEachOrdered(orderedAmount -> {
                     log.debug("Adding amount : {}",orderedAmount);
-                    result = result.plus(orderedAmount);
+                    result[0] = result[0].plus(orderedAmount);
                 });
 
         log.debug("Returning balance of amount : {} on the {} side", result[0],accountBalanceType);
