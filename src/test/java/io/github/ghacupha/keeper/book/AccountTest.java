@@ -1,9 +1,12 @@
 package io.github.ghacupha.keeper.book;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
+import io.github.ghacupha.keeper.book.unit.money.Emonetary;
+import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import org.javamoney.moneta.CurrencyUnitBuilder;
 import org.javamoney.moneta.Money;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,57 +34,34 @@ public class AccountTest {
         account = new AccountImpl(balanceType, Currency.getInstance("KES"),details);
     }
 
-    /*@Test
+    @Test
     public void addEntry() throws Exception {
 
-        EntryDetails details = new EntryDetails();
-        Money amount = Money.of(105.23,"KES");
+        EntryDetails details = new EntryDetails("Tuskys Supermarket invoice 10 Television set","for office","inv 10");
+        Emonetary amount = Emoney.of(105.23,"KES");
         Entry entry = new AccountingEntry(account,details,amount,new TimePoint(2018,02,12));
         account.addEntry(entry);
 
         Assert.assertEquals(105.23,account.balance(new TimePoint()).getAmount().getNumber().doubleValue(),0.00);
-    }*/
-
-    /*@Test
-    public void MoneyTest() throws Exception {
-
-        MonetaryAmount amount =  Money.of(12.00,"USD");
-        MonetaryAmount fiveDollars =  Money.of(5.00,"USD");
-
-        amount.add(fiveDollars);
-
-        System.out.println(String.format("Money after add: %s",amount));
-
-        assertTrue(Money.of(17,"USD").equals(amount));
-    }*/
-
-    /*@Test
-    public void jodaMoneyTest() throws Exception {
-        org.joda.unit.Money amount = org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),12);
-        org.joda.unit.Money fiveDollars = org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),5);
-
-        amount.plus(fiveDollars);
-
-        System.out.println(amount);
-
-        assertEquals(amount,org.joda.unit.Money.of(org.joda.unit.CurrencyUnit.getInstance("USD"),17));
-    }*/
-
-    @Test
-    public void givenAmounts_whenSummed_thanCorrect() {
-        MonetaryAmount[] monetaryAmounts = new MonetaryAmount[] {
-                Money.of(100, "CHF"), Money.of(10.20, "CHF"), Money.of(1.15, "CHF")};
-
-        Money sumAmtCHF = Money.of(0, "CHF");
-        for (MonetaryAmount monetaryAmount : monetaryAmounts) {
-            sumAmtCHF = sumAmtCHF.add(monetaryAmount);
-        }
-
-        assertEquals("CHF 111.35", sumAmtCHF.toString());
     }
+
+
 
     @Test
     public void balance() throws Exception {
+
+        EntryDetails details = new EntryDetails("Tuskys Supermarket invoice 10 Television set","for office","inv 10");
+        Emonetary amount = Emoney.of(105.23,"KES");
+        Entry entry = new AccountingEntry(account,details,amount,new TimePoint(2018,02,12));
+        account.addEntry(entry);
+
+        EntryDetails details2 = new EntryDetails("Tuskys Supermarket invoice 10 Fridge","for home","inv 12");
+        Emonetary amount2 = Emoney.of(200.23,"KES");
+        Entry entry2 = new AccountingEntry(account,details2,amount2,new TimePoint(2018,02,15));
+        account.addEntry(entry2);
+
+        Assert.assertEquals(305.46,account.balance(new TimePoint(2018,02,15)).getAmount().getNumber().doubleValue(),0.00);
+        Assert.assertEquals(105.23,account.balance(new TimePoint(2018,02,13)).getAmount().getNumber().doubleValue(),0.00);
     }
 
     @Test

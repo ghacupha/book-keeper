@@ -1,5 +1,6 @@
 package io.github.ghacupha.keeper.book;
 
+import io.github.ghacupha.keeper.book.unit.money.Emonetary;
 import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
@@ -19,7 +20,7 @@ public interface Entry {
 
     void setEntryDetails(EntryDetails entryDetails) throws ImmutableEntryException;
 
-    Emoney getAmount();
+    Emonetary getAmount();
 
     TimePoint getBookingDate();
 }

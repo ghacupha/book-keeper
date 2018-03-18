@@ -158,4 +158,9 @@ public class Emoney implements Emonetary,MoneyWrapper {
         return this._base.compareTo(other._base);
 
     }
+
+    public static Emonetary of(double value, String currencyString) {
+
+       return new Emoney(Money.of(value,currencyString));
+    }
 }
