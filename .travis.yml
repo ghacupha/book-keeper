@@ -3,12 +3,11 @@ install: true
 before_install:
  - chmod +x mvnw
 script:
-- mvnw compile
-- mvnw clean package
-- mvnw clean test
-- mvnw clean verify
-- mvnw install
-- mvnw pdf:pdf
-- mvnw release:prepare
+- mvn compile
+- mvn package
+- mvn test
+- mvn verify
+- mvn install
+- mvn pdf:pdf
 jdk:
   - oraclejdk8
