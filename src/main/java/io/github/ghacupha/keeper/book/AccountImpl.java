@@ -6,6 +6,8 @@ import io.github.ghacupha.keeper.book.unit.money.Emonetary;
 import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

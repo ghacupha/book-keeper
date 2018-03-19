@@ -3,6 +3,7 @@ package io.github.ghacupha.keeper.book;
 import io.github.ghacupha.keeper.book.unit.money.Emonetary;
 import io.github.ghacupha.keeper.book.unit.money.Emoney;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 
 /**
  * Collection of this {@link Entry} objects forms the {@link AccountImpl}, which is one of the

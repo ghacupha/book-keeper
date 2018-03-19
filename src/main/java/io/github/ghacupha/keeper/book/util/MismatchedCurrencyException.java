@@ -1,4 +1,4 @@
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.util;
 
 /**
  * Thrown when the amount entered into an account has a different currency with the account's currency
