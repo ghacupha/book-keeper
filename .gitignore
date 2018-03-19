@@ -74,8 +74,14 @@ Thumbs.db
 CVS
 
 # Directory files #
+###################
 upload-dir/
 temp-uploads/
+
+# Release files #
+#################
+*.releaseBackup
+release.properties
 
 # XCode 5 #
 ###########
