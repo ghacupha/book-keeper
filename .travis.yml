@@ -1,11 +1,14 @@
 language: java
 install: true
+before_install:
+ - chmod +x mvnw
 script:
-- mvn install
-- mvn compile
-- mvn clean package
-- mvn clean test
-- mvn clean verify
-- mvn pdf:pdf
+- mvnw compile
+- mvnw clean package
+- mvnw clean test
+- mvnw clean verify
+- mvnw install
+- mvnw pdf:pdf
+- mvnw release:prepare
 jdk:
   - oraclejdk8
