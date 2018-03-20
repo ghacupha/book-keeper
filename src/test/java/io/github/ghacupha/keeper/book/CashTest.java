@@ -1,13 +1,20 @@
 package io.github.ghacupha.keeper.book;
 
+import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EmoneyTest {
+public class CashTest {
+
+    private Cash cash;
+
     @Before
     public void setUp() throws Exception {
+
+        cash = HardCash.shilling(106.50);
     }
 
     @Test
