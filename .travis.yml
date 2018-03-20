@@ -3,11 +3,9 @@ install: true
 before_install:
  - chmod +x mvnw
 script:
-- mvn compile
-- mvn package
-- mvn test
-- mvn verify
-- mvn install
-- mvn pdf:pdf
+- mvnw compile
+- mvnw package
+- mvnw test
+- mvnw install
 jdk:
   - oraclejdk8
