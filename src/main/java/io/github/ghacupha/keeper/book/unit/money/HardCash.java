@@ -1,129 +1,178 @@
+/*
+ *  Copyright 2018 Edwin Njeru
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package io.github.ghacupha.keeper.book.unit.money;
 
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
+import java.math.RoundingMode;
 import java.util.Currency;
 
-public class Emoney implements Cash,MoneyWrapper {
+/**
+ * Implements the {@link Cash} interface and is immutable
+ *
+ * @author edwin.njeru
+ */
+public class HardCash implements Cash {
 
-    private final Money _base;
-    private final Currency currency;
+    private final Money base;
 
-    public Emoney(double amount,String currencyCode){
+    public HardCash(double amount, String currencyCode) {
 
-        this(Money.of(CurrencyUnit.getInstance(currencyCode),amount));
+        base = (Money.of(CurrencyUnit.getInstance(currencyCode), amount));
+
     }
 
-    public Emoney(double amount,Currency currency){
-        this(amount,currency.getCurrencyCode());
+    // for use in class only
+    private HardCash(Money arg) {
+        this.base = arg;
     }
 
-    public Emoney(org.joda.money.Money money){
-        _base = FastMoney.of(money.getAmount(),money.getCurrencyUnit().getCurrencyCode());
-        this.currency = Currency.getInstance(money.getCurrencyUnit().getCurrencyCode());
+    public HardCash(double amount, Currency currency) {
+        this(amount, currency.getCurrencyCode());
+    }
+
+    /**
+     * Creates {@link Cash} with double amount and an ISO-4217 currency code
+     *
+     * @param value          amount of Cash in double
+     * @param currencyString currency code in ISO-4217 denotation
+     * @return {@link Cash} amount in the string currency specified
+     */
+    public static Cash of(double value, String currencyString) {
+
+        return new HardCash(value, currencyString);
+    }
+
+    /**
+     * Creates {@link Cash} with double amount using USD {@link Currency}
+     *
+     * @param value amount of Cash in double
+     * @return {@link Cash} amount in USD {@link Currency}
+     */
+    public static Cash dollar(double value) {
+
+        return new HardCash(value, Currency.getInstance("USD"));
+    }
+
+    /**
+     * Creates {@link Cash} with double amount using GBP {@link Currency}
+     *
+     * @param value amount of Cash in double
+     * @return {@link Cash} amount in GBP {@link Currency}
+     */
+    public static Cash sterling(double value) {
+
+        return new HardCash(value, Currency.getInstance("GBP"));
+    }
+
+    /**
+     * Creates {@link Cash} with double amount using EUR {@link Currency}
+     *
+     * @param value amount of Cash in double
+     * @return {@link Cash} amount in EUR {@link Currency}
+     */
+    public static Cash euro(double value) {
+
+        return new HardCash(value, Currency.getInstance("EUR"));
+    }
+
+    /**
+     * Creates {@link Cash} with double amount using KES {@link Currency}
+     *
+     * @param value amount of Cash in double
+     * @return {@link Cash} amount in KES {@link Currency}
+     */
+    public static Cash shilling(double value) {
+
+        return new HardCash(value, Currency.getInstance("KES"));
     }
 
     @Override
     public Currency getCurrency() {
-        return currency;
+        return base.getCurrencyUnit().toCurrency();
     }
 
     @Override
-    public boolean isMoreThan(Cash arg){
+    public boolean isMoreThan(Cash arg) {
 
-        return getJavaMoney().isGreaterThan(arg.getMoney());
+        HardCash hardCash = (HardCash) arg;
+
+        return base.isGreaterThan(hardCash.base);
     }
 
     @Override
-    public boolean isLessThan(Cash arg){
+    public boolean isLessThan(Cash arg) {
 
-        return getJavaMoney().isLessThan(arg.getMoney());
-    }
+        HardCash hardCash = (HardCash) arg;
 
-    public boolean isLessThan(Money arg){
-
-        return getJavaMoney().isLessThan(arg);
-    }
-
-    public boolean isLessThan(org.joda.money.Money arg){
-
-        return getJodaMoney().isLessThan(arg);
+        return base.isLessThan(hardCash.base);
     }
 
     @Override
-    public Cash plus(Cash arg){
+    public Cash plus(Cash arg) {
 
-        return new Emoney(this._base.add(arg.getMoney()));
+        return getSum(getNativeAmount(arg));
     }
 
     @Override
-    public Cash minus(Cash arg){
+    public Cash minus(Cash arg) {
 
-        return new Emoney(this._base.subtract(arg.getMoney()));
+        return getSum(-getNativeAmount(arg));
     }
 
     @Override
-    public Cash multiply(double arg){
+    public Cash multiply(double arg) {
 
-        return new Emoney(this._base.multiply(arg));
+        return multiply(arg, RoundingMode.HALF_EVEN);
     }
 
     @Override
-    public Cash divide(double arg){
+    public Cash multiply(double arg, RoundingMode roundingMode) {
 
-        return new Emoney(this._base.divide(arg));
+        return new HardCash(this.base.multipliedBy(arg, roundingMode));
     }
 
     @Override
-    public Money getMoney() {
+    public Cash divide(double arg) {
 
-        return getJavaMoney();
+        return divide(arg, RoundingMode.HALF_EVEN);
+    }
+
+    @Override
+    public Cash divide(double arg, RoundingMode roundingMode) {
+
+        return multiply(1 / arg, roundingMode);
     }
 
     @Override
     public Number getNumber() {
 
-        return this._base.getNumber();
-    }
-
-    private org.joda.money.Money getJodaMoney(){
-
-        return org.joda.money.Money.of(org.joda.money.CurrencyUnit.of(_base.getCurrency().getCurrencyCode()),_base.getNumber().doubleValue());
-    }
-
-    private Money getJavaMoney(){
-
-        return Money.of(_base.getNumber(),_base.getCurrency());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Emoney emoney = (Emoney) o;
-
-        if (!_base.equals(emoney._base)) return false;
-        return currency.equals(emoney.currency);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = _base.hashCode();
-        result = 31 * result + currency.hashCode();
-        return result;
+        return this.base.getAmount();
     }
 
     @Override
     public String toString() {
 
-        return this._base.getCurrency().getCurrencyCode()+" "+this._base.getNumber().doubleValue();
+        return this.base.getCurrencyUnit().getCurrencyCode() + " " + this.base.getAmount().doubleValue();
     }
 
     /**
-     *
      * @param arg the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object
      * is less than, equal to, or greater than the specified object.
@@ -134,14 +183,37 @@ public class Emoney implements Cash,MoneyWrapper {
     @Override
     public int compareTo(Object arg) {
 
-        Emoney other = (Emoney)arg;
+        HardCash other = (HardCash) arg;
 
-        return this._base.compareTo(other._base);
+        return this.base.compareTo(other.base);
 
     }
 
-    public static Cash of(double value, String currencyString) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-       return new Emoney(Money.of(value,currencyString));
+        HardCash hardCash = (HardCash) o;
+
+        return base.equals(hardCash.base);
+    }
+
+    @Override
+    public int hashCode() {
+        return base.hashCode();
+    }
+
+    private HardCash getSum(double damount) {
+        return new HardCash(getNativeAmount(this) + damount, this.base.getCurrencyUnit().toCurrency());
+    }
+
+    private double getNativeAmount(Cash arg) {
+
+        return arg.getNumber().doubleValue();
     }
 }

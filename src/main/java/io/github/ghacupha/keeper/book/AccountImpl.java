@@ -1,11 +1,28 @@
+/*
+ *  Copyright 2018 Edwin Njeru
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package io.github.ghacupha.keeper.book;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
-import io.github.ghacupha.keeper.book.unit.money.Emonetary;
-import io.github.ghacupha.keeper.book.unit.money.Emoney;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
+import io.github.ghacupha.keeper.book.unit.time.Moment;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
@@ -21,15 +38,14 @@ import java.util.HashSet;
  *
  * @author edwin.njeru
  */
-public class AccountImpl implements Account{
+public class AccountImpl implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(AccountImpl.class);
 
     private final AccountBalanceType accountBalanceType;
-    private Collection<Entry> entries = new HashSet<>();
     private final Currency currency;
     private final AccountDetails accountDetails;
-
+    private Collection<Entry> entries = new HashSet<>();
 
 
     public AccountImpl(AccountBalanceType accountBalanceType, Currency currency, AccountDetails accountDetails) {
@@ -37,13 +53,13 @@ public class AccountImpl implements Account{
         this.currency = currency;
         this.accountDetails = accountDetails;
 
-        log.debug("Account created : {}",this);
+        log.debug("Account created : {}", this);
     }
 
     @Override
     public void addEntry(Entry entry) {
 
-        log.debug("Adding entry to account : {}",entry);
+        log.debug("Adding entry to account : {}", entry);
 
         try {
             assertCurrency(Currency.getInstance(entry.getAmount().getCurrency().getCurrencyCode()));
@@ -56,18 +72,17 @@ public class AccountImpl implements Account{
             log.error("Exception encountered when adding amount : {} to account : {}", entry.getAmount(), accountDetails.getAccountName());
             e.printStackTrace();
         } catch (UntimelyBookingDateException e) {
-            log.error("The booking date : {} is sooner than the account's opeing date : {}", entry.getBookingDate(),accountDetails.getOpeningDate());
+            log.error("The booking date : {} is sooner than the account's opeing date : {}", entry.getBookingDate(), accountDetails.getOpeningDate());
             e.printStackTrace();
         }
 
     }
 
-    private void assertBookingDate(TimePoint bookingDate) throws UntimelyBookingDateException{
+    private void assertBookingDate(TimePoint bookingDate) throws UntimelyBookingDateException {
 
         // booking date cannot be sooner than account opening date
-        if(bookingDate.before(accountDetails.getOpeningDate())){
-            String message = String.format("The booking date cannot be earlier than the account opening date :" +
-                    "Opening date : %s . The entry date was %s", this.accountDetails.getOpeningDate(), bookingDate);
+        if (bookingDate.before(accountDetails.getOpeningDate())) {
+            String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountDetails.getOpeningDate(), bookingDate);
             throw new UntimelyBookingDateException(message);
         }
     }
@@ -76,30 +91,25 @@ public class AccountImpl implements Account{
 
         if (!this.currency.equals(currency)) {
 
-            String message = String.format("The monetary amount added is inconsistent with this account :" +
-                    "Expected currency : %s but found %s", this.currency.toString(), currency.toString());
+            String message = String.format("The monetary amount added is inconsistent with this account :" + "Expected currency : %s but found %s", this.currency.toString(), currency.toString());
             throw new MismatchedCurrencyException(message);
         }
     }
 
     private AccountBalance balance(DateRange dateRange) {
 
-        final Emonetary[] result = {new Emoney(0, currency)};
+        final Cash[] result = {new HardCash(0, currency)};
 
-        entries.stream()
-                .filter(entry -> dateRange.includes(entry.getBookingDate()))
-                .map(filteredEntry -> {
-                    Emonetary amount = filteredEntry.getAmount();
-                    log.debug("Accounting entry : {} added into the balance with amount : {}",filteredEntry,amount);
-                    return amount;
-                }
-                    )
-                .forEachOrdered(orderedAmount -> {
-                    log.debug("Adding amount : {}",orderedAmount);
-                    result[0] = result[0].plus(orderedAmount);
-                });
+        entries.stream().filter(entry -> dateRange.includes(entry.getBookingDate())).map(filteredEntry -> {
+            Cash amount = filteredEntry.getAmount();
+            log.debug("Accounting entry : {} added into the balance with amount : {}", filteredEntry, amount);
+            return amount;
+        }).forEachOrdered(orderedAmount -> {
+            log.debug("Adding amount : {}", orderedAmount);
+            result[0] = result[0].plus(orderedAmount);
+        });
 
-        log.debug("Returning balance of amount : {} on the {} side", result[0],accountBalanceType);
+        log.debug("Returning balance of amount : {} on the {} side", result[0], accountBalanceType);
 
         return new AccountBalance(result[0], accountBalanceType);
     }
@@ -107,16 +117,16 @@ public class AccountImpl implements Account{
     @Override
     public AccountBalance balance(TimePoint asAt) {
 
-        AccountBalance balance = balance(new DateRange(accountDetails.getOpeningDate(),asAt));
+        AccountBalance balance = balance(new DateRange(accountDetails.getOpeningDate(), asAt));
 
-        log.debug("Returning accounting balance as at : {} as : {}",asAt,balance);
+        log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
 
         return balance;
     }
 
     @Override
     public AccountBalance balance() {
-        return balance(new TimePoint());
+        return balance(new Moment());
     }
 
     @Override

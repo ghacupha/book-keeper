@@ -121,7 +121,7 @@
     </module>
     <!-- Header inlined due to m2e -->
     <module name="RegexpHeader">
-        <property name="header" value="^/\*[*]?\n^ \*  Copyright 2009[-]present[,] Stephen Colebourne"/>
+        <property name="header" value="^/\*[*]?\n^ \*  Copyright 2018 Edwin Njeru"/>
         <property name="fileExtensions" value="java"/>
     </module>
     <module name="SuppressionCommentFilter">
