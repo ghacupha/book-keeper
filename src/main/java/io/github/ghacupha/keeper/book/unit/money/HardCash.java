@@ -1,47 +1,28 @@
 package io.github.ghacupha.keeper.book.unit.money;
 
-import org.javamoney.moneta.FastMoney;
-import org.javamoney.moneta.Money;
+
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
 import java.util.Currency;
 
-public class Emoney implements Emonetary,MoneyWrapper {
+public class Emoney implements Cash,MoneyWrapper {
 
-    private final FastMoney _base;
+    private final Money _base;
     private final Currency currency;
 
     public Emoney(double amount,String currencyCode){
 
-        this(Money.of(amount,currencyCode));
+        this(Money.of(CurrencyUnit.getInstance(currencyCode),amount));
     }
 
     public Emoney(double amount,Currency currency){
         this(amount,currency.getCurrencyCode());
     }
 
-    private Emoney(Money money){
-        this._base = FastMoney.of(money.getNumber(),money.getCurrency());
-        this.currency = Currency.getInstance(money.getCurrency().getCurrencyCode());
-    }
-
-    private Emoney(FastMoney fastMoney) {
-        this._base=fastMoney;
-        this.currency = Currency.getInstance(fastMoney.getCurrency().getCurrencyCode());
-    }
-
     public Emoney(org.joda.money.Money money){
         _base = FastMoney.of(money.getAmount(),money.getCurrencyUnit().getCurrencyCode());
         this.currency = Currency.getInstance(money.getCurrencyUnit().getCurrencyCode());
-    }
-
-    public boolean isMoreThan(Money arg){
-
-        return getJavaMoney().isGreaterThan(arg);
-    }
-
-    public boolean isMoreThan(org.joda.money.Money arg){
-
-        return getJodaMoney().isGreaterThan(arg);
     }
 
     @Override
@@ -50,13 +31,13 @@ public class Emoney implements Emonetary,MoneyWrapper {
     }
 
     @Override
-    public boolean isMoreThan(Emonetary arg){
+    public boolean isMoreThan(Cash arg){
 
         return getJavaMoney().isGreaterThan(arg.getMoney());
     }
 
     @Override
-    public boolean isLessThan(Emonetary arg){
+    public boolean isLessThan(Cash arg){
 
         return getJavaMoney().isLessThan(arg.getMoney());
     }
@@ -72,25 +53,25 @@ public class Emoney implements Emonetary,MoneyWrapper {
     }
 
     @Override
-    public Emonetary plus(Emonetary arg){
+    public Cash plus(Cash arg){
 
         return new Emoney(this._base.add(arg.getMoney()));
     }
 
     @Override
-    public Emonetary minus(Emonetary arg){
+    public Cash minus(Cash arg){
 
         return new Emoney(this._base.subtract(arg.getMoney()));
     }
 
     @Override
-    public Emonetary multiply(double arg){
+    public Cash multiply(double arg){
 
         return new Emoney(this._base.multiply(arg));
     }
 
     @Override
-    public Emonetary divide(double arg){
+    public Cash divide(double arg){
 
         return new Emoney(this._base.divide(arg));
     }
@@ -159,7 +140,7 @@ public class Emoney implements Emonetary,MoneyWrapper {
 
     }
 
-    public static Emonetary of(double value, String currencyString) {
+    public static Cash of(double value, String currencyString) {
 
        return new Emoney(Money.of(value,currencyString));
     }
