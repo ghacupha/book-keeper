@@ -10,6 +10,9 @@
     <!-- types are add, fix, remove, update -->
     <release version="1.2" date="SNAPSHOT" description="v1.0">
       <action dev="edwinNjeru" type="add">
+          Refactored CI instructions to run only basic tasks
+      </action>
+      <action dev="edwinNjeru" type="add">
         Remove exposure to specific money pattern implementations
       </action>
       <action>

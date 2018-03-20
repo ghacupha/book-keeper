@@ -4,6 +4,7 @@ import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.Moment;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,29 +32,35 @@ public class AccountTest {
 
         EntryAttributes details = new EntryDetails("Tuskys Supermarket invoice 10 Television set","for office","inv 10");
         Cash amount = HardCash.of(105.23,"KES");
-        Entry entry = new AccountingEntry(account,details,amount,new Moment(2018,02,12));
+        Entry entry = new AccountingEntry(account,details,amount,new Moment(2018,2,12));
         account.addEntry(entry);
 
         Assert.assertEquals(105.23,account.balance(new Moment()).getAmount().getNumber().doubleValue(),0.00);
     }
 
-
-
     @Test
     public void balance() throws Exception {
 
         EntryAttributes details = new EntryDetails("Tuskys Supermarket invoice 10 Television set","for office","inv 10");
-        Cash amount = HardCash.of(105.23,"KES");
-        Entry entry = new AccountingEntry(account,details,amount,new Moment(2018,02,12));
-        account.addEntry(entry);
+        Cash tvPrice = HardCash.of(105.23,"KES");
+        Entry purchaseOfTV = new AccountingEntry(account,details,tvPrice,new Moment(2018,2,12));
+        account.addEntry(purchaseOfTV);
 
         EntryAttributes details2 = new EntryDetails("Tuskys Supermarket invoice 10 Fridge","for home","inv 12");
         Cash amount2 = HardCash.of(200.23,"KES");
-        Entry entry2 = new AccountingEntry(account,details2,amount2,new Moment(2018,02,15));
-        account.addEntry(entry2);
+        Entry purchaseOfFridge = new AccountingEntry(account,details2,amount2,new Moment(2018,2,15));
+        account.addEntry(purchaseOfFridge);
 
-        Assert.assertEquals(305.46,account.balance(new Moment(2018,02,15)).getAmount().getNumber().doubleValue(),0.00);
-        Assert.assertEquals(105.23,account.balance(new Moment(2018,02,13)).getAmount().getNumber().doubleValue(),0.00);
+        EntryAttributes etrPurchaseDetails = new EntryDetails("Electronic Tax Register Machine");
+        etrPurchaseDetails.setStringAttribute("Tax code","EY83E8");
+        Cash etrPrice = HardCash.shilling(50.18);
+        TimePoint etrPurchaseDate = new Moment(2018,3,1);
+        Entry purchaseOfETR = new AccountingEntry(account,etrPurchaseDetails,etrPrice,etrPurchaseDate);
+        account.addEntry(purchaseOfETR);
+
+        Assert.assertEquals(305.46,account.balance(new Moment(2018,2,16)).getAmount().getNumber().doubleValue(),0.00);
+        Assert.assertEquals(105.23,account.balance(new Moment(2018,2,13)).getAmount().getNumber().doubleValue(),0.00);
+        Assert.assertEquals(355.64,account.balance().getAmount().getNumber().doubleValue(),0.00);
     }
 
 }
