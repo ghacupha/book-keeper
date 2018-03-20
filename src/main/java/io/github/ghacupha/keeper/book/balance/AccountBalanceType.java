@@ -26,7 +26,7 @@ public enum AccountBalanceType {
     /**
      * Debit side of the balance sheet
      */
-    DR {
+    DEBIT {
         public String toString() {
             return "DR";
         }
@@ -35,9 +35,9 @@ public enum AccountBalanceType {
     /**
      * Credit side of the balance sheet
      */
-    CR {
+    CREDIT {
         public String toString() {
-            return "DR";
+            return "CR";
         }
     }
 }

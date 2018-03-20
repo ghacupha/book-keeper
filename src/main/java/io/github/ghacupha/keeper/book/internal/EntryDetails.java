@@ -80,6 +80,21 @@ public class EntryDetails implements EntryAttributes {
         stringMap.put("party", party);
     }
 
+    public static EntryAttributes newDetails(String narration, String referenceNumber) {
+
+        return new EntryDetails(narration, referenceNumber);
+    }
+
+    public static EntryAttributes newDetails(String narration, String referenceNumber, String remarks) {
+
+        return new EntryDetails(narration, referenceNumber, remarks);
+    }
+
+    public static EntryAttributes newDetails(String narration, String referenceNumber, String remarks, String party) {
+
+        return new EntryDetails(narration, referenceNumber, remarks, party);
+    }
+
     /**
      * @return Narration for the entry made in the account
      */

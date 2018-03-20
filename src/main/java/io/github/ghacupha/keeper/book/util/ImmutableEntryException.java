@@ -16,12 +16,23 @@
 
 package io.github.ghacupha.keeper.book.util;
 
+import io.github.ghacupha.keeper.book.Entry;
+import io.github.ghacupha.keeper.book.EntryAttributes;
+
 /**
- * Exception thrown when an {@link io.github.ghacupha.keeper.book.Entry} is added after the entry is set
+ * Exception thrown when {@link EntryAttributes} are added to an {@link Entry} after the {@link Entry} has been set
  *
  * @author edwin.njeru
  */
 public class ImmutableEntryException extends Throwable {
 
     private static final long serialVersionUID = 3871181286857327591L;
+
+    public ImmutableEntryException(String message) {
+        super(message);
+    }
+
+    public ImmutableEntryException() {
+        super();
+    }
 }

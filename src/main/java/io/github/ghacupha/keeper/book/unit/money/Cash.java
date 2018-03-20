@@ -83,4 +83,8 @@ public interface Cash extends Comparable, IsNumberical, HasDenomination {
      */
     Cash divide(double arg, RoundingMode roundingMode);
 
+    /**
+     * @return True if the instrinsic amount in the {@link Cash} object is zero
+     */
+    boolean isZero();
 }

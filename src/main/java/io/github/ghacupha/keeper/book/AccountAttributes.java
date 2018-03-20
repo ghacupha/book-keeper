@@ -19,27 +19,30 @@ package io.github.ghacupha.keeper.book;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
+/**
+ * Represents additional data that describe the nature of an {@link Account}
+ *
+ * @author edwin.njeru
+ */
 public interface AccountAttributes {
     /**
-     *
      * @return Name of the {@link Account} as String
      */
     String getAccountName();
 
     /**
-     *
      * @return Unique number designated for the {@link Account} as String
      */
     String getAccountNumber();
 
     /**
-     *
      * @return The date the account was opened as {@link TimePoint}
      */
     TimePoint getOpeningDate();
 
     /**
      * Returns the string attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as String
      */
@@ -47,6 +50,7 @@ public interface AccountAttributes {
 
     /**
      * Returns the {@link Cash} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link Cash}
      */
@@ -54,6 +58,7 @@ public interface AccountAttributes {
 
     /**
      * Returns the {@link TimePoint} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link TimePoint}
      */
@@ -61,6 +66,7 @@ public interface AccountAttributes {
 
     /**
      * Returns the {@link Object} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link Object}
      */
@@ -68,29 +74,33 @@ public interface AccountAttributes {
 
     /**
      * Sets the string attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The string value of the attribute
+     * @param arg       The string value of the attribute
      */
     void setStringAttribute(String attribute, String arg);
 
     /**
      * Sets the {@link Cash} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link Cash} value of the attribute
+     * @param arg       The {@link Cash} value of the attribute
      */
     void setCashAttribute(String attribute, Cash arg);
 
     /**
      * Sets the {@link TimePoint} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link TimePoint} value of the attribute
+     * @param arg       The {@link TimePoint} value of the attribute
      */
     void setTimePointAttribute(String attribute, TimePoint arg);
 
     /**
      * Sets the {@link Object} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link Object} value of the attribute
+     * @param arg       The {@link Object} value of the attribute
      */
     void setObjectAttribute(String attribute, Object arg);
 

@@ -42,6 +42,10 @@ public class Moment implements TimePoint {
         initialize(LocalDate.now());
     }
 
+    public static TimePoint newMoment(int year, int month, int day) {
+        return new Moment(year, month, day);
+    }
+
     private void initialize(LocalDate arg) {
         this.base = arg;
     }

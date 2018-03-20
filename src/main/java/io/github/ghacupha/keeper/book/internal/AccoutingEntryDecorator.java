@@ -14,25 +14,23 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.util;
+package io.github.ghacupha.keeper.book.internal;
 
 import io.github.ghacupha.keeper.book.Account;
 import io.github.ghacupha.keeper.book.Entry;
-import io.github.ghacupha.keeper.book.internal.AccountDetails;
+import io.github.ghacupha.keeper.book.EntryAttributes;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * This exception is thrown when the {@link TimePoint} bookingDate
- * of the {@link Entry} is sooner than the {@link TimePoint} openingDate attribute of the
- * {@link AccountDetails} attribute of an {@link Account}
+ * This acts as a decorator to the {@link AccountingEntry} object inorder to give
+ * additional functionality to the sub classes
  *
  * @author edwin.njeru
  */
-public class UntimelyBookingDateException extends Throwable {
+public class AccoutingEntryDecorator extends AccountingEntry implements Entry {
 
-    private static final long serialVersionUID = -8350399456082375239L;
-
-    public UntimelyBookingDateException(String message) {
-        super(message);
+    public AccoutingEntryDecorator(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
+        super(forAccount, entryAttributes, amount, bookingDate);
     }
 }

@@ -1,67 +1,40 @@
-[![Build Status](https://travis-ci.org/ghacupha/book-keeper.svg?branch=master)](https://travis-ci.org/ghacupha/book-keeper)
+/*
+ *  Copyright 2018 Edwin Njeru
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 
-# book-keeper
-Business accounts comprehension library for java.
+package io.github.ghacupha.keeper.book.internal;
 
-The book-keeper implements Martin Fowler's Accounting Entry, Account and Accounting Transaction design patterns to create
-accounting records of business transactions in any java program or game.
+import io.github.ghacupha.keeper.book.Account;
+import io.github.ghacupha.keeper.book.AccountAttributes;
+import io.github.ghacupha.keeper.book.EntryAttributes;
+import io.github.ghacupha.keeper.book.Transaction;
+import io.github.ghacupha.keeper.book.balance.AccountBalance;
+import io.github.ghacupha.keeper.book.unit.money.HardCash;
+import io.github.ghacupha.keeper.book.unit.time.Moment;
+import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UnableToPostException;
+import org.junit.Before;
+import org.junit.Test;
 
-The Account and Entry interfaces, can be used on their own to track monetary traffic as shown 
+import java.util.Currency;
 
-```java
-public class AccountTest {
+import static io.github.ghacupha.keeper.book.balance.AccountBalanceType.CREDIT;
+import static io.github.ghacupha.keeper.book.balance.AccountBalanceType.DEBIT;
+import static org.junit.Assert.assertEquals;
 
-    private Account electronicEquipmentAssetAccount;
-
-    @Before
-    public void setUp() throws Exception {
-        TimePoint openingDate = Moment.newMoment(2017,5,12);
-        AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
-        electronicEquipmentAssetAccount = new AccountImpl(DEBIT, Currency.getInstance("KES"),details);
-    }
-
-    @Test
-    public void addEntry() throws Exception {
-
-        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
-        Cash amount = HardCash.of(105.23,"KES");
-        Entry entry = new AccountingEntry(electronicEquipmentAssetAccount,details,amount,new Moment(2018,2,12));
-        electronicEquipmentAssetAccount.addEntry(entry);
-
-        Assert.assertEquals(105.23, electronicEquipmentAssetAccount.balance(new Moment()).getAmount().getNumber().doubleValue(),0.00);
-    }
-
-    @Test
-    public void balance() throws Exception {
-
-        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
-        Cash tvPrice = HardCash.of(105.23,"KES");
-        Entry purchaseOfTV = new AccountingEntry(electronicEquipmentAssetAccount,details,tvPrice,new Moment(2018,2,12));
-        electronicEquipmentAssetAccount.addEntry(purchaseOfTV);
-
-        EntryAttributes details2 = new EntryDetails("Keeper Supermarket invoice 12 Fridge","Invoice#12","For Home");
-        Cash amount2 = HardCash.of(200.23,"KES");
-        Entry purchaseOfFridge = new AccountingEntry(electronicEquipmentAssetAccount,details2,amount2,new Moment(2018,2,15));
-        electronicEquipmentAssetAccount.addEntry(purchaseOfFridge);
-
-        EntryAttributes etrPurchaseDetails = new EntryDetails("Electronic Tax Register Machine");
-        etrPurchaseDetails.setStringAttribute("Tax code","EY83E8");
-        Cash etrPrice = HardCash.shilling(50.18);
-        TimePoint etrPurchaseDate = new Moment(2018,3,1);
-        Entry purchaseOfETR = new AccountingEntry(electronicEquipmentAssetAccount,etrPurchaseDetails,etrPrice,etrPurchaseDate);
-        electronicEquipmentAssetAccount.addEntry(purchaseOfETR);
-
-        Assert.assertEquals(305.46, electronicEquipmentAssetAccount.balance(new Moment(2018,2,16)).getAmount().getNumber().doubleValue(),0.00);
-        Assert.assertEquals(105.23, electronicEquipmentAssetAccount.balance(new Moment(2018,2,13)).getAmount().getNumber().doubleValue(),0.00);
-        Assert.assertEquals(355.64, electronicEquipmentAssetAccount.balance().getAmount().getNumber().doubleValue(),0.00);
-    }
-
-}
-```
-
-The book-keeper can also track entire transactions, each of which may contain several accounts as illustrated bellow : 
-
-```java
 public class AccountingTransactionTest {
 
     // Subscriptions expense account
@@ -138,4 +111,3 @@ public class AccountingTransactionTest {
         assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT),bankersChqAccountSuspense.balance());
     }
 }
-```

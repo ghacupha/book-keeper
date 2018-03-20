@@ -19,6 +19,8 @@ package io.github.ghacupha.keeper.book;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
+import java.util.Currency;
+
 /**
  * Forms a collection of related {@link Entry}. The {@link org.joda.money.CurrencyUnit} of the
  * {@link Entry} must the same with that of the {@link Account}
@@ -48,4 +50,6 @@ public interface Account {
      * @return The {@link AccountBalance} as of now
      */
     AccountBalance balance();
+
+    Currency getCurrency();
 }

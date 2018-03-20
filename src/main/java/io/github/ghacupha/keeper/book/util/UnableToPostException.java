@@ -16,23 +16,26 @@
 
 package io.github.ghacupha.keeper.book.util;
 
-import io.github.ghacupha.keeper.book.Account;
 import io.github.ghacupha.keeper.book.Entry;
-import io.github.ghacupha.keeper.book.internal.AccountDetails;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.internal.AccountingTransaction;
 
 /**
- * This exception is thrown when the {@link TimePoint} bookingDate
- * of the {@link Entry} is sooner than the {@link TimePoint} openingDate attribute of the
- * {@link AccountDetails} attribute of an {@link Account}
+ * This exception is thrown when the {@link AccountingTransaction} client
+ * tries to post a transaction when the sum of the {@link Entry} items does not
+ * evaluate to zero
  *
  * @author edwin.njeru
  */
-public class UntimelyBookingDateException extends Throwable {
+public class UnableToPostException extends Throwable {
 
-    private static final long serialVersionUID = -8350399456082375239L;
-
-    public UntimelyBookingDateException(String message) {
-        super(message);
+    /**
+     * Constructs a new throwable with {@code null} as its detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
+     * <p>
+     * <p>The {@link #fillInStackTrace()} method is called to initialize
+     * the stack trace data in the newly created throwable.
+     */
+    public UnableToPostException() {
     }
 }

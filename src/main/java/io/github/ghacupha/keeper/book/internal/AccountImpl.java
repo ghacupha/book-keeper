@@ -136,4 +136,10 @@ public class AccountImpl implements Account {
     public String toString() {
         return this.accountAttributes.toString();
     }
+
+    @Override
+    public Currency getCurrency() {
+
+        return currency;
+    }
 }

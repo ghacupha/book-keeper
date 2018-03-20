@@ -37,10 +37,10 @@ public class AccountDetails implements AccountAttributes {
     private final TimePoint openingDate;
 
     //TODO getters to review availability of data from the maps
-    private final Map<String,String> stringMap = new ConcurrentSkipListMap<>();
-    private final Map<String,TimePoint> timePointMap = new ConcurrentSkipListMap<>();
-    private final Map<String,Cash> cashMap = new ConcurrentSkipListMap<>();
-    private final Map<String,Object> objectMap = new ConcurrentSkipListMap<>();
+    private final Map<String, String> stringMap = new ConcurrentSkipListMap<>();
+    private final Map<String, TimePoint> timePointMap = new ConcurrentSkipListMap<>();
+    private final Map<String, Cash> cashMap = new ConcurrentSkipListMap<>();
+    private final Map<String, Object> objectMap = new ConcurrentSkipListMap<>();
 
     public AccountDetails(String accountName, String accountNumber, TimePoint openingDate) {
         this.accountName = accountName;
@@ -48,8 +48,12 @@ public class AccountDetails implements AccountAttributes {
         this.openingDate = openingDate;
     }
 
+    public static AccountAttributes newDetails(String accountName, String accountNumber, TimePoint openingDate) {
+
+        return new AccountDetails(accountName, accountNumber, openingDate);
+    }
+
     /**
-     *
      * @return Name of the {@link Account} as String
      */
     @Override
@@ -58,7 +62,6 @@ public class AccountDetails implements AccountAttributes {
     }
 
     /**
-     *
      * @return Unique number designated for the {@link Account} as String
      */
     @Override
@@ -67,7 +70,6 @@ public class AccountDetails implements AccountAttributes {
     }
 
     /**
-     *
      * @return The date the account was opened as {@link TimePoint}
      */
     @Override
@@ -77,90 +79,98 @@ public class AccountDetails implements AccountAttributes {
 
     /**
      * Returns the string attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as String
      */
     @Override
-    public String getStringAttribute(String attribute){
+    public String getStringAttribute(String attribute) {
 
         return stringMap.get(attribute);
     }
 
     /**
      * Returns the {@link Cash} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link Cash}
      */
     @Override
-    public Cash getCashAttribute(String attribute){
+    public Cash getCashAttribute(String attribute) {
 
         return cashMap.get(attribute);
     }
 
     /**
      * Returns the {@link TimePoint} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link TimePoint}
      */
     @Override
-    public TimePoint getTimePointAttribute(String attribute){
+    public TimePoint getTimePointAttribute(String attribute) {
 
         return timePointMap.get(attribute);
     }
 
     /**
      * Returns the {@link Object} attribute required in the parameter
+     *
      * @param attribute String designation for the attribute required
      * @return {@link Account} attribute value returned as {@link Object}
      */
     @Override
-    public Object getObjectAttribute(String attribute){
+    public Object getObjectAttribute(String attribute) {
 
         return objectMap.get(attribute);
     }
 
     /**
      * Sets the string attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The string value of the attribute
+     * @param arg       The string value of the attribute
      */
     @Override
-    public void setStringAttribute(String attribute, String arg){
+    public void setStringAttribute(String attribute, String arg) {
 
-        stringMap.put(attribute,arg);
+        stringMap.put(attribute, arg);
     }
 
     /**
      * Sets the {@link Cash} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link Cash} value of the attribute
+     * @param arg       The {@link Cash} value of the attribute
      */
     @Override
-    public void setCashAttribute(String attribute, Cash arg){
+    public void setCashAttribute(String attribute, Cash arg) {
 
-        cashMap.put(attribute,arg);
+        cashMap.put(attribute, arg);
     }
 
     /**
      * Sets the {@link TimePoint} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link TimePoint} value of the attribute
+     * @param arg       The {@link TimePoint} value of the attribute
      */
     @Override
-    public void setTimePointAttribute(String attribute, TimePoint arg){
+    public void setTimePointAttribute(String attribute, TimePoint arg) {
 
-        timePointMap.put(attribute,arg);
+        timePointMap.put(attribute, arg);
     }
 
     /**
      * Sets the {@link Object} attribute as specified in the argument
+     *
      * @param attribute The designation of the attribute
-     * @param arg The {@link Object} value of the attribute
+     * @param arg       The {@link Object} value of the attribute
      */
     @Override
-    public void setObjectAttribute(String attribute, Object arg){
+    public void setObjectAttribute(String attribute, Object arg) {
 
-        objectMap.put(attribute,arg);
+        objectMap.put(attribute, arg);
     }
 
     @Override

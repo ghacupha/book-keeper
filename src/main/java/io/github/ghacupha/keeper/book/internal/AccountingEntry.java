@@ -81,7 +81,7 @@ public class AccountingEntry implements Entry {
             this.entryAttributes = entryAttributes;
             open = false;
         } else {
-            throw new ImmutableEntryException();
+            throw new ImmutableEntryException(String.format("The entry : %s is closed, therefore cannot add more attributes", this));
         }
     }
 
@@ -103,6 +103,15 @@ public class AccountingEntry implements Entry {
 
         log.debug("The entry is open ? : {}", open);
         return open;
+    }
+
+    /**
+     * Only to be used by {@link AccountingTransaction}
+     */
+    @Override
+    public void post() {
+
+        forAccount.addEntry(this);
     }
 
     @Override

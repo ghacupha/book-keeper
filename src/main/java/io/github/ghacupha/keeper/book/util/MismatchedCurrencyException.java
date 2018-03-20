@@ -16,8 +16,18 @@
 
 package io.github.ghacupha.keeper.book.util;
 
+import io.github.ghacupha.keeper.book.Account;
+import io.github.ghacupha.keeper.book.Entry;
+import io.github.ghacupha.keeper.book.Transaction;
+
+import java.util.Currency;
+
 /**
- * Thrown when the amount entered into an account has a different currency with the account's currency
+ * Thrown when the {@link Entry} being added to an {@link Account} has {@link Currency} that
+ * differs to that of the {@link Account}, or when the {@link Currency} of the {@link Account}
+ * and {@link Entry} being added to a {@link Transaction} are different
+ *
+ * @author edwin.njeru
  */
 public class MismatchedCurrencyException extends Throwable {
     private static final long serialVersionUID = 2585125223615187597L;

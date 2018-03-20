@@ -22,6 +22,7 @@ import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
+import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 /**
  * Collection of this {@link Entry} objects forms the {@link AccountImpl}, which is one of the
@@ -42,4 +43,13 @@ public interface Entry {
     Cash getAmount();
 
     TimePoint getBookingDate();
+
+    /**
+     * Posts the transactions into respective {@link Account} item.
+     * This method is only to be used by a {@link Transaction} object
+     *
+     * @throws UnableToPostException {@link UnableToPostException} thrown when the related {@link Transaction} is not balanced
+     *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
+     */
+    void post();
 }

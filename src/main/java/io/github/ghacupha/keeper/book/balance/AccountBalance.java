@@ -39,20 +39,23 @@ public class AccountBalance {
         log.debug("AccountBalance created : {}", this);
     }
 
+    public static AccountBalance newBalance(Cash amount, AccountBalanceType accountBalanceType) {
+
+        return new AccountBalance(amount, accountBalanceType);
+    }
+
     private String balance() {
 
-        return amount.getNumber().doubleValue() + "." + accountBalanceType;
+        return amount.getNumber().doubleValue() + " " + accountBalanceType;
     }
 
     public Cash getAmount() {
         return amount;
     }
 
-
     public AccountBalanceType getAccountBalanceType() {
         return accountBalanceType;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -80,8 +83,6 @@ public class AccountBalance {
 
     @Override
     public String toString() {
-        return amount.getNumber().doubleValue() + "." + accountBalanceType;
+        return amount.getNumber().doubleValue() + " " + accountBalanceType;
     }
-
-
 }

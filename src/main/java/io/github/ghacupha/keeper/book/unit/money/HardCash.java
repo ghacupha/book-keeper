@@ -166,6 +166,15 @@ public class HardCash implements Cash {
         return this.base.getAmount();
     }
 
+    /**
+     * @return True if the instrinsic amount in the {@link Cash} object is zero
+     */
+    @Override
+    public boolean isZero() {
+
+        return getNumber().doubleValue() == 0.00;
+    }
+
     @Override
     public String toString() {
 
