@@ -16,6 +16,7 @@
 
 package io.github.ghacupha.keeper.book;
 
+import io.github.ghacupha.keeper.book.internal.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import org.junit.Before;
 import org.junit.Test;

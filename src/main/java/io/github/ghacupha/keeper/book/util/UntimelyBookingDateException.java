@@ -17,7 +17,7 @@
 package io.github.ghacupha.keeper.book.util;
 
 import io.github.ghacupha.keeper.book.Account;
-import io.github.ghacupha.keeper.book.AccountDetails;
+import io.github.ghacupha.keeper.book.internal.AccountDetails;
 import io.github.ghacupha.keeper.book.Entry;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 

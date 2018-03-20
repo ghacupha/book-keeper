@@ -1,6 +1,10 @@
 package io.github.ghacupha.keeper.book;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
+import io.github.ghacupha.keeper.book.internal.AccountDetails;
+import io.github.ghacupha.keeper.book.internal.AccountImpl;
+import io.github.ghacupha.keeper.book.internal.AccountingEntry;
+import io.github.ghacupha.keeper.book.internal.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.Moment;
@@ -20,7 +24,7 @@ public class AccountTest {
 
 
         Moment openingDate = new Moment(2017,5,12);
-        AccountDetails details = new AccountDetails("Electronics","001548418",openingDate);
+        AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
 
         AccountBalanceType balanceType = AccountBalanceType.DR;
 

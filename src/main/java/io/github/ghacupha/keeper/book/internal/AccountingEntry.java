@@ -14,8 +14,11 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.internal;
 
+import io.github.ghacupha.keeper.book.Account;
+import io.github.ghacupha.keeper.book.Entry;
+import io.github.ghacupha.keeper.book.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -39,7 +42,7 @@ public class AccountingEntry implements Entry {
     private Account forAccount;
     private Cash amount;
 
-    AccountingEntry(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
+    public AccountingEntry(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
         this.bookingDate = bookingDate;
         this.open = true;
         this.amount = amount;
@@ -119,10 +122,7 @@ public class AccountingEntry implements Entry {
         if (entryAttributes != null ? !entryAttributes.equals(that.entryAttributes) : that.entryAttributes != null) {
             return false;
         }
-        if (bookingDate != null ? !bookingDate.equals(that.bookingDate) : that.bookingDate != null) {
-            return false;
-        }
-        return (forAccount != null ? forAccount.equals(that.forAccount) : that.forAccount == null) && (amount != null ? amount.equals(that.amount) : that.amount == null);
+        return (bookingDate != null ? bookingDate.equals(that.bookingDate) : that.bookingDate == null) && (forAccount != null ? forAccount.equals(that.forAccount) : that.forAccount == null) && (amount != null ? amount.equals(that.amount) : that.amount == null);
     }
 
     @Override

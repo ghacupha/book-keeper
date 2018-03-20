@@ -14,8 +14,11 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.internal;
 
+import io.github.ghacupha.keeper.book.Account;
+import io.github.ghacupha.keeper.book.AccountAttributes;
+import io.github.ghacupha.keeper.book.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
@@ -44,14 +47,14 @@ public class AccountImpl implements Account {
 
     private final AccountBalanceType accountBalanceType;
     private final Currency currency;
-    private final AccountDetails accountDetails;
+    private final AccountAttributes accountAttributes;
     private Collection<Entry> entries = new HashSet<>();
 
 
-    public AccountImpl(AccountBalanceType accountBalanceType, Currency currency, AccountDetails accountDetails) {
+    public AccountImpl(AccountBalanceType accountBalanceType, Currency currency, AccountAttributes accountAttributes) {
         this.accountBalanceType = accountBalanceType;
         this.currency = currency;
-        this.accountDetails = accountDetails;
+        this.accountAttributes = accountAttributes;
 
         log.debug("Account created : {}", this);
     }
@@ -69,10 +72,10 @@ public class AccountImpl implements Account {
             entries.add(entry); // done
 
         } catch (MismatchedCurrencyException e) {
-            log.error("Exception encountered when adding amount : {} to account : {}", entry.getAmount(), accountDetails.getAccountName());
+            log.error("Exception encountered when adding amount : {} to account : {}", entry.getAmount(), accountAttributes.getAccountName());
             e.printStackTrace();
         } catch (UntimelyBookingDateException e) {
-            log.error("The booking date : {} is sooner than the account's opeing date : {}", entry.getBookingDate(), accountDetails.getOpeningDate());
+            log.error("The booking date : {} is sooner than the account's opeing date : {}", entry.getBookingDate(), accountAttributes.getOpeningDate());
             e.printStackTrace();
         }
 
@@ -81,8 +84,8 @@ public class AccountImpl implements Account {
     private void assertBookingDate(TimePoint bookingDate) throws UntimelyBookingDateException {
 
         // booking date cannot be sooner than account opening date
-        if (bookingDate.before(accountDetails.getOpeningDate())) {
-            String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountDetails.getOpeningDate(), bookingDate);
+        if (bookingDate.before(accountAttributes.getOpeningDate())) {
+            String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountAttributes.getOpeningDate(), bookingDate);
             throw new UntimelyBookingDateException(message);
         }
     }
@@ -117,7 +120,7 @@ public class AccountImpl implements Account {
     @Override
     public AccountBalance balance(TimePoint asAt) {
 
-        AccountBalance balance = balance(new DateRange(accountDetails.getOpeningDate(), asAt));
+        AccountBalance balance = balance(new DateRange(accountAttributes.getOpeningDate(), asAt));
 
         log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
 
@@ -131,6 +134,6 @@ public class AccountImpl implements Account {
 
     @Override
     public String toString() {
-        return this.accountDetails.toString();
+        return this.accountAttributes.toString();
     }
 }

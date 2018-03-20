@@ -14,8 +14,10 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.internal;
 
+import io.github.ghacupha.keeper.book.Entry;
+import io.github.ghacupha.keeper.book.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 import java.util.Map;

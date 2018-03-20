@@ -16,7 +16,7 @@ public class AccountTest {
 
 
         Moment openingDate = new Moment(2017,5,12);
-        AccountDetails details = new AccountDetails("Electronics","001548418",openingDate);
+        AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
 
         AccountBalanceType balanceType = AccountBalanceType.DR;
 
