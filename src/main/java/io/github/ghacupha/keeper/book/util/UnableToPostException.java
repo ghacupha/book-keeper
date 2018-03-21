@@ -16,8 +16,8 @@
 
 package io.github.ghacupha.keeper.book.util;
 
-import io.github.ghacupha.keeper.book.Entry;
-import io.github.ghacupha.keeper.book.internal.AccountingTransaction;
+import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.base.AccountingTransaction;
 
 /**
  * This exception is thrown when the {@link AccountingTransaction} client
