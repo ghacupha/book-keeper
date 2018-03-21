@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
@@ -39,7 +38,7 @@ public class AccountingEntry implements Entry {
     private EntryAttributes entryAttributes;
     private boolean open;
     private TimePoint bookingDate;
-    private Account forAccount;
+    private io.github.ghacupha.keeper.book.api.Account forAccount;
     private Cash amount;
 
     public AccountingEntry(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
@@ -58,7 +57,7 @@ public class AccountingEntry implements Entry {
     }
 
     @Override
-    public Entry newEntry(AccountImpl account, EntryAttributes entryAttributes, HardCash amount, TimePoint bookingDate) {
+    public Entry newEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
 
         return new AccountingEntry(account, entryAttributes, amount, bookingDate);
 

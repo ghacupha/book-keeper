@@ -5,8 +5,6 @@ import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class CashTest {
 
     private Cash cash;

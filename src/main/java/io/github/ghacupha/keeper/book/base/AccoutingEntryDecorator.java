@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;

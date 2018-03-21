@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
@@ -58,19 +57,19 @@ public class AccountingTransactionTest {
 
         subscriptionExpenseAccountAttributes =
                 new AccountDetails("Subscriptions","506",Moment.newMoment(2017,6,30));
-        subscriptionExpenseAccount = new AccountImpl(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
+        subscriptionExpenseAccount = new Account(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
         subscriptionAccountEntryDetails = new EntryDetails("DSTV subscriptionAccountEntryDetails","Invoice# 1023","Approved in the budget",
                 "MultiChoice Group Inc");
 
         withholdingTaxAccountAttributes =
                 new AccountDetails("WithholdingTax","808",Moment.newMoment(2017,6,30));
-        withholdingTaxAccount = new AccountImpl(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
+        withholdingTaxAccount = new Account(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
         withholdingTaxDetailsEntry = new EntryDetails("6% Withholding VAT","PIN#25646","Vendor under advisement","MultiChoice Group Inc");
         withholdingTaxDetailsEntry.setStringAttribute("Invoice#","1023");
 
         bankersChequeAccountDetails =
                 AccountDetails.newDetails("Banker's Cheque A/C Suspense","303",Moment.newMoment(2017,6,30));
-        bankersChqAccountSuspense = new AccountImpl(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
+        bankersChqAccountSuspense = new Account(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
         bankersChequeAccountEntry = EntryDetails.newDetails("BCHQ ifo MultiChoice Group","CHQ#5642","To print","MultiChoiceGroup Inc");
         bankersChequeAccountEntry.setStringAttribute("Bank Name","ABC Banks");
         bankersChequeAccountEntry.setStringAttribute("Bank Branch","WestLands");

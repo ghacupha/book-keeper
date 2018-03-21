@@ -43,7 +43,7 @@ public interface Transaction {
      * @throws MismatchedCurrencyException Thrown if the {@link Currency} of the {@link Entry} or {@link Account}
      *                                     is mismatched with the {@link Currency} of this {@link Transaction}
      */
-    void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
+    void add(Cash amount, io.github.ghacupha.keeper.book.base.Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
 
     /**
      * Posts the transactions into respective {@link Account} items

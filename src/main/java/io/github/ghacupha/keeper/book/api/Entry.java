@@ -16,16 +16,15 @@
 
 package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.base.AccountImpl;
+import io.github.ghacupha.keeper.book.base.Account;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 /**
- * Collection of this {@link Entry} objects forms the {@link AccountImpl}, which is one of the
+ * Collection of this {@link Entry} objects forms the {@link Account}, which is one of the
  * descriptors for an account
  * The {@link EntryDetails} is used as a descriptor, that could contain stuff like details, categories,
  * parties involved, invoice numbers etc
@@ -34,7 +33,7 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
  */
 public interface Entry {
 
-    Entry newEntry(AccountImpl account, EntryAttributes entryAttributes, HardCash amount, TimePoint bookingDate);
+    Entry newEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate);
 
     EntryAttributes getEntryAttributes();
 
@@ -45,7 +44,7 @@ public interface Entry {
     TimePoint getBookingDate();
 
     /**
-     * Posts the transactions into respective {@link Account} item.
+     * Posts the transactions into respective {@link io.github.ghacupha.keeper.book.api.Account} item.
      * This method is only to be used by a {@link Transaction} object
      *
      * @throws UnableToPostException {@link UnableToPostException} thrown when the related {@link Transaction} is not balanced

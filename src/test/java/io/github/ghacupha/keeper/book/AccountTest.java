@@ -1,11 +1,10 @@
 package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.base.AccountDetails;
-import io.github.ghacupha.keeper.book.base.AccountImpl;
+import io.github.ghacupha.keeper.book.base.Account;
 import io.github.ghacupha.keeper.book.base.AccountingEntry;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
@@ -28,7 +27,7 @@ public class AccountTest {
     public void setUp() throws Exception {
         TimePoint openingDate = Moment.newMoment(2017,5,12);
         AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
-        electronicEquipmentAssetAccount = new AccountImpl(DEBIT, Currency.getInstance("KES"),details);
+        electronicEquipmentAssetAccount = new Account(DEBIT, Currency.getInstance("KES"),details);
     }
 
     @Test

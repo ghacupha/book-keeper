@@ -11,7 +11,7 @@
 
     <groupId>io.github.ghacupha</groupId>
     <artifactId>book-keeper</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>3</version>
     <packaging>jar</packaging>
     <name>book-keeper</name>
     <description>Demo project to illustrate typical double-entry book keeping workflow</description>
@@ -61,7 +61,6 @@
         <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
 
         <!-- Plugin version numbers -->
-        <git-changelog-maven-plugin.version>1.54</git-changelog-maven-plugin.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
         <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
@@ -116,6 +115,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/ghacupha/book-keeper.git</connection>
+        <tag>8fe2893</tag>
         <developerConnection>scm:git:https://github.com/ghacupha/book-keeper.git</developerConnection>
         <url>https://github.com/ghacupha/book-keeper</url>
     </scm>
@@ -373,7 +373,7 @@
                 </plugins>
             </build>
             <properties>
-                <additionalparam></additionalparam>
+                <additionalparam />
             </properties>
         </profile>
     </profiles>
@@ -394,26 +394,6 @@
         </resources>
         <!-- define build -->
         <plugins>
-            <!-- Print the change log as release notes...-->
-            <!--Run mvn generate-sources, to use-->
-            <plugin>
-                <groupId>se.bjurr.gitchangelog</groupId>
-                <artifactId>git-changelog-maven-plugin</artifactId>
-                <version>${git-changelog-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>GenerateGitChangelog</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>git-changelog</goal>
-                        </goals>
-                        <configuration>
-                            <!-- A file on filesystem //-->
-                            <file>CHANGELOG.md</file>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Enforce Maven 3.5.0 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -746,7 +726,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

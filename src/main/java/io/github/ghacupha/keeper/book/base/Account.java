@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
@@ -41,9 +40,9 @@ import java.util.HashSet;
  *
  * @author edwin.njeru
  */
-public class AccountImpl implements Account {
+public class Account implements io.github.ghacupha.keeper.book.api.Account {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(Account.class);
 
     private final AccountBalanceType accountBalanceType;
     private final Currency currency;
@@ -51,7 +50,7 @@ public class AccountImpl implements Account {
     private Collection<Entry> entries = new HashSet<>();
 
 
-    public AccountImpl(AccountBalanceType accountBalanceType, Currency currency, AccountAttributes accountAttributes) {
+    public Account(AccountBalanceType accountBalanceType, Currency currency, AccountAttributes accountAttributes) {
         this.accountBalanceType = accountBalanceType;
         this.currency = currency;
         this.accountAttributes = accountAttributes;

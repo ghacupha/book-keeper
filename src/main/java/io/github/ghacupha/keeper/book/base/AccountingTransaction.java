@@ -72,7 +72,7 @@ public class AccountingTransaction implements Transaction {
      * @param account {@link Account} into which the {@link Entry} is being added
      */
     @Override
-    public void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
+    public void add(Cash amount, io.github.ghacupha.keeper.book.base.Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
 
         if (wasPosted) {
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");

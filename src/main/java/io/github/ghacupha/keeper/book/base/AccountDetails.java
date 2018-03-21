@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Encapsulates information concerning the nature of an {@link AccountImpl} to which
+ * Encapsulates information concerning the nature of an {@link Account} to which
  * it belongs
  *
  * @author edwin.njeru
@@ -54,7 +53,7 @@ public class AccountDetails implements AccountAttributes {
     }
 
     /**
-     * @return Name of the {@link Account} as String
+     * @return Name of the {@link io.github.ghacupha.keeper.book.api.Account} as String
      */
     @Override
     public String getAccountName() {
@@ -62,7 +61,7 @@ public class AccountDetails implements AccountAttributes {
     }
 
     /**
-     * @return Unique number designated for the {@link Account} as String
+     * @return Unique number designated for the {@link io.github.ghacupha.keeper.book.api.Account} as String
      */
     @Override
     public String getAccountNumber() {
@@ -81,7 +80,7 @@ public class AccountDetails implements AccountAttributes {
      * Returns the string attribute required in the parameter
      *
      * @param attribute String designation for the attribute required
-     * @return {@link Account} attribute value returned as String
+     * @return {@link io.github.ghacupha.keeper.book.api.Account} attribute value returned as String
      */
     @Override
     public String getStringAttribute(String attribute) {
@@ -93,7 +92,7 @@ public class AccountDetails implements AccountAttributes {
      * Returns the {@link Cash} attribute required in the parameter
      *
      * @param attribute String designation for the attribute required
-     * @return {@link Account} attribute value returned as {@link Cash}
+     * @return {@link io.github.ghacupha.keeper.book.api.Account} attribute value returned as {@link Cash}
      */
     @Override
     public Cash getCashAttribute(String attribute) {
@@ -105,7 +104,7 @@ public class AccountDetails implements AccountAttributes {
      * Returns the {@link TimePoint} attribute required in the parameter
      *
      * @param attribute String designation for the attribute required
-     * @return {@link Account} attribute value returned as {@link TimePoint}
+     * @return {@link io.github.ghacupha.keeper.book.api.Account} attribute value returned as {@link TimePoint}
      */
     @Override
     public TimePoint getTimePointAttribute(String attribute) {
@@ -117,7 +116,7 @@ public class AccountDetails implements AccountAttributes {
      * Returns the {@link Object} attribute required in the parameter
      *
      * @param attribute String designation for the attribute required
-     * @return {@link Account} attribute value returned as {@link Object}
+     * @return {@link io.github.ghacupha.keeper.book.api.Account} attribute value returned as {@link Object}
      */
     @Override
     public Object getObjectAttribute(String attribute) {
