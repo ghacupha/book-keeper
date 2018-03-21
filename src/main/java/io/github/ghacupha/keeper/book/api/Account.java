@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -30,16 +30,16 @@ import java.util.Currency;
 public interface Account {
 
     /**
-     * Adds a new entry to the account
+     * Adds a new entry to the base
      *
-     * @param entry {@link Entry} to be added to the account
+     * @param entry {@link Entry} to be added to the base
      */
     void addEntry(Entry entry);
 
     /**
-     * Gives the account balance as at the {@link TimePoint} given
+     * Gives the base balance as at the {@link TimePoint} given
      *
-     * @param asAt {@link TimePoint} effective which we require the account balance
+     * @param asAt {@link TimePoint} effective which we require the base balance
      * @return {@link AccountBalance} effective at the {@link TimePoint} provided
      */
     AccountBalance balance(TimePoint asAt);

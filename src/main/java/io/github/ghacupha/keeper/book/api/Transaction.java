@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
@@ -35,7 +35,7 @@ public interface Transaction {
      * This method creates a {@link Entry} and adds that to the {@link Account} in the parameter
      * and also adds it to this {@link Transaction} provided the {@link Transaction} is not already posted
      *
-     * @param amount     {@link Cash} amount being posted to the account
+     * @param amount     {@link Cash} amount being posted to the base
      * @param account    {@link Account} into which the {@link Entry} is being added
      * @param attributes {@link EntryAttributes} related to the Entry being added to the {@link Account} that is
      *                   being created in this method.

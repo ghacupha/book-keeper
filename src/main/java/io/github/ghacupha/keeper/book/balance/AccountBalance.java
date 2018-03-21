@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents the amount and sign of the amount you could find in an account
+ * Represents the amount and sign of the amount you could find in an base
  *
  * @author edwin.njeru
  */

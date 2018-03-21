@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
@@ -25,12 +25,12 @@ import io.github.ghacupha.keeper.book.unit.money.Cash;
  */
 public interface EntryAttributes {
     /**
-     * @return Narration for the entry made in the account
+     * @return Narration for the entry made in the base
      */
     String getNarration();
 
     /**
-     * @return Additional remarks made in the account iif any
+     * @return Additional remarks made in the base iif any
      */
     String getRemarks();
 

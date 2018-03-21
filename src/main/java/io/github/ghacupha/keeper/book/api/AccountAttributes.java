@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -36,7 +36,7 @@ public interface AccountAttributes {
     String getAccountNumber();
 
     /**
-     * @return The date the account was opened as {@link TimePoint}
+     * @return The date the base was opened as {@link TimePoint}
      */
     TimePoint getOpeningDate();
 

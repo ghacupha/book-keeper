@@ -16,9 +16,9 @@
 
 package io.github.ghacupha.keeper.book.util;
 
-import io.github.ghacupha.keeper.book.Account;
-import io.github.ghacupha.keeper.book.Entry;
-import io.github.ghacupha.keeper.book.Transaction;
+import io.github.ghacupha.keeper.book.api.Account;
+import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.Transaction;
 
 import java.util.Currency;
 

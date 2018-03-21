@@ -16,8 +16,8 @@
 
 package io.github.ghacupha.keeper.book.util;
 
-import io.github.ghacupha.keeper.book.Entry;
-import io.github.ghacupha.keeper.book.EntryAttributes;
+import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.EntryAttributes;
 
 /**
  * Exception thrown when {@link EntryAttributes} are added to an {@link Entry} after the {@link Entry} has been set

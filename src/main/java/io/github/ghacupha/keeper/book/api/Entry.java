@@ -14,10 +14,10 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.internal.AccountImpl;
-import io.github.ghacupha.keeper.book.internal.EntryDetails;
+import io.github.ghacupha.keeper.book.base.AccountImpl;
+import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -26,7 +26,7 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 /**
  * Collection of this {@link Entry} objects forms the {@link AccountImpl}, which is one of the
- * descriptors for an account
+ * descriptors for an base
  * The {@link EntryDetails} is used as a descriptor, that could contain stuff like details, categories,
  * parties involved, invoice numbers etc
  *
