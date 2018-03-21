@@ -1,9 +1,13 @@
 package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.keeper.book.internal.AccountDetails;
-import io.github.ghacupha.keeper.book.internal.AccountImpl;
-import io.github.ghacupha.keeper.book.internal.AccountingEntry;
-import io.github.ghacupha.keeper.book.internal.EntryDetails;
+import io.github.ghacupha.keeper.book.api.Account;
+import io.github.ghacupha.keeper.book.api.AccountAttributes;
+import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.EntryAttributes;
+import io.github.ghacupha.keeper.book.base.AccountDetails;
+import io.github.ghacupha.keeper.book.base.AccountImpl;
+import io.github.ghacupha.keeper.book.base.AccountingEntry;
+import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.Moment;

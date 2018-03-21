@@ -43,9 +43,11 @@
         <surefireArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</surefireArgLine>
         <failsafeArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</failsafeArgLine>
         <env.TRAVIS_JOB_ID />
-        <maven.compile.targetLevel>1.8</maven.compile.targetLevel>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compile.targetLevel>9</maven.compile.targetLevel>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
+        <maven.compiler.executable>javac9</maven.compiler.executable>
+        <maven.compiler.fork>true</maven.compiler.fork>
         <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
         <project.reporting.outputDirectory>"documentation"</project.reporting.outputDirectory>
         <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
@@ -399,7 +401,7 @@
         </pluginManagement>
 
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.0.RELEASE</version>
@@ -421,7 +423,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -446,10 +448,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <fork>${maven.compiler.fork}</fork>
+                    <executable>${maven.compiler.executable}</executable>
                 </configuration>
             </plugin>
             <plugin>

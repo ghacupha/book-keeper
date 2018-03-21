@@ -14,10 +14,10 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.internal;
+package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.Account;
-import io.github.ghacupha.keeper.book.AccountAttributes;
+import io.github.ghacupha.keeper.book.api.Account;
+import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
