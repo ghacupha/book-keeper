@@ -45,15 +45,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <maven.compile.targetLevel>1.8</maven.compile.targetLevel>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <it.skip>false</it.skip>
         <skip.unit.tests>false</skip.unit.tests>
         <surefireArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</surefireArgLine>
         <failsafeArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</failsafeArgLine>
         <env.TRAVIS_JOB_ID />
-        <maven.compile.targetLevel>9</maven.compile.targetLevel>
-        <maven.compiler.source>9</maven.compiler.source>
-        <maven.compiler.target>9</maven.compiler.target>
-        <maven.compiler.executable>javac9</maven.compiler.executable>
+
         <maven.compiler.fork>true</maven.compiler.fork>
         <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
         <project.reporting.outputDirectory>"documentation"</project.reporting.outputDirectory>
@@ -225,9 +225,9 @@
                         <!-- setup defaults for compile and testCompile -->
                         <configuration>
                             <jdkToolchain>
-                                <version>9</version>
+                                <version>${maven.compiler.source}</version>
                             </jdkToolchain>
-                            <release>${book-keeper.release.version}</release>
+                            <release>9</release>
                         </configuration>
                     </plugin>
                     <!-- Hack to extract dependencies for Javadoc plugin -->
@@ -585,8 +585,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
