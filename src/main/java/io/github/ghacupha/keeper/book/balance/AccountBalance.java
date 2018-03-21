@@ -30,31 +30,31 @@ public class AccountBalance {
     private static final Logger log = LoggerFactory.getLogger(AccountBalance.class);
 
     private final Cash amount;
-    private final AccountBalanceType accountBalanceType;
+    private final JournalSide journalSide;
 
-    public AccountBalance(Cash amount, AccountBalanceType accountBalanceType) {
+    public AccountBalance(Cash amount, JournalSide journalSide) {
         this.amount = amount;
-        this.accountBalanceType = accountBalanceType;
+        this.journalSide = journalSide;
 
         log.debug("AccountBalance created : {}", this);
     }
 
-    public static AccountBalance newBalance(Cash amount, AccountBalanceType accountBalanceType) {
+    public static AccountBalance newBalance(Cash amount, JournalSide journalSide) {
 
-        return new AccountBalance(amount, accountBalanceType);
+        return new AccountBalance(amount, journalSide);
     }
 
     private String balance() {
 
-        return amount.getNumber().doubleValue() + " " + accountBalanceType;
+        return amount.getNumber().doubleValue() + " " + journalSide;
     }
 
     public Cash getAmount() {
         return amount;
     }
 
-    public AccountBalanceType getAccountBalanceType() {
-        return accountBalanceType;
+    public JournalSide getJournalSide() {
+        return journalSide;
     }
 
     @Override
@@ -71,18 +71,18 @@ public class AccountBalance {
         if (!amount.equals(that.amount)) {
             return false;
         }
-        return accountBalanceType == that.accountBalanceType;
+        return journalSide == that.journalSide;
     }
 
     @Override
     public int hashCode() {
         int result = amount.hashCode();
-        result = 31 * result + accountBalanceType.hashCode();
+        result = 31 * result + journalSide.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return amount.getNumber().doubleValue() + " " + accountBalanceType;
+        return amount.getNumber().doubleValue() + " " + journalSide;
     }
 }

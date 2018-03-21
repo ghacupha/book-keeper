@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.base.Account;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -33,7 +32,7 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
  */
 public interface Entry {
 
-    Entry newEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate);
+    Entry newEntry(Account journal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate);
 
     EntryAttributes getEntryAttributes();
 

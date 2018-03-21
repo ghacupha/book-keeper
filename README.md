@@ -64,17 +64,17 @@ The book-keeper can also track entire transactions, each of which may contain se
 ```java
 public class AccountingTransactionTest {
 
-    // Subscriptions expense account
+    // Subscriptions expense journal
     Account subscriptionExpenseAccount;
     AccountAttributes subscriptionExpenseAccountAttributes;
     EntryAttributes subscriptionAccountEntryDetails;
 
-    // Withhoding tax account
+    // Withhoding tax journal
     Account withholdingTaxAccount;
     AccountAttributes withholdingTaxAccountAttributes;
     EntryAttributes withholdingTaxDetailsEntry;
 
-    // Banker's cheque suspense account
+    // Banker's cheque suspense journal
     Account bankersChqAccountSuspense;
     AccountAttributes bankersChequeAccountDetails;
     EntryAttributes bankersChequeAccountEntry;

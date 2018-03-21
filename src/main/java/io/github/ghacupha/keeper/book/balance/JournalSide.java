@@ -14,23 +14,35 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.base;
+package io.github.ghacupha.keeper.book.balance;
 
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.EntryAttributes;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * This acts as a decorator to the {@link AccountingEntry} object inorder to give
- * additional functionality to the sub classes
+ * Denotes the side to which a transaction belongs on the balance sheet. Either the debit side or credit side
+ * of the Journal entry. It also show the "default" that an {@link Account} belongs to before any {@link Entry}
+ * items are posted
  *
  * @author edwin.njeru
  */
-public class AccoutingEntryDecorator extends AccountingEntry implements Entry {
+public enum JournalSide {
 
-    public AccoutingEntryDecorator(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
-        super(account, entryAttributes, amount, bookingDate);
+    /**
+     * Debit side of the balance sheet
+     */
+    DEBIT {
+        public String toString() {
+            return "DR";
+        }
+    },
+
+    /**
+     * Credit side of the balance sheet
+     */
+    CREDIT {
+        public String toString() {
+            return "CR";
+        }
     }
 }

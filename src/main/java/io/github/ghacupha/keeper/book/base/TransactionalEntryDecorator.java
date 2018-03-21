@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Edwin Njeru
+ * Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,26 +16,23 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * This object is for use with {@link AccountingTransaction} which allows us to maintain a
- * 2-way relation between the relationship and the account.
- * The {@link Entry} objects will be immutable making the two-way link easier to maintain
+ * Was created in order to add functionality to the {@link TransactionalEntry} class
+ * in a way that would make it possible to an {@link Entry} to have a pointer that
+ * denotes the {@link JournalSide} to which it belongs
  *
  * @author edwin.njeru
  */
-public class TransactionalEntry extends AccoutingEntryDecorator implements Entry {
+public class TransactionalEntryDecorator extends TransactionalEntry implements Entry {
 
-    private Transaction transaction;
-
-    public TransactionalEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
-        super(account, entryAttributes, amount, bookingDate);
-        this.transaction = transaction;
+    public TransactionalEntryDecorator(Journal forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
+        super(forJournal, entryAttributes, amount, bookingDate, transaction);
     }
 }

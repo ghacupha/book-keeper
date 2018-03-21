@@ -68,11 +68,11 @@ public class AccountingTransaction implements Transaction {
      * The add method adds entries to the transaction provided the transaction has not already
      * been posted
      *
-     * @param amount  {@link Cash} amount being posted to the account
+     * @param amount  {@link Cash} amount being posted to the journal
      * @param account {@link Account} into which the {@link Entry} is being added
      */
     @Override
-    public void add(Cash amount, io.github.ghacupha.keeper.book.base.Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
+    public void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
 
         if (wasPosted) {
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");

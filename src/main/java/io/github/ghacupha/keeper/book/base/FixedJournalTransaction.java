@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Edwin Njeru
+ * Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,30 +14,11 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.balance;
+package io.github.ghacupha.keeper.book.base;
 
-/**
- * Denotes the side to which a transaction belongs on the balance sheet. Either the debit side or credit side
- *
- * @author edwin.njeru
- */
-public enum AccountBalanceType {
+import io.github.ghacupha.keeper.book.api.Transaction;
 
-    /**
-     * Debit side of the balance sheet
-     */
-    DEBIT {
-        public String toString() {
-            return "DR";
-        }
-    },
+public class FixedJournalTransaction extends AccountingTransactionDecorator implements Transaction {
 
-    /**
-     * Credit side of the balance sheet
-     */
-    CREDIT {
-        public String toString() {
-            return "CR";
-        }
-    }
+    //TODO override add method in super and implement add method in JournalizedTransaction interface
 }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Edwin Njeru
+ * Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
@@ -33,22 +32,22 @@ import java.util.Currency;
 
 import static io.github.ghacupha.keeper.book.balance.JournalSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-public class AccountingTransactionTest {
+public class JournalizedEntryTest {
 
     // Subscriptions expense account
-    Account subscriptionExpenseAccount;
+    Journal subscriptionExpenseJournal;
     AccountAttributes subscriptionExpenseAccountAttributes;
     EntryAttributes subscriptionAccountEntryDetails;
 
     // Withhoding tax account
-    Account withholdingTaxAccount;
+    Journal withholdingTaxJournal;
     AccountAttributes withholdingTaxAccountAttributes;
     EntryAttributes withholdingTaxDetailsEntry;
 
     // Banker's cheque suspense account
-    Account bankersChqAccountSuspense;
+    Journal bankersChqJournalSuspense;
     AccountAttributes bankersChequeAccountDetails;
     EntryAttributes bankersChequeAccountEntry;
 
@@ -57,20 +56,20 @@ public class AccountingTransactionTest {
     public void setUp() throws Exception {
 
         subscriptionExpenseAccountAttributes =
-                new AccountDetails("Subscriptions","506",Moment.newMoment(2017,6,30));
-        subscriptionExpenseAccount = new Journal(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
+                new AccountDetails("Subscriptions","506", Moment.newMoment(2017,6,30));
+        subscriptionExpenseJournal = new Journal(DEBIT, Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
         subscriptionAccountEntryDetails = new EntryDetails("DSTV subscriptionAccountEntryDetails","Invoice# 1023","Approved in the budget",
                 "MultiChoice Group Inc");
 
         withholdingTaxAccountAttributes =
                 new AccountDetails("WithholdingTax","808",Moment.newMoment(2017,6,30));
-        withholdingTaxAccount = new Journal(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
+        withholdingTaxJournal = new Journal(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
         withholdingTaxDetailsEntry = new EntryDetails("6% Withholding VAT","PIN#25646","Vendor under advisement","MultiChoice Group Inc");
         withholdingTaxDetailsEntry.setStringAttribute("Invoice#","1023");
 
         bankersChequeAccountDetails =
                 AccountDetails.newDetails("Banker's Cheque A/C Suspense","303",Moment.newMoment(2017,6,30));
-        bankersChqAccountSuspense = new Journal(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
+        bankersChqJournalSuspense = new Journal(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
         bankersChequeAccountEntry = EntryDetails.newDetails("BCHQ ifo MultiChoice Group","CHQ#5642","To print","MultiChoiceGroup Inc");
         bankersChequeAccountEntry.setStringAttribute("Bank Name","ABC Banks");
         bankersChequeAccountEntry.setStringAttribute("Bank Branch","WestLands");
@@ -83,15 +82,15 @@ public class AccountingTransactionTest {
         // Create the transaction
         Transaction transaction = new AccountingTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
 
-        transaction.add(HardCash.dollar(-800), subscriptionExpenseAccount, subscriptionAccountEntryDetails);
-        transaction.add(HardCash.dollar(36), withholdingTaxAccount, withholdingTaxDetailsEntry);
-        transaction.add(HardCash.dollar(764), bankersChqAccountSuspense,bankersChequeAccountEntry);
+        transaction.add(HardCash.dollar(-800), subscriptionExpenseJournal, subscriptionAccountEntryDetails);
+        transaction.add(HardCash.dollar(36), withholdingTaxJournal, withholdingTaxDetailsEntry);
+        transaction.add(HardCash.dollar(764), bankersChqJournalSuspense,bankersChequeAccountEntry);
 
-         transaction.post(); // Transaction must be posted to be effective
+        transaction.post(); // Transaction must be posted to be effective
 
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(-800), DEBIT), subscriptionExpenseAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(36), CREDIT), withholdingTaxAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(764), CREDIT), bankersChqAccountSuspense.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(-800), DEBIT), subscriptionExpenseJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(36), CREDIT), withholdingTaxJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(764), CREDIT), bankersChqJournalSuspense.balance());
     }
 
     @Test
@@ -100,14 +99,14 @@ public class AccountingTransactionTest {
         Transaction transaction =
                 new AccountingTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
 
-        transaction.add(HardCash.dollar(-800), subscriptionExpenseAccount, subscriptionAccountEntryDetails);
-        transaction.add(HardCash.dollar(36), withholdingTaxAccount, withholdingTaxDetailsEntry);
-        transaction.add(HardCash.dollar(764), bankersChqAccountSuspense,bankersChequeAccountEntry);
+        transaction.add(HardCash.dollar(-800), subscriptionExpenseJournal, subscriptionAccountEntryDetails);
+        transaction.add(HardCash.dollar(36), withholdingTaxJournal, withholdingTaxDetailsEntry);
+        transaction.add(HardCash.dollar(764), bankersChqJournalSuspense,bankersChequeAccountEntry);
 
         // Crickets...
 
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), DEBIT), subscriptionExpenseAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT), withholdingTaxAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT), bankersChqAccountSuspense.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), DEBIT), subscriptionExpenseJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT), withholdingTaxJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT), bankersChqJournalSuspense.balance());
     }
 }

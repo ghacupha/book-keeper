@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Edwin Njeru
+ * Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.base.Journal;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
@@ -24,13 +24,7 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 import java.util.Currency;
 
-/**
- * This interface allows us to enter a collection of {@link Entry} items into respective {@link Account}
- * objects at the same time, as it is conventionally done in a typical business case
- *
- * @author edwin.njeru
- */
-public interface Transaction {
+public interface JournalizedTransaction {
 
     /**
      * This method creates a {@link Entry} and adds that to the {@link Account} in the parameter
@@ -44,7 +38,7 @@ public interface Transaction {
      * @throws MismatchedCurrencyException Thrown if the {@link Currency} of the {@link Entry} or {@link Account}
      *                                     is mismatched with the {@link Currency} of this {@link Transaction}
      */
-    void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
+    void add(JournalSide journalSide,Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
 
     /**
      * Posts the transactions into respective {@link Account} items

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Encapsulates information concerning the nature of an {@link Account} to which
+ * Encapsulates information concerning the nature of an {@link Journal} to which
  * it belongs
  *
  * @author edwin.njeru

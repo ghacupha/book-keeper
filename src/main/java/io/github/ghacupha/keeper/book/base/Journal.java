@@ -16,10 +16,11 @@
 
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
-import io.github.ghacupha.keeper.book.balance.AccountBalanceType;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
@@ -40,22 +41,22 @@ import java.util.HashSet;
  *
  * @author edwin.njeru
  */
-public class Account implements io.github.ghacupha.keeper.book.api.Account {
+public class Journal implements Account {
 
-    private static final Logger log = LoggerFactory.getLogger(Account.class);
+    private static final Logger log = LoggerFactory.getLogger(Journal.class);
 
-    private final AccountBalanceType accountBalanceType;
+    private final JournalSide journalSide;
     private final Currency currency;
     private final AccountAttributes accountAttributes;
     private Collection<Entry> entries = new HashSet<>();
 
 
-    public Account(AccountBalanceType accountBalanceType, Currency currency, AccountAttributes accountAttributes) {
-        this.accountBalanceType = accountBalanceType;
+    public Journal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
+        this.journalSide = journalSide;
         this.currency = currency;
         this.accountAttributes = accountAttributes;
 
-        log.debug("Account created : {}", this);
+        log.debug("Journal created : {}", this);
     }
 
     @Override
@@ -111,9 +112,9 @@ public class Account implements io.github.ghacupha.keeper.book.api.Account {
             result[0] = result[0].plus(orderedAmount);
         });
 
-        log.debug("Returning balance of amount : {} on the {} side", result[0], accountBalanceType);
+        log.debug("Returning balance of amount : {} on the {} side", result[0], journalSide);
 
-        return new AccountBalance(result[0], accountBalanceType);
+        return new AccountBalance(result[0], journalSide);
     }
 
     @Override

@@ -16,10 +16,10 @@
 
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import org.slf4j.Logger;
@@ -38,10 +38,10 @@ public class AccountingEntry implements Entry {
     private EntryAttributes entryAttributes;
     private boolean open;
     private TimePoint bookingDate;
-    private io.github.ghacupha.keeper.book.api.Account forAccount;
+    private Account forAccount;
     private Cash amount;
 
-    public AccountingEntry(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
+    public AccountingEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
         this.bookingDate = bookingDate;
         this.open = true;
         this.amount = amount;
@@ -50,7 +50,7 @@ public class AccountingEntry implements Entry {
         } catch (ImmutableEntryException e) {
             e.printStackTrace();
         }
-        this.forAccount = forAccount;
+        this.forAccount = account;
         this.bookingDate = bookingDate;
 
         log.debug("Accounting entry created : {}", this);
