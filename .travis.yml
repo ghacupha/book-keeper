@@ -2,6 +2,9 @@ language: java
 install: true
 
 script:
+- mvn checkstyle:check
+- mvn checkstyle:checkstyle
+- mvn verify
 - mvn compile
 - mvn package
 - mvn test

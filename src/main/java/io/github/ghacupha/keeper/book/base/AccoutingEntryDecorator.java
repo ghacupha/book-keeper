@@ -14,29 +14,23 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.util;
+package io.github.ghacupha.keeper.book.base;
 
-<<<<<<< HEAD
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.Transaction;
-=======
-import io.github.ghacupha.keeper.book.api.*;
->>>>>>> 89ba7c8106eb68d213c1a8c4afaf7eb8b983f404
-
-import java.util.Currency;
+import io.github.ghacupha.keeper.book.api.EntryAttributes;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * Thrown when the {@link Entry} being added to an {@link Account} has {@link Currency} that
- * differs to that of the {@link Account}, or when the {@link Currency} of the {@link Account}
- * and {@link Entry} being added to a {@link Transaction} are different
+ * This acts as a decorator to the {@link AccountingEntry} object inorder to give
+ * additional functionality to the sub classes
  *
  * @author edwin.njeru
  */
-public class MismatchedCurrencyException extends Throwable {
-    private static final long serialVersionUID = 2585125223615187597L;
+public class AccoutingEntryDecorator extends AccountingEntry implements Entry {
 
-    public MismatchedCurrencyException(String message) {
-        super(message);
+    public AccoutingEntryDecorator(Account forAccount, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
+        super(forAccount, entryAttributes, amount, bookingDate);
     }
 }
