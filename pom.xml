@@ -11,7 +11,7 @@
 
     <groupId>io.github.ghacupha</groupId>
     <artifactId>book-keeper</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>3</version>
     <packaging>jar</packaging>
     <name>book-keeper</name>
     <description>Demo project to illustrate typical double-entry book keeping workflow</description>
@@ -115,7 +115,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/ghacupha/book-keeper.git</connection>
-        <tag>2</tag>
+        <tag>8fe2893</tag>
         <developerConnection>scm:git:https://github.com/ghacupha/book-keeper.git</developerConnection>
         <url>https://github.com/ghacupha/book-keeper</url>
     </scm>
@@ -373,7 +373,7 @@
                 </plugins>
             </build>
             <properties>
-                <additionalparam></additionalparam>
+                <additionalparam />
             </properties>
         </profile>
     </profiles>
@@ -726,7 +726,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
