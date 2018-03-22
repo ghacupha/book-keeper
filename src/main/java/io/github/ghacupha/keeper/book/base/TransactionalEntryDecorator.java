@@ -16,6 +16,7 @@
 
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
@@ -30,9 +31,9 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
  *
  * @author edwin.njeru
  */
-public class TransactionalEntryDecorator extends TransactionalEntry implements Entry {
+class TransactionalEntryDecorator extends TransactionalEntry implements Entry {
 
-    public TransactionalEntryDecorator(Journal forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
+    TransactionalEntryDecorator(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
         super(forJournal, entryAttributes, amount, bookingDate, transaction);
     }
 }

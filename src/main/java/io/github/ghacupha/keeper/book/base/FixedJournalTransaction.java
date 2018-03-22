@@ -16,9 +16,43 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Transaction;
+import io.github.ghacupha.keeper.book.api.*;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 
-public class FixedJournalTransaction extends AccountingTransactionDecorator implements Transaction {
+import java.util.Collection;
+import java.util.Currency;
+import java.util.HashSet;
+
+class FixedJournalTransaction extends AccountingTransactionDecorator implements Transaction,JournalizedTransaction {
 
     //TODO override add method in super and implement add method in JournalizedTransaction interface
+
+    private boolean wasPosted;
+    private final Currency currency;
+    private final TimePoint date;
+    private Collection<Entry> entries = new HashSet<>();
+
+
+    public FixedJournalTransaction(TimePoint date, Currency currency) {
+        super(date, currency);
+        this.currency=currency;
+        this.date=date;
+    }
+
+    @Override
+    public void add(JournalSide journalSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
+
+        if (wasPosted) {
+
+            throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");
+        }else if (!account.getCurrency().equals(currency)) {
+            throw new MismatchedCurrencyException("Cannot add entry whose currency differs to that of the transaction");
+        } else {
+            entries.add(new JournalizedEntry(account,attributes,amount,date,this,journalSide));
+        }
+    }
 }

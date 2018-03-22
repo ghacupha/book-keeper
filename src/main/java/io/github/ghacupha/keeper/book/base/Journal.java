@@ -45,7 +45,7 @@ public class Journal implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(Journal.class);
 
-    private final JournalSide journalSide;
+    private volatile JournalSide journalSide;
     private final Currency currency;
     private final AccountAttributes accountAttributes;
     private Collection<Entry> entries = new HashSet<>();
@@ -141,5 +141,10 @@ public class Journal implements Account {
     public Currency getCurrency() {
 
         return currency;
+    }
+
+    @Override
+    public JournalSide getJournalSide() {
+        return journalSide;
     }
 }

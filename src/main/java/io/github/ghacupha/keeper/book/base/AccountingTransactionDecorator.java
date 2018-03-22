@@ -16,14 +16,24 @@
 
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.keeper.book.api.Account;
+import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 
 import java.util.Currency;
 
-public class AccountingTransactionDecorator extends AccountingTransaction implements Transaction {
+class AccountingTransactionDecorator extends AccountingTransaction implements Transaction {
 
-    public AccountingTransactionDecorator(TimePoint date, Currency currency) {
+    AccountingTransactionDecorator(TimePoint date, Currency currency) {
         super(date, currency);
+    }
+
+    @Override
+    public void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
+        // we are muting this behaviour
     }
 }

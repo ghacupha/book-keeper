@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Edwin Njeru
+ * Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,21 +16,22 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.EntryAttributes;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+
+import java.util.Collection;
 
 /**
- * This acts as a decorator to the {@link AccountingEntry} object inorder to give
- * additional functionality to the sub classes
+ * Provides {@link this#meetCriteria(Collection)} which when called with a {@link Collection} of {@link Entry}
+ * items will return a {@link Collection} of {@link Entry} items that meet a specified criteria
  *
  * @author edwin.njeru
  */
-class AccoutingEntryDecorator extends AccountingEntry implements Entry {
+interface Criteria<Candidate> {
 
-    AccoutingEntryDecorator(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
-        super(account, entryAttributes, amount, bookingDate);
-    }
+    /**
+     *
+     * @param candidates Input {@link Collection} of {@link Candidate} items to be filtered
+     * @return  Output {@link Collection} of {@link Candidate} items that meet the {@link Criteria}
+     */
+    Collection<Candidate> meetCriteria(Collection<Candidate> candidates);
 }

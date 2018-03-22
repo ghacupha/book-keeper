@@ -16,6 +16,7 @@
 
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
@@ -37,7 +38,7 @@ public class JournalizedEntry extends TransactionalEntryDecorator implements Ent
 
     private JournalSide journalSide;
 
-    public JournalizedEntry(Journal forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction, JournalSide journalSide) {
+    public JournalizedEntry(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction, JournalSide journalSide) {
         super(forJournal, entryAttributes, amount, bookingDate, transaction);
         this.journalSide = journalSide;
     }

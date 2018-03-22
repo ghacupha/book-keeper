@@ -16,6 +16,7 @@
 
 package io.github.ghacupha.keeper.book.api;
 
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -50,4 +51,8 @@ public interface Entry {
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
     void post();
+
+    default JournalSide getJournalSide(){
+        return JournalSide.DEBIT;
+    }
 }

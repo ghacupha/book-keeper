@@ -17,6 +17,7 @@
 package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 import java.util.Currency;
@@ -52,4 +53,6 @@ public interface Account {
     AccountBalance balance();
 
     Currency getCurrency();
+
+    JournalSide getJournalSide();
 }
