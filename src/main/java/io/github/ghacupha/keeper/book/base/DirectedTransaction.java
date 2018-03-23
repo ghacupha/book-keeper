@@ -27,7 +27,10 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import java.util.*;
 import java.util.stream.Collector;
 
-class FixedJournalTransaction extends AccountingTransactionDecorator implements Transaction,JournalizedTransaction {
+import static io.github.ghacupha.keeper.book.balance.JournalSide.CREDIT;
+import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
+
+class DirectedTransaction extends AccountingTransactionDecorator implements Transaction,JournalizedTransaction {
 
     //TODO override add method in super and implement add method in JournalizedTransaction interface
 
@@ -36,10 +39,8 @@ class FixedJournalTransaction extends AccountingTransactionDecorator implements 
     private final TimePoint date;
     private Collection<Entry> entries = new HashSet<>();
     private Collection<Account> accounts = new HashSet<>();
-    private PostingDelegate postingDelegate = new PostingDelegate(this);
 
-
-    public FixedJournalTransaction(TimePoint date, Currency currency) {
+    public DirectedTransaction(TimePoint date, Currency currency) {
         super(date, currency);
         this.currency=currency;
         this.date=date;
@@ -68,10 +69,39 @@ class FixedJournalTransaction extends AccountingTransactionDecorator implements 
     @Override
     public void post() throws UnableToPostException {
 
-        postingDelegate.post(Collections.unmodifiableList(new ArrayList<Account>(accounts)));
+        if (!canPost()) {
+
+            throw new UnableToPostException();
+        } else {
+
+            entries.forEach(Entry::post);
+
+            wasPosted = true;
+        }
     }
 
-    public List<Entry> getEntries() {
+    @Override
+    protected boolean canPost() {
+        return balanced(getEntries());
+    }
+
+    private boolean balanced(List<Entry> entries) {
+
+        double debitEntries = entries
+                .stream()
+                .filter(entry -> entry.getJournalSide()== DEBIT)
+                .map(entry -> entry.getAmount().getNumber().doubleValue())
+                .reduce(0.00,(x,y)-> x + y);
+
+        return debitEntries == entries
+                .stream()
+                .filter(entry -> entry.getJournalSide()==CREDIT)
+                .map(entry -> entry.getAmount().getNumber().doubleValue())
+                .reduce(0.00,(x,y) -> x + y);
+
+    }
+
+    private List<Entry> getEntries() {
 
         // Entries cannot be added outside this object
         return Collections.unmodifiableList(new ArrayList<>(entries));

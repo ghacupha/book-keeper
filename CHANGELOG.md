@@ -2,6 +2,35 @@
 
 Changelog for ghacupha book-keeper.
 
+## Unreleased
+### No issue
+
+**completed implementation of the DirectedJournal**
+
+
+[61b72c6103b4e22](https://github.com/ghacupha/book-keeper/commit/61b72c6103b4e22) Edwin Njeru *2018-03-23 12:50:51*
+
+**Created criteria to wrap journal side for Entry and Account**
+
+
+[b19cd27824c2333](https://github.com/ghacupha/book-keeper/commit/b19cd27824c2333) Edwin Njeru *2018-03-22 06:53:19*
+
+**Added classes to supprt Journalized entry workflows**
+
+
+[7581789936350ac](https://github.com/ghacupha/book-keeper/commit/7581789936350ac) Edwin Njeru *2018-03-21 16:07:29*
+
+**Migrated the first parameer used in Entry interface from AccountImpl to Account**
+
+
+[9c14d636aaaf61e](https://github.com/ghacupha/book-keeper/commit/9c14d636aaaf61e) Edwin Njeru *2018-03-21 15:22:37*
+
+**automated changelogs**
+
+
+[3987b5da26a76ce](https://github.com/ghacupha/book-keeper/commit/3987b5da26a76ce) Edwin Njeru *2018-03-21 14:24:26*
+
+
 ## 1.2-SNAPSHOT
 ### No issue
 
@@ -135,12 +164,12 @@ Changelog for ghacupha book-keeper.
 
 [c366bc1cdb1e91f](https://github.com/ghacupha/book-keeper/commit/c366bc1cdb1e91f) ghacupha *2018-03-18 09:02:18*
 
-**amended wrong type in the journal**
+**amended wrong type in the account**
 
 
 [9f80fed5aabbb7d](https://github.com/ghacupha/book-keeper/commit/9f80fed5aabbb7d) ghacupha *2018-03-18 08:58:38*
 
-**added tests for the journal**
+**added tests for the account**
 
 
 [23bbdf320d952d3](https://github.com/ghacupha/book-keeper/commit/23bbdf320d952d3) ghacupha *2018-03-18 08:57:42*

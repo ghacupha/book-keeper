@@ -103,7 +103,7 @@ public class AccountingTransaction implements Transaction {
         }
     }
 
-    private boolean canPost() {
+    protected boolean canPost() {
 
         return balance().isZero();
     }
