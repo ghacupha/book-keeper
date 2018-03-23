@@ -18,6 +18,8 @@ package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.base.AccountVisitor;
+import io.github.ghacupha.keeper.book.base.VisitableAccount;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 import java.util.Currency;
@@ -28,7 +30,7 @@ import java.util.Currency;
  *
  * @author edwin.njeru
  */
-public interface Account {
+public interface Account extends VisitableAccount {
 
     /**
      * Adds a new entry to the account
@@ -55,4 +57,9 @@ public interface Account {
     Currency getCurrency();
 
     JournalSide getJournalSide();
+
+    @Override
+    default void receive(AccountVisitor accountVisitor) {
+        // do nothing yet
+    }
 }

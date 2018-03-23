@@ -45,10 +45,10 @@ public class Journal implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(Journal.class);
 
-    private volatile JournalSide journalSide;
+    protected volatile JournalSide journalSide;
     private final Currency currency;
     private final AccountAttributes accountAttributes;
-    private Collection<Entry> entries = new HashSet<>();
+    protected Collection<Entry> entries = new HashSet<>();
 
 
     public Journal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
@@ -57,6 +57,12 @@ public class Journal implements Account {
         this.accountAttributes = accountAttributes;
 
         log.debug("Journal created : {}", this);
+    }
+
+    private static Cash getCashAmount(Entry filteredEntry) {
+        Cash amount = filteredEntry.getAmount();
+        log.debug("Accounting entry : {} added into the balance with amount : {}", filteredEntry, amount);
+        return amount;
     }
 
     @Override
@@ -103,14 +109,13 @@ public class Journal implements Account {
 
         final Cash[] result = {new HardCash(0, currency)};
 
-        entries.stream().filter(entry -> dateRange.includes(entry.getBookingDate())).map(filteredEntry -> {
-            Cash amount = filteredEntry.getAmount();
-            log.debug("Accounting entry : {} added into the balance with amount : {}", filteredEntry, amount);
-            return amount;
-        }).forEachOrdered(orderedAmount -> {
-            log.debug("Adding amount : {}", orderedAmount);
-            result[0] = result[0].plus(orderedAmount);
-        });
+        entries.stream()
+                .filter(entry -> dateRange.includes(entry.getBookingDate()))
+                .map(Journal::getCashAmount)
+                .forEachOrdered(orderedAmount -> {
+                    log.debug("Adding amount : {}", orderedAmount);
+                    result[0] = result[0].plus(orderedAmount);
+                });
 
         log.debug("Returning balance of amount : {} on the {} side", result[0], journalSide);
 
@@ -146,5 +151,10 @@ public class Journal implements Account {
     @Override
     public JournalSide getJournalSide() {
         return journalSide;
+    }
+
+    protected AccountAttributes getAttributes(){
+
+        return accountAttributes;
     }
 }

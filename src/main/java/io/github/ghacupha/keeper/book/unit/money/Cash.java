@@ -87,4 +87,10 @@ public interface Cash extends Comparable, IsNumberical, HasDenomination {
      * @return True if the instrinsic amount in the {@link Cash} object is zero
      */
     boolean isZero();
+
+    /**
+     *
+     * @return {@link Cash} as absolute amount
+     */
+    Cash abs();
 }

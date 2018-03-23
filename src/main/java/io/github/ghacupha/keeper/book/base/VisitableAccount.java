@@ -16,22 +16,7 @@
 
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.api.Entry;
+public interface VisitableAccount {
 
-import java.util.Collection;
-
-/**
- * Provides {@link this#meetCriteria(Collection)} which when called with a {@link Collection} of {@link Entry}
- * items will return a {@link Collection} of {@link Entry} items that meet a specified criteria
- *
- * @author edwin.njeru
- */
-interface Criteria<Candidate> {
-
-    /**
-     *
-     * @param candidates Input {@link Collection} of {@link Candidate} items to be filtered
-     * @return  Output {@link Collection} of {@link Candidate} items that meet the {@link Criteria}
-     */
-    Collection<Candidate> meetCriteria(Collection<Candidate> candidates);
+    void receive(AccountVisitor accountVisitor);
 }

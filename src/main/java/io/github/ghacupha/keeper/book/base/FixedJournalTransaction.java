@@ -22,10 +22,10 @@ import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
-import java.util.Collection;
-import java.util.Currency;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collector;
 
 class FixedJournalTransaction extends AccountingTransactionDecorator implements Transaction,JournalizedTransaction {
 
@@ -35,6 +35,8 @@ class FixedJournalTransaction extends AccountingTransactionDecorator implements 
     private final Currency currency;
     private final TimePoint date;
     private Collection<Entry> entries = new HashSet<>();
+    private Collection<Account> accounts = new HashSet<>();
+    private PostingDelegate postingDelegate = new PostingDelegate(this);
 
 
     public FixedJournalTransaction(TimePoint date, Currency currency) {
@@ -53,6 +55,25 @@ class FixedJournalTransaction extends AccountingTransactionDecorator implements 
             throw new MismatchedCurrencyException("Cannot add entry whose currency differs to that of the transaction");
         } else {
             entries.add(new JournalizedEntry(account,attributes,amount,date,this,journalSide));
+            accounts.add(account);
         }
+    }
+
+    /**
+     * Posts the transactions into respective {@link Account} items
+     *
+     * @throws UnableToPostException {@link UnableToPostException} thrown when the transaction is not balanced
+     *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
+     */
+    @Override
+    public void post() throws UnableToPostException {
+
+        postingDelegate.post(Collections.unmodifiableList(new ArrayList<Account>(accounts)));
+    }
+
+    public List<Entry> getEntries() {
+
+        // Entries cannot be added outside this object
+        return Collections.unmodifiableList(new ArrayList<>(entries));
     }
 }

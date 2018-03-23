@@ -39,7 +39,7 @@ public class HardCash implements Cash {
     }
 
     // for use in class only
-    private HardCash(Money arg) {
+    public HardCash(Money arg) {
         this.base = arg;
     }
 
@@ -179,6 +179,14 @@ public class HardCash implements Cash {
     public String toString() {
 
         return this.base.getCurrencyUnit().getCurrencyCode() + " " + this.base.getAmount().doubleValue();
+    }
+
+    /**
+     * @return {@link Cash} as absolute amount
+     */
+    @Override
+    public Cash abs() {
+        return new HardCash(this.base.abs());
     }
 
     /**
