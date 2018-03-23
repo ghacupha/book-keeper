@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**created tests for the Directed Journal and the DirectedTransaction**
+
+
+[b6180cad7513c7f](https://github.com/ghacupha/book-keeper/commit/b6180cad7513c7f) Edwin Njeru *2018-03-23 17:02:16*
+
 **completed implementation of the DirectedJournal**
 
 
