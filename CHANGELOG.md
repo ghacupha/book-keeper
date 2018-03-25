@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**Amended bugs in the DirectedJournal and DirectedTrnsaction, enhanced exception messages and added test coverage**
+
+
+[67f3f3dc3d7573f](https://github.com/ghacupha/book-keeper/commit/67f3f3dc3d7573f) ghacupha *2018-03-25 13:38:29*
+
 **commited changes to Isolate DirectedJournal for unit testing**
 
 
