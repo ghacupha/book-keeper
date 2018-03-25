@@ -1,4 +1,4 @@
-package io.github.ghacupha.keeper.book;
+package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
@@ -11,6 +11,8 @@ import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.Moment;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,14 +26,14 @@ public class JournalTest {
     private Journal electronicEquipmentAssetJournal;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception ,UntimelyBookingDateException, MismatchedCurrencyException{
         TimePoint openingDate = Moment.newMoment(2017,5,12);
         AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
         electronicEquipmentAssetJournal = new Journal(DEBIT, Currency.getInstance("KES"),details);
     }
 
     @Test
-    public void addEntry() throws Exception {
+    public void addEntry() throws Exception,UntimelyBookingDateException, MismatchedCurrencyException {
 
         EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
         Cash amount = HardCash.of(105.23,"KES");
@@ -42,7 +44,7 @@ public class JournalTest {
     }
 
     @Test
-    public void balance() throws Exception {
+    public void balance() throws Exception,UntimelyBookingDateException, MismatchedCurrencyException {
 
         EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
         Cash tvPrice = HardCash.of(105.23,"KES");
@@ -64,6 +66,28 @@ public class JournalTest {
         Assert.assertEquals(305.46, electronicEquipmentAssetJournal.balance(new Moment(2018,2,16)).getAmount().getNumber().doubleValue(),0.00);
         Assert.assertEquals(105.23, electronicEquipmentAssetJournal.balance(new Moment(2018,2,13)).getAmount().getNumber().doubleValue(),0.00);
         Assert.assertEquals(355.64, electronicEquipmentAssetJournal.balance().getAmount().getNumber().doubleValue(),0.00);
+    }
+
+    @Test(expected = UntimelyBookingDateException.class)
+    public void entriesCannotBeBookedBeforeTheAccountIsOpened() throws Exception, UntimelyBookingDateException, MismatchedCurrencyException {
+
+        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
+        Cash amount = HardCash.of(105.23,"KES");
+        Entry entry = new AccountingEntry(electronicEquipmentAssetJournal,details,amount,Moment.newMoment(2017,4,12));
+        electronicEquipmentAssetJournal.addEntry(entry);
+
+        Assert.assertEquals(105.23, electronicEquipmentAssetJournal.balance(new Moment()).getAmount().getNumber().doubleValue(),0.00);
+    }
+
+    @Test(expected = MismatchedCurrencyException.class)
+    public void entriesWithMismatchedCurrenciesCannotBeBooked() throws Exception, UntimelyBookingDateException, MismatchedCurrencyException {
+
+        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
+        Cash amount = HardCash.euro(105.23);
+        Entry entry = new AccountingEntry(electronicEquipmentAssetJournal,details,amount,Moment.newMoment(2017,8,12));
+        electronicEquipmentAssetJournal.addEntry(entry);
+
+        Assert.assertEquals(105.23, electronicEquipmentAssetJournal.balance(new Moment()).getAmount().getNumber().doubleValue(),0.00);
     }
 
 }

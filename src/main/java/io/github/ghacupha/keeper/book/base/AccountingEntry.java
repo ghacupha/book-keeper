@@ -22,6 +22,8 @@ import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,7 +112,15 @@ public class AccountingEntry implements Entry {
     @Override
     public void post() {
 
-        forAccount.addEntry(this);
+        try {
+            forAccount.addEntry(this);
+        } catch (UntimelyBookingDateException e) {
+            log.error("Could not post the entry : {} into account : {} because the entry's booking date :{} is sooner than the account's opening " +
+                    "date of : {}",this,forAccount,bookingDate,forAccount.getOpeningDate(),e.getStackTrace());
+        } catch (MismatchedCurrencyException e) {
+            log.error("Could not post the entry : {} into the account : {} because the entry's currency : {} does not match " +
+                    "the account's currency : {}",this,forAccount,amount.getCurrency(),forAccount.getCurrency(), e.getStackTrace());
+        }
     }
 
     @Override

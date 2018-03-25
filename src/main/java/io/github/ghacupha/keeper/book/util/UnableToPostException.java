@@ -17,16 +17,23 @@
 package io.github.ghacupha.keeper.book.util;
 
 import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.JournalizedTransaction;
+import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.base.AccountingTransaction;
+import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**
  * This exception is thrown when the {@link AccountingTransaction} client
  * tries to post a transaction when the sum of the {@link Entry} items does not
- * evaluate to zero
+ * evaluate to zero, or when the caller of {@link JournalizedTransaction#post()}
+ * does not first ensure that {@link Cash} amounts of {@link JournalSide#CREDIT} {@link Entry} items
+ * are not equivalent to the {@link Cash} amounts of {@link JournalSide#CREDIT} {@link Entry} items
  *
  * @author edwin.njeru
  */
 public class UnableToPostException extends Throwable {
+
+    private static final long serialVersionUID = 2585148563615187597L;
 
     /**
      * Constructs a new throwable with {@code null} as its detail message.
@@ -37,5 +44,21 @@ public class UnableToPostException extends Throwable {
      * the stack trace data in the newly created throwable.
      */
     public UnableToPostException() {
+        super();
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message.  The
+     * cause is not initialized, and may subsequently be initialized by
+     * a call to {@link #initCause}.
+     * <p>
+     * <p>The {@link #fillInStackTrace()} method is called to initialize
+     * the stack trace data in the newly created throwable.
+     *
+     * @param message the detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     */
+    public UnableToPostException(String message) {
+        super(message);
     }
 }

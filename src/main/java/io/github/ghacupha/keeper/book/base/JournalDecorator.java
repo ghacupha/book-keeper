@@ -18,13 +18,77 @@ package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
+import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.EntryAttributes;
+import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 
-public class JournalDecorator extends Journal implements Account {
+public class JournalDecorator implements Account {
+
+    private final Journal journal;
 
     public JournalDecorator(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
-        super(journalSide, currency, accountAttributes);
+        journal = new Journal(journalSide, currency, accountAttributes);
+    }
+
+    @Override
+    public void addEntry(Entry entry) {
+        try {
+            this.journal.addEntry(entry);
+        } catch (UntimelyBookingDateException e) {
+            e.printStackTrace();
+        } catch (MismatchedCurrencyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public AccountBalance balance(TimePoint asAt) {
+        return journal.balance(asAt);
+    }
+
+    @Override
+    public AccountBalance balance() {
+        return journal.balance();
+    }
+
+    @Override
+    public Currency getCurrency() {
+        return journal.getCurrency();
+    }
+
+    @Override
+    public TimePoint getOpeningDate() {
+
+        return journal.getOpeningDate();
+    }
+
+    @Override
+    public JournalSide getJournalSide() {
+        return journal.getJournalSide();
+    }
+
+    @Override
+    public String toString() {
+        return journal.toString();
+    }
+
+
+    AccountAttributes getAttributes(){
+
+        return journal.getAttributes();
+    }
+
+    Collection<Entry> getEntries(){
+
+        return Collections.unmodifiableList(new ArrayList<>(journal.entries));
     }
 }

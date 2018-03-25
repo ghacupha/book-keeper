@@ -23,6 +23,7 @@ import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 import java.util.Currency;
+import java.util.List;
 
 public interface JournalizedTransaction {
 
@@ -46,5 +47,11 @@ public interface JournalizedTransaction {
      * @throws UnableToPostException {@link UnableToPostException} thrown when the transaction is not balanced
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
-    void post() throws UnableToPostException;
+    void post() throws UnableToPostException,MismatchedCurrencyException;
+
+    /**
+     *
+     * @return Unmodifiable list of {@link Entry} items from this
+     */
+    List<Entry> getEntries();
 }

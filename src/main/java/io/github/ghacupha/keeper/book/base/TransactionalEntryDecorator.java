@@ -23,6 +23,7 @@ import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 
 /**
  * Was created in order to add functionality to the {@link TransactionalEntry} class
@@ -31,9 +32,52 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
  *
  * @author edwin.njeru
  */
-class TransactionalEntryDecorator extends TransactionalEntry implements Entry {
+class TransactionalEntryDecorator implements Entry {
+
+    private final TransactionalEntry transactionalEntry;
 
     TransactionalEntryDecorator(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
-        super(forJournal, entryAttributes, amount, bookingDate, transaction);
+        transactionalEntry = new TransactionalEntry(forJournal,entryAttributes,amount,bookingDate,transaction);
+    }
+
+    @Override
+    public Entry newEntry(Account journal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
+
+        return transactionalEntry.newEntry(journal,entryAttributes,amount,bookingDate);
+    }
+
+    @Override
+    public EntryAttributes getEntryAttributes() {
+        return transactionalEntry.getEntryAttributes();
+    }
+
+    @Override
+    public void setEntryAttributes(EntryAttributes entryAttributes) throws ImmutableEntryException {
+
+        transactionalEntry.setEntryAttributes(entryAttributes);
+    }
+
+    @Override
+    public Cash getAmount() {
+
+        return transactionalEntry.getAmount();
+    }
+
+    @Override
+    public TimePoint getBookingDate() {
+
+        return transactionalEntry.getBookingDate();
+    }
+
+    @Override
+    public void post() {
+
+        transactionalEntry.post();
+    }
+
+    @Override
+    public String toString() {
+
+        return transactionalEntry.toString();
     }
 }

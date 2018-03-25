@@ -24,6 +24,8 @@ import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -36,11 +38,15 @@ import java.util.Objects;
  */
 public class JournalizedEntry extends TransactionalEntryDecorator implements Entry {
 
-    private JournalSide journalSide;
+    private static final Logger log = LoggerFactory.getLogger(JournalizedEntry.class);
+
+    private final JournalSide journalSide;
 
     public JournalizedEntry(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction, JournalSide journalSide) {
         super(forJournal, entryAttributes, amount, bookingDate, transaction);
         this.journalSide = journalSide;
+
+        log.debug("JournalizedEntry created : {}",this);
     }
 
 
@@ -49,17 +55,7 @@ public class JournalizedEntry extends TransactionalEntryDecorator implements Ent
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        JournalizedEntry that = (JournalizedEntry) o;
-        return journalSide == that.journalSide;
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(super.hashCode(), journalSide);
+    public String toString() {
+        return "JournalizedEntry { " + super.toString() + this.journalSide;
     }
 }

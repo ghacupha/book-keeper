@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**commited changes to Isolate DirectedJournal for unit testing**
+
+
+[238ca4d6c09966c](https://github.com/ghacupha/book-keeper/commit/238ca4d6c09966c) Edwin Njeru *2018-03-23 17:44:23*
+
 **created tests for the Directed Journal and the DirectedTransaction**
 
 

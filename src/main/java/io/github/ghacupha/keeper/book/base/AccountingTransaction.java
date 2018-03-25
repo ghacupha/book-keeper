@@ -103,7 +103,7 @@ public class AccountingTransaction implements Transaction {
         }
     }
 
-    protected boolean canPost() {
+    private boolean canPost() {
 
         return balance().isZero();
     }
@@ -124,5 +124,14 @@ public class AccountingTransaction implements Transaction {
         }
 
         return result;
+    }
+
+    protected Currency getCurrency() {
+        return currency;
+    }
+
+    protected TimePoint getDate() {
+
+        return date;
     }
 }

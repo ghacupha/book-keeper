@@ -99,4 +99,14 @@ public class Moment implements TimePoint {
         Moment moment = (Moment) arg;
         return moment.base;
     }
+
+    public static TimePoint now() {
+
+        return new Moment();
+    }
+
+    public static TimePoint on(int year, int month, int dayOfMonth) {
+
+        return new Moment(year,month,dayOfMonth);
+    }
 }

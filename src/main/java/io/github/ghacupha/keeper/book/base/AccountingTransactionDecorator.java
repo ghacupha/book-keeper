@@ -20,20 +20,43 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.keeper.book.unit.money.HasDenomination;
+import io.github.ghacupha.keeper.book.unit.time.IsChronological;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
 import java.util.Currency;
 
-class AccountingTransactionDecorator extends AccountingTransaction implements Transaction {
+class AccountingTransactionDecorator implements Transaction,HasDenomination,IsChronological {
 
-    AccountingTransactionDecorator(TimePoint date, Currency currency) {
-        super(date, currency);
+    private final AccountingTransaction accountingTransaction;
+
+    public AccountingTransactionDecorator(AccountingTransaction accountingTransaction) {
+        this.accountingTransaction = accountingTransaction;
     }
 
     @Override
     public void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
-        // we are muting this behaviour
+        accountingTransaction.add(amount,account,attributes);
+    }
+
+    @Override
+    public void post() throws UnableToPostException, MismatchedCurrencyException {
+
+        accountingTransaction.post();
+    }
+
+    @Override
+    public Currency getCurrency() {
+
+        return accountingTransaction.getCurrency();
+    }
+
+    @Override
+    public TimePoint getDate() {
+
+        return accountingTransaction.getDate();
     }
 }

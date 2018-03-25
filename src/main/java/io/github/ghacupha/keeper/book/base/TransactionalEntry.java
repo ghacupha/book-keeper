@@ -22,6 +22,8 @@ import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This object is for use with {@link AccountingTransaction} which allows us to maintain a
@@ -30,12 +32,25 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
  *
  * @author edwin.njeru
  */
-public class TransactionalEntry extends AccoutingEntryDecorator implements Entry {
+public class TransactionalEntry extends AccoutingEntryDecorator implements Entry, HasTransactions {
 
-    private Transaction transaction;
+    private static final Logger log = LoggerFactory.getLogger(TransactionalEntry.class);
 
-    public TransactionalEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
+    private final Transaction transaction;
+
+    TransactionalEntry(Account account, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction) {
         super(account, entryAttributes, amount, bookingDate);
         this.transaction = transaction;
+
+        log.debug("TransactionalEntry created : {}",this);
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + transaction.toString();
     }
 }

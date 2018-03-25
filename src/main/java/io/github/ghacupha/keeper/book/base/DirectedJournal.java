@@ -58,10 +58,14 @@ public class DirectedJournal extends JournalDecorator implements Account {
      */
     public DirectedJournal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
         super(journalSide, currency, accountAttributes);
+
+        log.debug("DirectedJournal :{} created",this);
     }
 
     @Override
     public AccountBalance balance(TimePoint asAt) {
+
+        log.debug("Account balance enquiry raised as at {}",asAt);
 
         AccountBalance balance = balance(new DateRange(this.getAttributes().getOpeningDate(), asAt));
         log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
@@ -72,27 +76,37 @@ public class DirectedJournal extends JournalDecorator implements Account {
     @Override
     public AccountBalance balance() {
 
-        return balance(new Moment());
+        TimePoint enquiryDate = new Moment();
+
+        log.debug("Account balance enquiry raised as at : {}",enquiryDate);
+
+        AccountBalance retVal = balance(enquiryDate);
+
+        log.debug("Balance as at : {} returned as : {}",retVal,retVal);
+
+        return retVal;
     }
 
     private AccountBalance balance(DateRange dateRange) {
 
         // What to do???
-        final Cash amount = HardCash.of(0.00, getCurrency().getCurrencyCode());
+        final Cash[] amount = {HardCash.of(0.00, getCurrency().getCurrencyCode())};
 
-        this.entries
+        this.getEntries()
                 .stream()
                 .filter(entry -> dateRange.includes(entry.getBookingDate()))
                 .forEach(entry ->
-                        calculateBalanceAmount(entry, amount)
+                       amount[0] = amount[0].plus(calculateBalanceAmount(entry, amount[0]))
                 );
 
-        return new AccountBalance(amount, this.journalSide);
+        log.debug("Account balance contains Cash of : {} on the {} sidee", amount[0],this.getJournalSide());
+
+        return new AccountBalance(amount[0], this.getJournalSide());
     }
 
-    private void calculateBalanceAmount(Entry entry, Cash amount) {
+    private Cash calculateBalanceAmount(Entry entry, Cash amount) {
 
-        if (this.journalSide == DEBIT) {
+        if (this.getJournalSide() == DEBIT) {
 
             if (entry.getJournalSide() == DEBIT) {
                 amount = amount.plus(entry.getAmount());
@@ -103,7 +117,7 @@ public class DirectedJournal extends JournalDecorator implements Account {
 
                 if (amount.isLessThan(entry.getAmount())) {
 
-                    switchJournalSide(journalSide);
+                    switchJournalSide(this.getJournalSide());
 
                     amount = amount.minus(entry.getAmount()).abs();
 
@@ -117,7 +131,7 @@ public class DirectedJournal extends JournalDecorator implements Account {
             }
         }
 
-        if (this.journalSide == CREDIT) {
+        if (this.getJournalSide() == CREDIT) {
 
             if (entry.getJournalSide() == CREDIT) {
 
@@ -129,7 +143,7 @@ public class DirectedJournal extends JournalDecorator implements Account {
 
                 if (amount.isLessThan(entry.getAmount())) {
 
-                    switchJournalSide(journalSide);
+                    switchJournalSide(this.getJournalSide());
 
                     amount = amount.minus(entry.getAmount()).abs();
 
@@ -142,6 +156,8 @@ public class DirectedJournal extends JournalDecorator implements Account {
                 }
             }
         }
+
+        return amount;
     }
 
     private void switchJournalSide(JournalSide journalSide) {
@@ -160,4 +176,8 @@ public class DirectedJournal extends JournalDecorator implements Account {
     }
 
 
+    @Override
+    public String toString() {
+        return "DirectedJournal {" + super.toString();
+    }
 }

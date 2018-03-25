@@ -21,6 +21,8 @@ import io.github.ghacupha.keeper.book.balance.JournalSide;
 import io.github.ghacupha.keeper.book.base.AccountVisitor;
 import io.github.ghacupha.keeper.book.base.VisitableAccount;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 
 import java.util.Currency;
 
@@ -37,7 +39,7 @@ public interface Account extends VisitableAccount {
      *
      * @param entry {@link Entry} to be added to the account
      */
-    void addEntry(Entry entry);
+    void addEntry(Entry entry) throws UntimelyBookingDateException, MismatchedCurrencyException;
 
     /**
      * Gives the account balance as at the {@link TimePoint} given
@@ -55,6 +57,8 @@ public interface Account extends VisitableAccount {
     AccountBalance balance();
 
     Currency getCurrency();
+
+    TimePoint getOpeningDate();
 
     JournalSide getJournalSide();
 

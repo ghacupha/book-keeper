@@ -52,5 +52,5 @@ public interface Transaction {
      * @throws UnableToPostException {@link UnableToPostException} thrown when the transaction is not balanced
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
-    void post() throws UnableToPostException;
+    void post() throws UnableToPostException, MismatchedCurrencyException;
 }

@@ -66,43 +66,24 @@ public class Journal implements Account {
     }
 
     @Override
-    public void addEntry(Entry entry) {
+    public void addEntry(Entry entry) throws UntimelyBookingDateException, MismatchedCurrencyException {
 
         log.debug("Adding entry to account : {}", entry);
 
-        try {
-            assertCurrency(Currency.getInstance(entry.getAmount().getCurrency().getCurrencyCode()));
-            assertBookingDate(entry.getBookingDate());
+            if (entry.getBookingDate().before(accountAttributes.getOpeningDate())) {
 
+                String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountAttributes.getOpeningDate(), entry.getBookingDate());
+                throw new UntimelyBookingDateException(message);
 
-            entries.add(entry); // done
+            } else if (!this.currency.equals(entry.getAmount().getCurrency())) {
 
-        } catch (MismatchedCurrencyException e) {
-            log.error("Exception encountered when adding amount : {} to account : {}", entry.getAmount(), accountAttributes.getAccountName());
-            e.printStackTrace();
-        } catch (UntimelyBookingDateException e) {
-            log.error("The booking date : {} is sooner than the account's opeing date : {}", entry.getBookingDate(), accountAttributes.getOpeningDate());
-            e.printStackTrace();
-        }
+                String message = String.format("Currencies mismatched :Expected currency : %s but found entry denominated in %s", this.currency.toString(), entry.getAmount().getCurrency());
+                throw new MismatchedCurrencyException(message);
 
-    }
+            } else {
 
-    private void assertBookingDate(TimePoint bookingDate) throws UntimelyBookingDateException {
-
-        // booking date cannot be sooner than account opening date
-        if (bookingDate.before(accountAttributes.getOpeningDate())) {
-            String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountAttributes.getOpeningDate(), bookingDate);
-            throw new UntimelyBookingDateException(message);
-        }
-    }
-
-    private void assertCurrency(Currency currency) throws MismatchedCurrencyException {
-
-        if (!this.currency.equals(currency)) {
-
-            String message = String.format("The monetary amount added is inconsistent with this account :" + "Expected currency : %s but found %s", this.currency.toString(), currency.toString());
-            throw new MismatchedCurrencyException(message);
-        }
+                entries.add(entry); // done
+            }
     }
 
     private AccountBalance balance(DateRange dateRange) {
@@ -149,6 +130,12 @@ public class Journal implements Account {
     }
 
     @Override
+    public TimePoint getOpeningDate() {
+
+        return accountAttributes.getOpeningDate();
+    }
+
+    @Override
     public JournalSide getJournalSide() {
         return journalSide;
     }
@@ -157,4 +144,6 @@ public class Journal implements Account {
 
         return accountAttributes;
     }
+
+
 }

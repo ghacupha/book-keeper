@@ -23,41 +23,67 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collector;
+import java.util.function.Predicate;
 
 import static io.github.ghacupha.keeper.book.balance.JournalSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
+import static java.util.function.Predicate.*;
 
 class DirectedTransaction extends AccountingTransactionDecorator implements Transaction,JournalizedTransaction {
+
+    private static final Logger log = LoggerFactory.getLogger(DirectedTransaction.class);
 
     //TODO override add method in super and implement add method in JournalizedTransaction interface
 
     private boolean wasPosted;
-    private final Currency currency;
-    private final TimePoint date;
-    private Collection<Entry> entries = new HashSet<>();
-    private Collection<Account> accounts = new HashSet<>();
+    private Collection<Entry> directionalEntries = new HashSet<>();
 
     public DirectedTransaction(TimePoint date, Currency currency) {
-        super(date, currency);
-        this.currency=currency;
-        this.date=date;
+        super(new AccountingTransaction(date,currency));
+
+        log.debug("DirectedTransaction created : {} with parameters date : {} and currency : {}",this,date,currency);
     }
 
     @Override
     public void add(JournalSide journalSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
 
+        Entry journalEntry = new JournalizedEntry(account,attributes,amount,getDate(),this,journalSide);
+
+        log.debug("Adding entry : {} to the Transaction {}",journalEntry,this);
         if (wasPosted) {
 
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");
-        }else if (!account.getCurrency().equals(currency)) {
-            throw new MismatchedCurrencyException("Cannot add entry whose currency differs to that of the transaction");
+
+        }else if (!account.getCurrency().equals(getCurrency()) || !account.getCurrency().equals(amount.getCurrency())) {
+
+            String message = String.format("Mismatched currencies: transaction currency : %s, Account Currency : %s, Cash currency : %s",getCurrency(),account.getCurrency(),amount.getCurrency());
+
+            throw new MismatchedCurrencyException(message);
+
         } else {
-            entries.add(new JournalizedEntry(account,attributes,amount,date,this,journalSide));
-            accounts.add(account);
+
+            directionalEntries.add(journalEntry);
         }
+    }
+
+    private boolean currenciesAreMatched(){
+
+        List<Entry> entryList = new ArrayList<>(directionalEntries);
+
+        log.debug("Checking for currency mismatch in transaction : {}",this);
+
+        Currency transactionCurrency = entryList.get(0).getAmount().getCurrency();
+
+        boolean matched = entryList.stream()
+                .map(entry -> entry.getAmount().getCurrency())
+                .allMatch(isEqual(transactionCurrency));
+        log.debug("Currencies matched : {}",matched);
+
+        return matched;
     }
 
     /**
@@ -67,43 +93,66 @@ class DirectedTransaction extends AccountingTransactionDecorator implements Tran
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
     @Override
-    public void post() throws UnableToPostException {
+    public void post() throws UnableToPostException, MismatchedCurrencyException {
 
-        if (!canPost()) {
+        if( currenciesAreMatched()) {
 
-            throw new UnableToPostException();
+            if (!(imbalance() == 0.00)) {
+
+                double diff = imbalance();
+                if (diff > 0.00) {
+                    String message = String.format("Unable to post unbalanced transaction entries. Debits are more than credits by %s", diff);
+                    throw new UnableToPostException(message);
+                }
+                if (diff < 0.00) {
+                    String message = String.format("Unable to post unbalanced transaction entries. Credits are more than debits by %s", diff * -1);
+                    throw new UnableToPostException(message);
+                }
+
+            } else {
+
+                directionalEntries.forEach(Entry::post);
+
+                wasPosted = true;
+            }
         } else {
 
-            entries.forEach(Entry::post);
-
-            wasPosted = true;
+            throw new MismatchedCurrencyException(String.format("Can't post with mismatched entry-currencies in transaction : %s",this));
         }
     }
 
-    @Override
-    protected boolean canPost() {
-        return balanced(getEntries());
+
+    private double imbalance() {
+        return balanced(this.getEntries());
     }
 
-    private boolean balanced(List<Entry> entries) {
+    private double balanced(Collection<Entry> directionalEntries) {
 
-        double debitEntries = entries
+        log.debug("Checking if the transaction is balanced");
+
+        double debitEntries = directionalEntries
                 .stream()
                 .filter(entry -> entry.getJournalSide()== DEBIT)
                 .map(entry -> entry.getAmount().getNumber().doubleValue())
                 .reduce(0.00,(x,y)-> x + y);
 
-        return debitEntries == entries
+        double creditEntries = directionalEntries
                 .stream()
                 .filter(entry -> entry.getJournalSide()==CREDIT)
                 .map(entry -> entry.getAmount().getNumber().doubleValue())
                 .reduce(0.00,(x,y) -> x + y);
 
+        log.debug("Transaction contains debits amounting to : {} and credits amount to : {}",debitEntries,creditEntries);
+
+        return debitEntries - creditEntries;
     }
 
-    private List<Entry> getEntries() {
+    /**
+     *
+     * @return Unmodifiable list of {@link Entry} items from this
+     */
+    public List<Entry> getEntries() {
 
-        // Entries cannot be added outside this object
-        return Collections.unmodifiableList(new ArrayList<>(entries));
+        return Collections.unmodifiableList(new ArrayList<>(directionalEntries));
     }
 }
