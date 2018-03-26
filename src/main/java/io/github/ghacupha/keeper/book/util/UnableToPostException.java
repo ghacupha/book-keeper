@@ -31,7 +31,7 @@ import io.github.ghacupha.keeper.book.unit.money.Cash;
  *
  * @author edwin.njeru
  */
-public class UnableToPostException extends Throwable {
+public class UnableToPostException extends Exception {
 
     private static final long serialVersionUID = 2585148563615187597L;
 

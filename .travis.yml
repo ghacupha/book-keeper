@@ -4,10 +4,20 @@ install: true
 script:
 - mvn checkstyle:check
 - mvn checkstyle:checkstyle
+- mvn checkstyle:checkstyle-aggregate
+- mvn jacoco:report
+- mvn jacoco:report-aggregate
 - mvn verify
 - mvn compile
-- mvn package
 - mvn test
-- mvn install
+- mvn jar:jar
+- mvn jar:test-jar
+- mvn source:jar
+- mvn source:test-jar
+- mvn spotbugs:check
+- mvn spotbugs:gui
+- mvn surefire:test
+- mvn clean package
+- mvn clean install
 jdk:
   - oraclejdk8

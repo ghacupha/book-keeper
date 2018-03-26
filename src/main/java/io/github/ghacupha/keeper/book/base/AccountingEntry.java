@@ -115,11 +115,12 @@ public class AccountingEntry implements Entry {
         try {
             forAccount.addEntry(this);
         } catch (UntimelyBookingDateException e) {
-            log.error("Could not post the entry : {} into account : {} because the entry's booking date :{} is sooner than the account's opening " +
-                    "date of : {}",this,forAccount,bookingDate,forAccount.getOpeningDate(),e.getStackTrace());
+            log.error("Could not post the entry : {} into account : {}", this, forAccount, e.getStackTrace());
+
+            log.error("Cause : the Entry booking date :{} is sooner than the account's opening date {} ", bookingDate, forAccount.getOpeningDate(), e.getStackTrace());
         } catch (MismatchedCurrencyException e) {
-            log.error("Could not post the entry : {} into the account : {} because the entry's currency : {} does not match " +
-                    "the account's currency : {}",this,forAccount,amount.getCurrency(),forAccount.getCurrency(), e.getStackTrace());
+            log.error("Could not post the entry : {} into the account : {} ", this, forAccount, e.getStackTrace());
+            log.error("Cause the entry's currency : {} does not match the account's currency : {}", amount.getCurrency(), forAccount.getCurrency(), e.getStackTrace());
         }
     }
 
@@ -140,7 +141,14 @@ public class AccountingEntry implements Entry {
         if (entryAttributes != null ? !entryAttributes.equals(that.entryAttributes) : that.entryAttributes != null) {
             return false;
         }
-        return (bookingDate != null ? bookingDate.equals(that.bookingDate) : that.bookingDate == null) && (forAccount != null ? forAccount.equals(that.forAccount) : that.forAccount == null) && (amount != null ? amount.equals(that.amount) : that.amount == null);
+        if (bookingDate != null ? bookingDate.equals(that.bookingDate) : that.bookingDate == null) {
+            if (forAccount != null ? forAccount.equals(that.forAccount) : that.forAccount == null) {
+                if (amount != null ? amount.equals(that.amount) : that.amount == null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

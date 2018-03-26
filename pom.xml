@@ -133,8 +133,8 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <profiles>
-        <!-- Skip spotbugs on Java 6 and 7 -->
+    <!--<profiles>
+        &lt;!&ndash; Skip spotbugs on Java 6 and 7 &ndash;&gt;
         <profile>
             <id>java6and7</id>
             <activation>
@@ -144,7 +144,7 @@
                 <spotbugs.skip>true</spotbugs.skip>
             </properties>
         </profile>
-        <!-- Skip module-info.java on Java 6, 7 and 8 -->
+        &lt;!&ndash; Skip module-info.java on Java 6, 7 and 8 &ndash;&gt;
         <profile>
             <id>java6and7and8</id>
             <activation>
@@ -152,7 +152,7 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- Don't compile module-info.java, see java 9 profile -->
+                    &lt;!&ndash; Don't compile module-info.java, see java 9 profile &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
@@ -162,7 +162,7 @@
                             </excludes>
                         </configuration>
                     </plugin>
-                    <!-- Avoid errors from module-info -->
+                    &lt;!&ndash; Avoid errors from module-info &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -176,7 +176,7 @@
             </build>
             <reporting>
                 <plugins>
-                    <!-- Avoid errors from module-info -->
+                    &lt;!&ndash; Avoid errors from module-info &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -189,7 +189,7 @@
                 </plugins>
             </reporting>
         </profile>
-        <!-- Setup for Java 9 -->
+        &lt;!&ndash; Setup for Java 9 &ndash;&gt;
         <profile>
             <id>java9plus</id>
             <activation>
@@ -197,19 +197,19 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- Compile twice -->
+                    &lt;!&ndash; Compile twice &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <executions>
-                            <!-- compile first with module-info for Java 9 -->
+                            &lt;!&ndash; compile first with module-info for Java 9 &ndash;&gt;
                             <execution>
                                 <id>default-compile</id>
                                 <configuration>
                                     <release>9</release>
                                 </configuration>
                             </execution>
-                            <!-- then compile without module-info for Java 6 -->
+                            &lt;!&ndash; then compile without module-info for Java 6 &ndash;&gt;
                             <execution>
                                 <id>base-compile</id>
                                 <goals>
@@ -222,7 +222,7 @@
                                 </configuration>
                             </execution>
                         </executions>
-                        <!-- setup defaults for compile and testCompile -->
+                        &lt;!&ndash; setup defaults for compile and testCompile &ndash;&gt;
                         <configuration>
                             <jdkToolchain>
                                 <version>${maven.compiler.source}</version>
@@ -230,7 +230,7 @@
                             <release>9</release>
                         </configuration>
                     </plugin>
-                    <!-- Hack to extract dependencies for Javadoc plugin -->
+                    &lt;!&ndash; Hack to extract dependencies for Javadoc plugin &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -249,31 +249,31 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Javadoc plugin not Java 9 ready yet -->
+                    &lt;!&ndash; Javadoc plugin not Java 9 ready yet &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <configuration>
-                            <additionalparam>--module-path ${project.build.directory}/dependencies</additionalparam>
+                            <additionalparam>&#45;&#45;module-path ${project.build.directory}/dependencies</additionalparam>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
             <reporting>
                 <plugins>
-                    <!-- Javadoc plugin not Java 9 ready yet -->
+                    &lt;!&ndash; Javadoc plugin not Java 9 ready yet &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>${maven-javadoc-plugin.version}</version>
                         <configuration>
-                            <additionalparam>--module-path ${project.build.directory}/dependencies</additionalparam>
+                            <additionalparam>&#45;&#45;module-path ${project.build.directory}/dependencies</additionalparam>
                         </configuration>
                     </plugin>
                 </plugins>
             </reporting>
         </profile>
-        <!-- Main deployment profile, activated by -Doss.repo -->
+        &lt;!&ndash; Main deployment profile, activated by -Doss.repo &ndash;&gt;
         <profile>
             <id>repo-sign-artifacts</id>
             <activation>
@@ -283,7 +283,7 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- Enforce release is on Java 9 -->
+                    &lt;!&ndash; Enforce release is on Java 9 &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
@@ -304,7 +304,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Sign artifacts -->
+                    &lt;!&ndash; Sign artifacts &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -318,7 +318,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Create dist files -->
+                    &lt;!&ndash; Create dist files &ndash;&gt;
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
@@ -339,9 +339,9 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Release dist files to GitHub -->
-                    <!-- This will create a tag on GitHub on deploy -->
-                    <!-- The release commit must have been pushed first -->
+                    &lt;!&ndash; Release dist files to GitHub &ndash;&gt;
+                    &lt;!&ndash; This will create a tag on GitHub on deploy &ndash;&gt;
+                    &lt;!&ndash; The release commit must have been pushed first &ndash;&gt;
                     <plugin>
                         <groupId>de.jutzig</groupId>
                         <artifactId>github-release-plugin</artifactId>
@@ -376,7 +376,7 @@
                 <additionalparam></additionalparam>
             </properties>
         </profile>
-    </profiles>
+    </profiles>-->
 
     <build>
         <resources>
@@ -388,7 +388,7 @@
                 <directory>${project.basedir}</directory>
                 <includes>
                     <include>LICENSE.txt</include>
-                    <include>NOTICE.txt</include>
+                    <include>CHANGELOG.md</include>
                 </includes>
             </resource>
         </resources>
@@ -605,8 +605,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -729,7 +729,7 @@
                     <artifactId>maven-toolchains-plugin</artifactId>
                     <version>${maven-toolchains-plugin.version}</version>
                 </plugin>
-                <plugin>
+                <!--<plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
                     <version>1.0.0</version>
@@ -752,9 +752,10 @@
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
                     </configuration>
-                </plugin>
+                </plugin>-->
             </plugins>
         </pluginManagement>
+
     </build>
 
     <!-- ==================================================================== -->

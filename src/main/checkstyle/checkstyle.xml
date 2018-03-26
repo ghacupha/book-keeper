@@ -28,7 +28,7 @@
     </module>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="JavadocMethod">
       <property name="scope" value="protected"/>
@@ -38,11 +38,11 @@
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="LeftCurly">
       <property name="severity" value="error"/>
@@ -51,17 +51,17 @@
       <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
       <property name="max" value="200"/>
       <property name="tabWidth" value="2"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
     <module name="MemberName">
       <property name="format" value="^[a-z][a-zA-Z0-9$]*$"/>
-       <property name="severity" value="error"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="MethodLength">
       <property name="max" value="300"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="MethodName"/>
     <module name="ModifierOrder">
@@ -74,7 +74,7 @@
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
       <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
@@ -124,7 +124,7 @@
     <module name="Indentation">
       <property name="basicOffset" value="4"/>
       <property name="caseIndent" value="4"/>
-        <property name="severity" value="warning"/>
+      <property name="severity" value="warning"/>
     </module>
     <property name="severity" value="warning"/>
   </module>

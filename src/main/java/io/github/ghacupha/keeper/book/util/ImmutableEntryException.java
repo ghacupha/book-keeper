@@ -24,7 +24,7 @@ import io.github.ghacupha.keeper.book.api.EntryAttributes;
  *
  * @author edwin.njeru
  */
-public class ImmutableEntryException extends Throwable {
+public class ImmutableEntryException extends Exception {
 
     private static final long serialVersionUID = 3871181286857327591L;
 

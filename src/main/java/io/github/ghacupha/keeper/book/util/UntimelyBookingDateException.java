@@ -28,7 +28,7 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
  *
  * @author edwin.njeru
  */
-public class UntimelyBookingDateException extends Throwable {
+public class UntimelyBookingDateException extends Exception {
 
     private static final long serialVersionUID = -8350399456082375239L;
 

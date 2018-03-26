@@ -89,7 +89,6 @@ public interface Cash extends Comparable, IsNumberical, HasDenomination {
     boolean isZero();
 
     /**
-     *
      * @return {@link Cash} as absolute amount
      */
     Cash abs();

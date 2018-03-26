@@ -44,11 +44,6 @@ public class AccountBalance {
         return new AccountBalance(amount, journalSide);
     }
 
-    private String balance() {
-
-        return amount.getNumber().doubleValue() + " " + journalSide;
-    }
-
     public Cash getAmount() {
         return amount;
     }

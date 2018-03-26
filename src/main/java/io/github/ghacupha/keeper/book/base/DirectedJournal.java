@@ -1,17 +1,17 @@
 /*
- * Copyright 2018 Edwin Njeru
+ *  Copyright 2018 Edwin Njeru
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package io.github.ghacupha.keeper.book.base;
@@ -43,7 +43,7 @@ import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
  *
  * @author edwin.njeru
  */
-public class DirectedJournal extends JournalDecorator implements Account {
+public class DirectedJournal extends JournalDecorator {
 
     private static final Logger log = LoggerFactory.getLogger(DirectedJournal.class);
 
@@ -51,21 +51,21 @@ public class DirectedJournal extends JournalDecorator implements Account {
      * Creates {@link Account} instance with tracking for {@link JournalSide} for {@link Entry}
      * items added into the account
      *
-     * @param journalSide {@link JournalSide} to which the {@link Account} belongs. Indicates whether the {@link Account}
-     *                                       is on the {@link JournalSide#CREDIT} side or {@link JournalSide#DEBIT}
-     * @param currency {@link Currency} the {@link Account} is in. This {@link Account} can only have one {@link Currency}
+     * @param journalSide       {@link JournalSide} to which the {@link Account} belongs. Indicates whether the {@link Account}
+     *                          is on the {@link JournalSide#CREDIT} side or {@link JournalSide#DEBIT}
+     * @param currency          {@link Currency} the {@link Account} is in. This {@link Account} can only have one {@link Currency}
      * @param accountAttributes {@link AccountAttributes} describing the designation and nature of the {@link Account}
      */
     public DirectedJournal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
         super(journalSide, currency, accountAttributes);
 
-        log.debug("DirectedJournal :{} created",this);
+        log.debug("DirectedJournal :{} created", this);
     }
 
     @Override
     public AccountBalance balance(TimePoint asAt) {
 
-        log.debug("Account balance enquiry raised as at {}",asAt);
+        log.debug("Account balance enquiry raised as at {}", asAt);
 
         AccountBalance balance = balance(new DateRange(this.getAttributes().getOpeningDate(), asAt));
         log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
@@ -78,11 +78,11 @@ public class DirectedJournal extends JournalDecorator implements Account {
 
         TimePoint enquiryDate = new Moment();
 
-        log.debug("Account balance enquiry raised as at : {}",enquiryDate);
+        log.debug("Account balance enquiry raised as at : {}", enquiryDate);
 
         AccountBalance retVal = balance(enquiryDate);
 
-        log.debug("Balance as at : {} returned as : {}",retVal,retVal);
+        log.debug("Balance as at : {} returned as : {}", retVal, retVal);
 
         return retVal;
     }
@@ -92,14 +92,9 @@ public class DirectedJournal extends JournalDecorator implements Account {
         // What to do???
         final Cash[] amount = {HardCash.of(0.00, getCurrency().getCurrencyCode())};
 
-        this.getEntries()
-                .stream()
-                .filter(entry -> dateRange.includes(entry.getBookingDate()))
-                .forEach(entry ->
-                       amount[0] = amount[0].plus(calculateBalanceAmount(entry, amount[0]))
-                );
+        this.getEntries().stream().filter(entry -> dateRange.includes(entry.getBookingDate())).forEach(entry -> amount[0] = amount[0].plus(calculateBalanceAmount(entry, amount[0])));
 
-        log.debug("Account balance contains Cash of : {} on the {} sidee", amount[0],this.getJournalSide());
+        log.debug("Account balance contains Cash of : {} on the {} sidee", amount[0], this.getJournalSide());
 
         return new AccountBalance(amount[0], this.getJournalSide());
     }
@@ -162,7 +157,7 @@ public class DirectedJournal extends JournalDecorator implements Account {
 
     private void switchJournalSide(JournalSide journalSide) {
 
-        if (journalSide == DEBIT) {
+        if (this.getJournalSide() == DEBIT) {
 
             journalSide = CREDIT;
 

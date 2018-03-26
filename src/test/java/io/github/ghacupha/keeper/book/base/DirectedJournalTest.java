@@ -74,6 +74,29 @@ public class DirectedJournalTest {
     }
 
     @Test
+    public void accountDirectionCanSwitchAccordingly() throws Exception, UnableToPostException, MismatchedCurrencyException, ImmutableEntryException {
+
+        // Create the transaction
+        JournalizedTransaction transaction = new DirectedTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
+
+        transaction.add(DEBIT,HardCash.dollar(800), subscriptionExpenseJournal, subscriptionAccountEntryDetails);
+        transaction.add(CREDIT,HardCash.dollar(36), withholdingTaxJournal, withholdingTaxDetailsEntry);
+        transaction.add(CREDIT,HardCash.dollar(764), bankersChqJournalSuspense,bankersChequeAccountEntry);
+
+        transaction.post(); // Transaction must be posted to be effective
+
+
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(800), DEBIT), subscriptionExpenseJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(36), CREDIT), withholdingTaxJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(764), CREDIT), bankersChqJournalSuspense.balance());
+
+        // some reversal
+        JournalizedTransaction reversalTransaction = new DirectedTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
+
+        
+    }
+
+    @Test
     public void unPostedAccountingTransactionFails() throws Exception, MismatchedCurrencyException, ImmutableEntryException, UnableToPostException {
 
         // Create the transaction

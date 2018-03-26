@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author edwin.njeru
  */
-public class TransactionalEntry extends AccoutingEntryDecorator implements Entry, HasTransactions {
+public class TransactionalEntry extends AccoutingEntryDecorator implements HasTransactions {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionalEntry.class);
 
@@ -42,7 +42,7 @@ public class TransactionalEntry extends AccoutingEntryDecorator implements Entry
         super(account, entryAttributes, amount, bookingDate);
         this.transaction = transaction;
 
-        log.debug("TransactionalEntry created : {}",this);
+        log.debug("TransactionalEntry created : {}", this);
     }
 
     public Transaction getTransaction() {

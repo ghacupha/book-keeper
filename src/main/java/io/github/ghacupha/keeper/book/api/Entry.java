@@ -52,7 +52,7 @@ public interface Entry {
      */
     void post();
 
-    default JournalSide getJournalSide(){
+    default JournalSide getJournalSide() {
         return JournalSide.DEBIT;
     }
 }

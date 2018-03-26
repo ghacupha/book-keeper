@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * This is a container for {@link java.util.Collection} of entries with the ability to return
@@ -44,11 +45,10 @@ import java.util.HashSet;
 public class Journal implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(Journal.class);
-
-    protected volatile JournalSide journalSide;
     private final Currency currency;
     private final AccountAttributes accountAttributes;
-    protected Collection<Entry> entries = new HashSet<>();
+    private volatile JournalSide journalSide;
+    private Collection<Entry> entries = new HashSet<>();
 
 
     public Journal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
@@ -70,33 +70,30 @@ public class Journal implements Account {
 
         log.debug("Adding entry to account : {}", entry);
 
-            if (entry.getBookingDate().before(accountAttributes.getOpeningDate())) {
+        if (entry.getBookingDate().before(accountAttributes.getOpeningDate())) {
 
-                String message = String.format("The booking date cannot be earlier than the account opening date : Opening date : %s . " + "The entry date was %s", this.accountAttributes.getOpeningDate(), entry.getBookingDate());
-                throw new UntimelyBookingDateException(message);
+            String message = String.format("Opening date : %s . The entry date was %s", this.accountAttributes.getOpeningDate(), entry.getBookingDate());
+            throw new UntimelyBookingDateException("The booking date cannot be earlier than the account opening date : " + message);
 
-            } else if (!this.currency.equals(entry.getAmount().getCurrency())) {
+        } else if (!this.currency.equals(entry.getAmount().getCurrency())) {
 
-                String message = String.format("Currencies mismatched :Expected currency : %s but found entry denominated in %s", this.currency.toString(), entry.getAmount().getCurrency());
-                throw new MismatchedCurrencyException(message);
+            String message = String.format("Currencies mismatched :Expected currency : %s but found entry denominated in %s", this.currency.toString(), entry.getAmount().getCurrency());
+            throw new MismatchedCurrencyException(message);
 
-            } else {
+        } else {
 
-                entries.add(entry); // done
-            }
+            entries.add(entry); // done
+        }
     }
 
     private AccountBalance balance(DateRange dateRange) {
 
         final Cash[] result = {new HardCash(0, currency)};
 
-        entries.stream()
-                .filter(entry -> dateRange.includes(entry.getBookingDate()))
-                .map(Journal::getCashAmount)
-                .forEachOrdered(orderedAmount -> {
-                    log.debug("Adding amount : {}", orderedAmount);
-                    result[0] = result[0].plus(orderedAmount);
-                });
+        entries.stream().filter(entry -> dateRange.includes(entry.getBookingDate())).map(Journal::getCashAmount).forEachOrdered(orderedAmount -> {
+            log.debug("Adding amount : {}", orderedAmount);
+            result[0] = result[0].plus(orderedAmount);
+        });
 
         log.debug("Returning balance of amount : {} on the {} side", result[0], journalSide);
 
@@ -140,10 +137,14 @@ public class Journal implements Account {
         return journalSide;
     }
 
-    protected AccountAttributes getAttributes(){
+    AccountAttributes getAttributes() {
 
         return accountAttributes;
     }
 
 
+    List<Entry> getEntries() {
+
+        return entries.stream().collect(ImmutableListCollector.toImmutableList());
+    }
 }

@@ -40,7 +40,7 @@ class AccoutingEntryDecorator implements Entry {
     @Override
     public Entry newEntry(Account journal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate) {
 
-        return accountingEntry.newEntry(journal,entryAttributes,amount,bookingDate);
+        return accountingEntry.newEntry(journal, entryAttributes, amount, bookingDate);
     }
 
     @Override

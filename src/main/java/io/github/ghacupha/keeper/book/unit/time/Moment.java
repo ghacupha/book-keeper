@@ -46,6 +46,16 @@ public class Moment implements TimePoint {
         return new Moment(year, month, day);
     }
 
+    public static TimePoint now() {
+
+        return new Moment();
+    }
+
+    public static TimePoint on(int year, int month, int dayOfMonth) {
+
+        return new Moment(year, month, dayOfMonth);
+    }
+
     private void initialize(LocalDate arg) {
         this.base = arg;
     }
@@ -98,15 +108,5 @@ public class Moment implements TimePoint {
     private LocalDate getDay(TimePoint arg) {
         Moment moment = (Moment) arg;
         return moment.base;
-    }
-
-    public static TimePoint now() {
-
-        return new Moment();
-    }
-
-    public static TimePoint on(int year, int month, int dayOfMonth) {
-
-        return new Moment(year,month,dayOfMonth);
     }
 }

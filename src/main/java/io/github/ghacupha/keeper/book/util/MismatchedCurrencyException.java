@@ -29,7 +29,7 @@ import java.util.Currency;
  *
  * @author edwin.njeru
  */
-public class MismatchedCurrencyException extends Throwable {
+public class MismatchedCurrencyException extends Exception {
 
     private static final long serialVersionUID = 2585125223615187597L;
 

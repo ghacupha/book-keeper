@@ -49,7 +49,7 @@ public class AccountingTransaction implements Transaction {
     private final TimePoint date;
     // All entries have the same currency
     private final Currency currency;
-    private boolean wasPosted = false;
+    private boolean wasPosted;
     private Collection<Entry> entries = new HashSet<>();
 
     /**

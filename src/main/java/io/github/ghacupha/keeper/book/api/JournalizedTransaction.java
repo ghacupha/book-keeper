@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Edwin Njeru
+ *  Copyright 2018 Edwin Njeru
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,6 +14,12 @@
  *    limitations under the License.
  */
 
+/**
+ * This interface represents {@link Journal} items capable of tracking the {@link JournalSide}
+ * of the account as it changes based on the {@link Entry} items added to an {@link Account}
+ *
+ * @author edwin.njeru
+ */
 package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.JournalSide;
@@ -25,21 +31,29 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import java.util.Currency;
 import java.util.List;
 
+/**
+ * The implementation of this interface relates to {@link Transaction} api with the exception of
+ * {@link JournalSide} side tracking in the {@link Account} items added to the {@link Entry}
+ * {@link java.util.Collection}
+ *
+ * @author edwin.njeru
+ */
 public interface JournalizedTransaction {
 
     /**
      * This method creates a {@link Entry} and adds that to the {@link Account} in the parameter
      * and also adds it to this {@link Transaction} provided the {@link Transaction} is not already posted
      *
-     * @param amount     {@link Cash} amount being posted to the journal
-     * @param account    {@link Account} into which the {@link Entry} is being added
-     * @param attributes {@link EntryAttributes} related to the Entry being added to the {@link Account} that is
-     *                   being created in this method.
+     * @param journalSide {@link JournalSide} to which the {@link Entry} is adding to
+     * @param amount      {@link Cash} amount being posted to the journal
+     * @param account     {@link Account} into which the {@link Entry} is being added
+     * @param attributes  {@link EntryAttributes} related to the Entry being added to the {@link Account} that is
+     *                    being created in this method.
      * @throws ImmutableEntryException     Thrown if the {@link Transaction} is already posted when this method is running
      * @throws MismatchedCurrencyException Thrown if the {@link Currency} of the {@link Entry} or {@link Account}
      *                                     is mismatched with the {@link Currency} of this {@link Transaction}
      */
-    void add(JournalSide journalSide,Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
+    void add(JournalSide journalSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
 
     /**
      * Posts the transactions into respective {@link Account} items
@@ -47,10 +61,9 @@ public interface JournalizedTransaction {
      * @throws UnableToPostException {@link UnableToPostException} thrown when the transaction is not balanced
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
-    void post() throws UnableToPostException,MismatchedCurrencyException;
+    void post() throws UnableToPostException, MismatchedCurrencyException;
 
     /**
-     *
      * @return Unmodifiable list of {@link Entry} items from this
      */
     List<Entry> getEntries();
