@@ -79,21 +79,29 @@ public class DirectedJournalTest {
         // Create the transaction
         JournalizedTransaction transaction = new DirectedTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
 
-        transaction.add(DEBIT,HardCash.dollar(800), subscriptionExpenseJournal, subscriptionAccountEntryDetails);
-        transaction.add(CREDIT,HardCash.dollar(36), withholdingTaxJournal, withholdingTaxDetailsEntry);
-        transaction.add(CREDIT,HardCash.dollar(764), bankersChqJournalSuspense,bankersChequeAccountEntry);
+        transaction.add(DEBIT,HardCash.dollar(80), subscriptionExpenseJournal, subscriptionAccountEntryDetails);
+        transaction.add(CREDIT,HardCash.dollar(3.6), withholdingTaxJournal, withholdingTaxDetailsEntry);
+        transaction.add(CREDIT,HardCash.dollar(76.4), bankersChqJournalSuspense,bankersChequeAccountEntry);
 
         transaction.post(); // Transaction must be posted to be effective
 
 
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(800), DEBIT), subscriptionExpenseJournal.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(36), CREDIT), withholdingTaxJournal.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(764), CREDIT), bankersChqJournalSuspense.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(80), DEBIT), subscriptionExpenseJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(3.6), CREDIT), withholdingTaxJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(76.4), CREDIT), bankersChqJournalSuspense.balance());
 
         // some reversal
         JournalizedTransaction reversalTransaction = new DirectedTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
 
-        
+        reversalTransaction.add(CREDIT,HardCash.dollar(90),subscriptionExpenseJournal,new EntryDetails("Year 2018 zerolization"));
+        reversalTransaction.add(DEBIT,HardCash.dollar(10),withholdingTaxJournal,new EntryDetails("Year 2018 zerolization"));
+        reversalTransaction.add(DEBIT,HardCash.dollar(80),bankersChqJournalSuspense,new EntryDetails("Year 2018 zerolization"));
+
+        reversalTransaction.post();
+
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(10), CREDIT), subscriptionExpenseJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(6.4), DEBIT), withholdingTaxJournal.balance());
+        assertEquals(AccountBalance.newBalance(HardCash.dollar(3.6), DEBIT), bankersChqJournalSuspense.balance());
     }
 
     @Test

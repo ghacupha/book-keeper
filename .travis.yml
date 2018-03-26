@@ -15,7 +15,6 @@ script:
 - mvn source:jar
 - mvn source:test-jar
 - mvn spotbugs:check
-- mvn spotbugs:gui
 - mvn surefire:test
 - mvn clean package
 - mvn clean install
