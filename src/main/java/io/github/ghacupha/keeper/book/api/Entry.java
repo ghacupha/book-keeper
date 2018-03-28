@@ -16,7 +16,7 @@
 
 package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -52,7 +52,7 @@ public interface Entry {
      */
     void post();
 
-    default JournalSide getJournalSide() {
-        return JournalSide.DEBIT;
+    default AccountSide getAccountSide() {
+        return AccountSide.DEBIT;
     }
 }

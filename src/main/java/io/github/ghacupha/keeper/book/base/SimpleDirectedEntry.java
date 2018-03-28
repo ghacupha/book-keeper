@@ -17,43 +17,42 @@
 package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.Account;
-import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
 import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This object records and has a pointer towards the {@link JournalSide} to which
+ * This object records and has a pointer towards the {@link AccountSide} to which
  * it belongs, making it possible for it to create proper {@link AccountBalance} that
- * denote the situation of a {@link Journal} as per the business domain
+ * denote the situation of a {@link SimpleAccount} as per the business domain
  *
  * @author edwin.njeru
  */
-public class JournalizedEntry extends TransactionalEntryDecorator {
+public class SimpleDirectedEntry extends TransactionalEntryDecorator {
 
-    private static final Logger log = LoggerFactory.getLogger(JournalizedEntry.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleDirectedEntry.class);
 
-    private final JournalSide journalSide;
+    private final AccountSide accountSide;
 
-    JournalizedEntry(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction, JournalSide journalSide) {
+    SimpleDirectedEntry(Account forJournal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate, Transaction transaction, AccountSide accountSide) {
         super(forJournal, entryAttributes, amount, bookingDate, transaction);
-        this.journalSide = journalSide;
+        this.accountSide = accountSide;
 
-        log.debug("JournalizedEntry created : {}", this);
+        log.debug("SimpleDirectedEntry created : {}", this);
     }
 
 
-    public JournalSide getJournalSide() {
-        return journalSide;
+    public AccountSide getAccountSide() {
+        return accountSide;
     }
 
     @Override
     public String toString() {
-        return "JournalizedEntry { " + super.toString() + this.journalSide;
+        return "SimpleDirectedEntry { " + super.toString() + this.accountSide;
     }
 }

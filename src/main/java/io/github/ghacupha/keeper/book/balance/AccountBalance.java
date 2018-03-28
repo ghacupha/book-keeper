@@ -30,26 +30,26 @@ public class AccountBalance {
     private static final Logger log = LoggerFactory.getLogger(AccountBalance.class);
 
     private final Cash amount;
-    private final JournalSide journalSide;
+    private final AccountSide accountSide;
 
-    public AccountBalance(Cash amount, JournalSide journalSide) {
+    public AccountBalance(Cash amount, AccountSide accountSide) {
         this.amount = amount;
-        this.journalSide = journalSide;
+        this.accountSide = accountSide;
 
         log.debug("AccountBalance created : {}", this);
     }
 
-    public static AccountBalance newBalance(Cash amount, JournalSide journalSide) {
+    public static AccountBalance newBalance(Cash amount, AccountSide accountSide) {
 
-        return new AccountBalance(amount, journalSide);
+        return new AccountBalance(amount, accountSide);
     }
 
     public Cash getAmount() {
         return amount;
     }
 
-    public JournalSide getJournalSide() {
-        return journalSide;
+    public AccountSide getAccountSide() {
+        return accountSide;
     }
 
     @Override
@@ -66,18 +66,18 @@ public class AccountBalance {
         if (!amount.equals(that.amount)) {
             return false;
         }
-        return journalSide == that.journalSide;
+        return accountSide == that.accountSide;
     }
 
     @Override
     public int hashCode() {
         int result = amount.hashCode();
-        result = 31 * result + journalSide.hashCode();
+        result = 31 * result + accountSide.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return amount.getNumber().doubleValue() + " " + journalSide;
+        return amount.getNumber().doubleValue() + " " + accountSide;
     }
 }

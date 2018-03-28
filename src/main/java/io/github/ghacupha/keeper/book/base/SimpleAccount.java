@@ -20,7 +20,7 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
@@ -42,21 +42,21 @@ import java.util.List;
  *
  * @author edwin.njeru
  */
-public class Journal implements Account {
+public class SimpleAccount implements Account {
 
-    private static final Logger log = LoggerFactory.getLogger(Journal.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleAccount.class);
     private final Currency currency;
     private final AccountAttributes accountAttributes;
-    private volatile JournalSide journalSide;
+    private volatile AccountSide accountSide;
     private Collection<Entry> entries = new HashSet<>();
 
 
-    public Journal(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
-        this.journalSide = journalSide;
+    public SimpleAccount(AccountSide accountSide, Currency currency, AccountAttributes accountAttributes) {
+        this.accountSide = accountSide;
         this.currency = currency;
         this.accountAttributes = accountAttributes;
 
-        log.debug("Journal created : {}", this);
+        log.debug("SimpleAccount created : {}", this);
     }
 
     private static Cash getCashAmount(Entry filteredEntry) {
@@ -90,20 +90,40 @@ public class Journal implements Account {
 
         final Cash[] result = {new HardCash(0, currency)};
 
-        entries.stream().filter(entry -> dateRange.includes(entry.getBookingDate())).map(Journal::getCashAmount).forEachOrdered(orderedAmount -> {
+        entries.stream().filter(entry -> dateRange.includes(entry.getBookingDate())).map(SimpleAccount::getCashAmount).forEachOrdered(orderedAmount -> {
             log.debug("Adding amount : {}", orderedAmount);
             result[0] = result[0].plus(orderedAmount);
         });
 
-        log.debug("Returning balance of amount : {} on the {} side", result[0], journalSide);
+        log.debug("Returning balance of amount : {} on the {} side", result[0], accountSide);
 
-        return new AccountBalance(result[0], journalSide);
+        return new AccountBalance(result[0], accountSide);
     }
 
     @Override
     public AccountBalance balance(TimePoint asAt) {
 
         AccountBalance balance = balance(new DateRange(accountAttributes.getOpeningDate(), asAt));
+
+        log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
+
+        return balance;
+    }
+
+    /**
+     * Similar to the balance query for a given date except the date is provided through a
+     * simple varags int argument
+     *
+     * @param asAt The date as at when the {@link AccountBalance} we want is effective given
+     *             in the following order
+     *             i) Year
+     *             ii) Month
+     *             iii) Date
+     * @return {@link AccountBalance} effective the date specified by the varargs
+     */
+    @Override
+    public AccountBalance balance(int... asAt) {
+        AccountBalance balance = balance(new Moment(asAt[0],asAt[1],asAt[2]));
 
         log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
 
@@ -133,8 +153,8 @@ public class Journal implements Account {
     }
 
     @Override
-    public JournalSide getJournalSide() {
-        return journalSide;
+    public AccountSide getAccountSide() {
+        return accountSide;
     }
 
     AccountAttributes getAttributes() {

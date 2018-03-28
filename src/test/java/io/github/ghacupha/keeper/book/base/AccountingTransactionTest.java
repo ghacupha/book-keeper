@@ -31,8 +31,8 @@ import org.junit.Test;
 
 import java.util.Currency;
 
-import static io.github.ghacupha.keeper.book.balance.JournalSide.CREDIT;
-import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
+import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
+import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 import static org.junit.Assert.assertEquals;
 
 public class AccountingTransactionTest {
@@ -58,19 +58,19 @@ public class AccountingTransactionTest {
 
         subscriptionExpenseAccountAttributes =
                 new AccountDetails("Subscriptions","506",Moment.newMoment(2017,6,30));
-        subscriptionExpenseAccount = new Journal(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
+        subscriptionExpenseAccount = new SimpleAccount(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
         subscriptionAccountEntryDetails = new EntryDetails("DSTV subscriptionAccountEntryDetails","Invoice# 1023","Approved in the budget",
                 "MultiChoice Group Inc");
 
         withholdingTaxAccountAttributes =
                 new AccountDetails("WithholdingTax","808",Moment.newMoment(2017,6,30));
-        withholdingTaxAccount = new Journal(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
+        withholdingTaxAccount = new SimpleAccount(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
         withholdingTaxDetailsEntry = new EntryDetails("6% Withholding VAT","PIN#25646","Vendor under advisement","MultiChoice Group Inc");
         withholdingTaxDetailsEntry.setStringAttribute("Invoice#","1023");
 
         bankersChequeAccountDetails =
                 AccountDetails.newDetails("Banker's Cheque A/C Suspense","303",Moment.newMoment(2017,6,30));
-        bankersChqAccountSuspense = new Journal(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
+        bankersChqAccountSuspense = new SimpleAccount(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
         bankersChequeAccountEntry = EntryDetails.newDetails("BCHQ ifo MultiChoice Group","CHQ#5642","To print","MultiChoiceGroup Inc");
         bankersChequeAccountEntry.setStringAttribute("Bank Name","ABC Banks");
         bankersChequeAccountEntry.setStringAttribute("Bank Branch","WestLands");

@@ -59,6 +59,11 @@ public class HardCash implements Cash {
         return new HardCash(value, currencyString);
     }
 
+    public static Cash of(double value, Currency currency){
+
+        return of(value,currency.getCurrencyCode());
+    }
+
     /**
      * Creates {@link Cash} with double amount using USD {@link Currency}
      *

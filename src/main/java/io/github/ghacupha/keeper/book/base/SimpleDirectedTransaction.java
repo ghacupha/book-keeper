@@ -19,9 +19,8 @@ package io.github.ghacupha.keeper.book.base;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.api.EntryAttributes;
-import io.github.ghacupha.keeper.book.api.JournalizedTransaction;
-import io.github.ghacupha.keeper.book.api.Transaction;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.api.DirectedTransaction;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
@@ -37,29 +36,29 @@ import java.util.Currency;
 import java.util.HashSet;
 import java.util.List;
 
-import static io.github.ghacupha.keeper.book.balance.JournalSide.CREDIT;
-import static io.github.ghacupha.keeper.book.balance.JournalSide.DEBIT;
+import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
+import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 import static java.util.function.Predicate.isEqual;
 
-class DirectedTransaction extends AccountingTransactionDecorator implements JournalizedTransaction {
+class SimpleDirectedTransaction extends AccountingTransactionDecorator implements DirectedTransaction {
 
-    private static final Logger log = LoggerFactory.getLogger(DirectedTransaction.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleDirectedTransaction.class);
 
-    //TODO override add method in super and implement add method in JournalizedTransaction interface
+    //TODO override add method in super and implement add method in DirectedTransaction interface
 
     private boolean wasPosted;
     private Collection<Entry> directionalEntries = new HashSet<>();
 
-    public DirectedTransaction(TimePoint date, Currency currency) {
+    public SimpleDirectedTransaction(TimePoint date, Currency currency) {
         super(new AccountingTransaction(date, currency));
 
-        log.debug("DirectedTransaction created : {} with parameters date : {} and currency : {}", this, date, currency);
+        log.debug("SimpleDirectedTransaction created : {} with parameters date : {} and currency : {}", this, date, currency);
     }
 
     @Override
-    public void add(JournalSide journalSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
+    public void add(AccountSide accountSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException {
 
-        Entry journalEntry = new JournalizedEntry(account, attributes, amount, getDate(), this, journalSide);
+        Entry journalEntry = new SimpleDirectedEntry(account, attributes, amount, getDate(), this, accountSide);
 
         log.debug("Adding entry : {} to the Transaction {}", journalEntry, this);
         if (wasPosted) {
@@ -136,9 +135,9 @@ class DirectedTransaction extends AccountingTransactionDecorator implements Jour
 
         log.debug("Checking if the transaction is balanced");
 
-        double debitEntries = directionalEntries.stream().filter(entry -> entry.getJournalSide() == DEBIT).map(entry -> entry.getAmount().getNumber().doubleValue()).reduce(0.00, (x, y) -> x + y);
+        double debitEntries = directionalEntries.stream().filter(entry -> entry.getAccountSide() == DEBIT).map(entry -> entry.getAmount().getNumber().doubleValue()).reduce(0.00, (x, y) -> x + y);
 
-        double creditEntries = directionalEntries.stream().filter(entry -> entry.getJournalSide() == CREDIT).map(entry -> entry.getAmount().getNumber().doubleValue()).reduce(0.00, (x, y) -> x + y);
+        double creditEntries = directionalEntries.stream().filter(entry -> entry.getAccountSide() == CREDIT).map(entry -> entry.getAmount().getNumber().doubleValue()).reduce(0.00, (x, y) -> x + y);
 
         log.debug("Transaction contains debits amounting to : {} and credits amount to : {}", debitEntries, creditEntries);
 

@@ -19,14 +19,16 @@ package io.github.ghacupha.keeper.book.balance;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 
+import java.util.Objects;
+
 /**
  * Denotes the side to which a transaction belongs on the balance sheet. Either the debit side or credit side
- * of the Journal entry. It also show the "default" that an {@link Account} belongs to before any {@link Entry}
+ * of the SimpleAccount entry. It also show the "default" that an {@link Account} belongs to before any {@link Entry}
  * items are posted
  *
  * @author edwin.njeru
  */
-public enum JournalSide {
+public enum AccountSide {
 
     /**
      * Debit side of the balance sheet

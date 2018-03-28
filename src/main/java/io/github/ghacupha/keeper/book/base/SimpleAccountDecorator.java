@@ -20,7 +20,7 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.AccountAttributes;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
@@ -31,69 +31,84 @@ import java.util.Collections;
 import java.util.Currency;
 
 /**
- * This Decorator implements the {@link Account} by wrapping its {@link Journal}
+ * This Decorator implements the {@link Account} by wrapping its {@link SimpleAccount}
  * implementation
  *
  * @author edwin.njeru
  */
-public class JournalDecorator implements Account {
+public class SimpleAccountDecorator implements Account {
 
-    private final Journal journal;
+    private final SimpleAccount simpleAccount;
 
-    public JournalDecorator(JournalSide journalSide, Currency currency, AccountAttributes accountAttributes) {
-        journal = new Journal(journalSide, currency, accountAttributes);
+    public SimpleAccountDecorator(AccountSide accountSide, Currency currency, AccountAttributes accountAttributes) {
+        simpleAccount = new SimpleAccount(accountSide, currency, accountAttributes);
     }
 
     @Override
     public void addEntry(Entry entry) {
         try {
-            this.journal.addEntry(entry);
-        } catch (UntimelyBookingDateException e) {
-            e.printStackTrace();
-        } catch (MismatchedCurrencyException e) {
+            this.simpleAccount.addEntry(entry);
+        } catch (UntimelyBookingDateException | MismatchedCurrencyException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public AccountBalance balance(TimePoint asAt) {
-        return journal.balance(asAt);
+        return simpleAccount.balance(asAt);
     }
 
     @Override
     public AccountBalance balance() {
-        return journal.balance();
+        return simpleAccount.balance();
     }
 
     @Override
     public Currency getCurrency() {
-        return journal.getCurrency();
+        return simpleAccount.getCurrency();
     }
 
     @Override
     public TimePoint getOpeningDate() {
 
-        return journal.getOpeningDate();
+        return simpleAccount.getOpeningDate();
     }
 
     @Override
-    public JournalSide getJournalSide() {
-        return journal.getJournalSide();
+    public AccountSide getAccountSide() {
+        return simpleAccount.getAccountSide();
     }
 
     @Override
     public String toString() {
-        return journal.toString();
+        return simpleAccount.toString();
     }
 
 
     AccountAttributes getAttributes() {
 
-        return journal.getAttributes();
+        return simpleAccount.getAttributes();
     }
 
     Collection<Entry> getEntries() {
 
-        return Collections.unmodifiableList(new ArrayList<>(journal.getEntries()));
+        return Collections.unmodifiableList(new ArrayList<>(simpleAccount.getEntries()));
+    }
+
+    /**
+     * Similar to the balance query for a given date except the date is provided through a
+     * simple varags int argument
+     *
+     * @param asAt The date as at when the {@link AccountBalance} we want is effective given
+     *             in the following order
+     *             i) Year
+     *             ii) Month
+     *             iii) Date
+     * @return {@link AccountBalance} effective the date specified by the varargs
+     */
+    @Override
+    public AccountBalance balance(int... asAt) {
+
+        return simpleAccount.balance(asAt);
     }
 }

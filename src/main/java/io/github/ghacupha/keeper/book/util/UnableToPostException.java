@@ -16,18 +16,18 @@
 
 package io.github.ghacupha.keeper.book.util;
 
+import io.github.ghacupha.keeper.book.api.DirectedTransaction;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.JournalizedTransaction;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.AccountingTransaction;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**
  * This exception is thrown when the {@link AccountingTransaction} client
  * tries to post a transaction when the sum of the {@link Entry} items does not
- * evaluate to zero, or when the caller of {@link JournalizedTransaction#post()}
- * does not first ensure that {@link Cash} amounts of {@link JournalSide#CREDIT} {@link Entry} items
- * are not equivalent to the {@link Cash} amounts of {@link JournalSide#CREDIT} {@link Entry} items
+ * evaluate to zero, or when the caller of {@link DirectedTransaction#post()}
+ * does not first ensure that {@link Cash} amounts of {@link AccountSide#CREDIT} {@link Entry} items
+ * are not equivalent to the {@link Cash} amounts of {@link AccountSide#CREDIT} {@link Entry} items
  *
  * @author edwin.njeru
  */

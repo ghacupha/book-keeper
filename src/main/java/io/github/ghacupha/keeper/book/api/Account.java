@@ -17,7 +17,7 @@
 package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
@@ -48,6 +48,18 @@ public interface Account {
     AccountBalance balance(TimePoint asAt);
 
     /**
+     * Similar to the balance query for a given date except the date is provided through a
+     * simple varags int argument
+     * @param asAt The date as at when the {@link AccountBalance} we want is effective given
+     *             in the following order
+     *             i) Year
+     *             ii) Month
+     *             iii) Date
+     * @return {@link AccountBalance} effective the date specified by the varargs
+     */
+    AccountBalance balance(int... asAt);
+
+    /**
      * Gives the balance at the current {@link TimePoint} for this {@link Account}
      *
      * @return The {@link AccountBalance} as of now
@@ -58,5 +70,5 @@ public interface Account {
 
     TimePoint getOpeningDate();
 
-    JournalSide getJournalSide();
+    AccountSide getAccountSide();
 }

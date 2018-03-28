@@ -22,7 +22,7 @@
  */
 package io.github.ghacupha.keeper.book.api;
 
-import io.github.ghacupha.keeper.book.balance.JournalSide;
+import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
@@ -33,18 +33,18 @@ import java.util.List;
 
 /**
  * The implementation of this interface relates to {@link Transaction} api with the exception of
- * {@link JournalSide} side tracking in the {@link Account} items added to the {@link Entry}
+ * {@link AccountSide} side tracking in the {@link Account} items added to the {@link Entry}
  * {@link java.util.Collection}
  *
  * @author edwin.njeru
  */
-public interface JournalizedTransaction {
+public interface DirectedTransaction {
 
     /**
      * This method creates a {@link Entry} and adds that to the {@link Account} in the parameter
      * and also adds it to this {@link Transaction} provided the {@link Transaction} is not already posted
      *
-     * @param journalSide {@link JournalSide} to which the {@link Entry} is adding to
+     * @param accountSide {@link AccountSide} to which the {@link Entry} is adding to
      * @param amount      {@link Cash} amount being posted to the journal
      * @param account     {@link Account} into which the {@link Entry} is being added
      * @param attributes  {@link EntryAttributes} related to the Entry being added to the {@link Account} that is
@@ -53,7 +53,7 @@ public interface JournalizedTransaction {
      * @throws MismatchedCurrencyException Thrown if the {@link Currency} of the {@link Entry} or {@link Account}
      *                                     is mismatched with the {@link Currency} of this {@link Transaction}
      */
-    void add(JournalSide journalSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
+    void add(AccountSide accountSide, Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
 
     /**
      * Posts the transactions into respective {@link Account} items
