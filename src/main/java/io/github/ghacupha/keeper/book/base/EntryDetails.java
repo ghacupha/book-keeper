@@ -47,7 +47,7 @@ public final class EntryDetails {
     public Object getAttribute(String label) throws UnEnteredDetailsException {
 
         if(!entryMap.containsKey(label)){
-            throw new UnEnteredDetailsException(String.format("Could not find %s since it was never added in the first place"));
+            throw new UnEnteredDetailsException(String.format("Could not find %s since it was never added in the first place",label));
         } else {
             return entryMap.get(label);
         }

@@ -39,15 +39,15 @@ public final class AccountDetails {
         this.openingDate = openingDate;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getNumber() {
+    String getNumber() {
         return number;
     }
 
-    public TimePoint getOpeningDate() {
+    TimePoint getOpeningDate() {
         return openingDate;
     }
 

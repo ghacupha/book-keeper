@@ -122,7 +122,7 @@ public final class SimpleTransaction implements Transaction {
 
             log.debug("Posting : {} entries ...",entries.size());
 
-            entries.forEach(Entry::post);
+            entries.parallelStream().forEach(Entry::post);
 
             wasPosted = true;
         }
@@ -130,9 +130,9 @@ public final class SimpleTransaction implements Transaction {
 
     private double balanced() {
 
-        double debits = entries.stream().filter(SimpleTransaction::predicateDebits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
+        double debits = entries.parallelStream().filter(SimpleTransaction::predicateDebits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
 
-        return debits - entries.stream().filter(SimpleTransaction::predicateCredits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
+        return debits - entries.parallelStream().filter(SimpleTransaction::predicateCredits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
     }
 
     @Override

@@ -111,6 +111,7 @@ public final class SimpleAccount implements Account {
      */
     @Override
     public AccountBalance balance(int... asAt) {
+
         AccountBalance balance = balance(new SimpleDate(asAt[0],asAt[1],asAt[2]));
 
         log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
@@ -169,10 +170,6 @@ public final class SimpleAccount implements Account {
             .filter(entry -> entry.getAccountSide() == DEBIT)
             .map(entry -> entry.getAmount().getNumber().doubleValue())
             .reduce(0.00,(acc,value) -> acc + value), this.getCurrency());
-    }
-
-    private static boolean entryIsCreditingUs(Entry entry) {
-        return entry.getAccountSide() == CREDIT;
     }
 
     /**

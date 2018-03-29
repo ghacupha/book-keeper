@@ -16,13 +16,13 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 import static org.junit.Assert.assertEquals;
 
-public class DirectedSimpleAccountTest {
+public class AccountTest {
 
     // Required for the reversal tests
-    Account advertisement = new SimpleAccount(DEBIT,Currency.getInstance("KES"),new AccountDetails("Advertisements","5280", SimpleDate.on(2017,3,31)));
-    Account vat = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("VAT","5281", SimpleDate.on(2017,3,31)));
-    Account chequeAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Cheque","5282", SimpleDate.on(2017,3,31)));
-    Account edwinsAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Edwin Njeru","40001", SimpleDate.on(2017,10,5)));
+    private Account advertisement = new SimpleAccount(DEBIT,Currency.getInstance("KES"),new AccountDetails("Advertisements","5280", SimpleDate.on(2017,3,31)));
+    private Account vat = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("VAT","5281", SimpleDate.on(2017,3,31)));
+    private Account chequeAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Cheque","5282", SimpleDate.on(2017,3,31)));
+    private Account edwinsAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Edwin Njeru","40001", SimpleDate.on(2017,10,5)));
 
 
 
@@ -47,7 +47,7 @@ public class DirectedSimpleAccountTest {
         assertEquals(AccountBalance.newBalance(HardCash.shilling(32),CREDIT),vat.balance(2017,11,30));
         assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,11,30));
 
-        // Reversal Transaction
+        // Reimbursement Transaction
         Transaction reimbursement = new SimpleTransaction(new SimpleDate(2017,12,20), Currency.getInstance("KES"));
 
         reimbursement.addEntry(DEBIT,HardCash.shilling(150),advertisement,new EntryDetails("Reimburse Edwin For Meeting expenses with Billboard guys"));

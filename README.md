@@ -6,136 +6,85 @@ Business accounts comprehension library for java.
 The book-keeper implements Martin Fowler's Accounting Entry, Account and Accounting Transaction design patterns to create
 accounting records of business transactions in any java program or game.
 
-The Account and Entry interfaces, can be used on their own to track monetary traffic as shown 
+The Account and Entry interfaces are used together to relate different account balance positions at different time periods. The
+balance of the account is not signed, but the account side (Debit or Credit) to which the state of the account is in keeps
+changing according to the entries posted.
+The transaction interface is used to post multiple entries into multiple accounts at the same time ensuring that the money
+is not created or destroyed (as per double-entry requirements), only transferred from one account to another. Again, money is
+not created or destroyed, but transferred from one account to another. Any transaction must have accounts where we are debiting
+and accounts we are crediting, and the debit entries must be equivalent to credit entries and in the same currency.
 
 ```java
-public class AccountTest {
+public class DirectedSimpleAccountTest {
 
-    private Account electronicEquipmentAssetAccount;
+    // Required for the reversal tests
+    Account advertisement = new SimpleAccount(DEBIT,Currency.getInstance("KES"),new AccountDetails("Advertisements","5280", SimpleDate.on(2017,3,31)));
+    Account vat = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("VAT","5281", SimpleDate.on(2017,3,31)));
+    Account chequeAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Cheque","5282", SimpleDate.on(2017,3,31)));
+    Account edwinsAccount = new SimpleAccount(CREDIT,Currency.getInstance("KES"),new AccountDetails("Edwin Njeru","40001", SimpleDate.on(2017,10,5)));
 
-    @Before
-    public void setUp() throws Exception {
-        TimePoint openingDate = Moment.newMoment(2017,5,12);
-        AccountAttributes details = new AccountDetails("Electronics","001548418",openingDate);
-        electronicEquipmentAssetAccount = new AccountImpl(DEBIT, Currency.getInstance("KES"),details);
-    }
 
-    @Test
-    public void addEntry() throws Exception {
-
-        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
-        Cash amount = HardCash.of(105.23,"KES");
-        Entry entry = new AccountingEntry(electronicEquipmentAssetAccount,details,amount,new Moment(2018,2,12));
-        electronicEquipmentAssetAccount.addEntry(entry);
-
-        Assert.assertEquals(105.23, electronicEquipmentAssetAccount.balance(new Moment()).getAmount().getNumber().doubleValue(),0.00);
-    }
 
     @Test
-    public void balance() throws Exception {
-
-        EntryAttributes details = new EntryDetails("Keeper Supermarket invoice 10 Television set","Invoice#10","For Office");
-        Cash tvPrice = HardCash.of(105.23,"KES");
-        Entry purchaseOfTV = new AccountingEntry(electronicEquipmentAssetAccount,details,tvPrice,new Moment(2018,2,12));
-        electronicEquipmentAssetAccount.addEntry(purchaseOfTV);
-
-        EntryAttributes details2 = new EntryDetails("Keeper Supermarket invoice 12 Fridge","Invoice#12","For Home");
-        Cash amount2 = HardCash.of(200.23,"KES");
-        Entry purchaseOfFridge = new AccountingEntry(electronicEquipmentAssetAccount,details2,amount2,new Moment(2018,2,15));
-        electronicEquipmentAssetAccount.addEntry(purchaseOfFridge);
-
-        EntryAttributes etrPurchaseDetails = new EntryDetails("Electronic Tax Register Machine");
-        etrPurchaseDetails.setStringAttribute("Tax code","EY83E8");
-        Cash etrPrice = HardCash.shilling(50.18);
-        TimePoint etrPurchaseDate = new Moment(2018,3,1);
-        Entry purchaseOfETR = new AccountingEntry(electronicEquipmentAssetAccount,etrPurchaseDetails,etrPrice,etrPurchaseDate);
-        electronicEquipmentAssetAccount.addEntry(purchaseOfETR);
-
-        Assert.assertEquals(305.46, electronicEquipmentAssetAccount.balance(new Moment(2018,2,16)).getAmount().getNumber().doubleValue(),0.00);
-        Assert.assertEquals(105.23, electronicEquipmentAssetAccount.balance(new Moment(2018,2,13)).getAmount().getNumber().doubleValue(),0.00);
-        Assert.assertEquals(355.64, electronicEquipmentAssetAccount.balance().getAmount().getNumber().doubleValue(),0.00);
-    }
-
-}
-```
-
-The book-keeper can also track entire transactions, each of which may contain several accounts as illustrated bellow : 
-
-```java
-public class AccountingTransactionTest {
-
-    // Subscriptions expense journal
-    Account subscriptionExpenseAccount;
-    AccountAttributes subscriptionExpenseAccountAttributes;
-    EntryAttributes subscriptionAccountEntryDetails;
-
-    // Withhoding tax journal
-    Account withholdingTaxAccount;
-    AccountAttributes withholdingTaxAccountAttributes;
-    EntryAttributes withholdingTaxDetailsEntry;
-
-    // Banker's cheque suspense journal
-    Account bankersChqAccountSuspense;
-    AccountAttributes bankersChequeAccountDetails;
-    EntryAttributes bankersChequeAccountEntry;
-
-
-    @Before
-    public void setUp() throws Exception {
-
-        subscriptionExpenseAccountAttributes =
-                new AccountDetails("Subscriptions","506",Moment.newMoment(2017,6,30));
-        subscriptionExpenseAccount = new AccountImpl(DEBIT,Currency.getInstance("USD"),subscriptionExpenseAccountAttributes);
-        subscriptionAccountEntryDetails = new EntryDetails("DSTV subscriptionAccountEntryDetails","Invoice# 1023","Approved in the budget",
-                "MultiChoice Group Inc");
-
-        withholdingTaxAccountAttributes =
-                new AccountDetails("WithholdingTax","808",Moment.newMoment(2017,6,30));
-        withholdingTaxAccount = new AccountImpl(CREDIT,Currency.getInstance("USD"),withholdingTaxAccountAttributes);
-        withholdingTaxDetailsEntry = new EntryDetails("6% Withholding VAT","PIN#25646","Vendor under advisement","MultiChoice Group Inc");
-        withholdingTaxDetailsEntry.setStringAttribute("Invoice#","1023");
-
-        bankersChequeAccountDetails =
-                AccountDetails.newDetails("Banker's Cheque A/C Suspense","303",Moment.newMoment(2017,6,30));
-        bankersChqAccountSuspense = new AccountImpl(CREDIT,Currency.getInstance("USD"),bankersChequeAccountDetails);
-        bankersChequeAccountEntry = EntryDetails.newDetails("BCHQ ifo MultiChoice Group","CHQ#5642","To print","MultiChoiceGroup Inc");
-        bankersChequeAccountEntry.setStringAttribute("Bank Name","ABC Banks");
-        bankersChequeAccountEntry.setStringAttribute("Bank Branch","WestLands");
-        bankersChequeAccountEntry.setStringAttribute("Bank Branch Code","01");
-    }
-
-    @Test
-    public void accountingTransactionWorks() throws Exception, UnableToPostException, MismatchedCurrencyException, ImmutableEntryException {
+    public void directedTransactionWorks() throws Exception, UnableToPostException, MismatchedCurrencyException, ImmutableEntryException {
 
         // Create the transaction
-        Transaction transaction = new AccountingTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
+        Transaction payForBillBoards = new SimpleTransaction(new SimpleDate(2017,11,2),Currency.getInstance("KES"));
 
-        transaction.add(HardCash.dollar(-800), subscriptionExpenseAccount, subscriptionAccountEntryDetails);
-        transaction.add(HardCash.dollar(36),withholdingTaxAccount, withholdingTaxDetailsEntry);
-        transaction.add(HardCash.dollar(764),bankersChqAccountSuspense,bankersChequeAccountEntry);
+        payForBillBoards.addEntry(DEBIT,HardCash.shilling(200),advertisement,new EntryDetails("Billboards ltd inv 10"));
+        payForBillBoards.addEntry(CREDIT,HardCash.shilling(32),vat,new EntryDetails("VAT for billBoards"));
+        payForBillBoards.addEntry(CREDIT,HardCash.shilling(168),chequeAccount,new EntryDetails("CHQ IFO Billboards Ltd"));
 
-         transaction.post(); // Transaction must be posted to be effective
+        // non-posted
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(0),DEBIT),advertisement.balance(2018,1,3));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(0),CREDIT),vat.balance(2018,1,3));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(0),CREDIT),chequeAccount.balance(2018,1,3));
 
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(-800), DEBIT),subscriptionExpenseAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(36), CREDIT),withholdingTaxAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(764), CREDIT),bankersChqAccountSuspense.balance());
-    }
+        // after posting
+        payForBillBoards.post();
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(200),DEBIT),advertisement.balance(2017,11,30));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(32),CREDIT),vat.balance(2017,11,30));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,11,30));
 
-    @Test
-    public void unPostedAccountingTransactionFails() throws Exception, MismatchedCurrencyException, ImmutableEntryException, UnableToPostException {
+        // Reimbursement Transaction
+        Transaction reimbursement = new SimpleTransaction(new SimpleDate(2017,12,20), Currency.getInstance("KES"));
 
-        Transaction transaction =
-                new AccountingTransaction(new Moment(2018,1,2), Currency.getInstance("USD"));
+        reimbursement.addEntry(DEBIT,HardCash.shilling(150),advertisement,new EntryDetails("Reimburse Edwin For Meeting expenses with Billboard guys"));
+        reimbursement.addEntry(CREDIT,HardCash.shilling(150), edwinsAccount,new EntryDetails("Reimbursement for meeting expenses with billboard guys"));
 
-        transaction.add(HardCash.dollar(-800), subscriptionExpenseAccount, subscriptionAccountEntryDetails);
-        transaction.add(HardCash.dollar(36),withholdingTaxAccount, withholdingTaxDetailsEntry);
-        transaction.add(HardCash.dollar(764),bankersChqAccountSuspense,bankersChequeAccountEntry);
+        // before posting
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(0),CREDIT), edwinsAccount.balance(2017,12,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(200),DEBIT),advertisement.balance(2017,12,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(32),CREDIT),vat.balance(2017,12,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,12,31));
 
-        // Crickets...
+        // after posting the reimbursement
+        reimbursement.post();
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(150),CREDIT), edwinsAccount.balance(2018,1,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(350),DEBIT),advertisement.balance(2018,1,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(32),CREDIT),vat.balance(2018,1,31));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2018,1,31));
 
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), DEBIT),subscriptionExpenseAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT),withholdingTaxAccount.balance());
-        assertEquals(AccountBalance.newBalance(HardCash.dollar(0), CREDIT),bankersChqAccountSuspense.balance());
+        // what if the manager wants a previous position as at 5th November 2017
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(0),CREDIT), edwinsAccount.balance(2017,11,5));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(200),DEBIT),advertisement.balance(2017,11,5));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(32),CREDIT),vat.balance(2017,11,5));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,11,5));
+
+        // Someone screwed up the taxes, we have to reverse
+        Transaction taxReversal = new SimpleTransaction(SimpleDate.on(2018,4,20), Currency.getInstance("KES"));
+
+        taxReversal.addEntry(DEBIT,HardCash.shilling(45),vat,new EntryDetails("Reversal of Excess VAT"));
+        taxReversal.addEntry(CREDIT,HardCash.shilling(45),advertisement,new EntryDetails("Reversal of Excess VAT"));
+
+        taxReversal.post();
+
+        // balance after reversal transaction is posted...
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(150),CREDIT), edwinsAccount.balance(2018,4,25));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(305),DEBIT),advertisement.balance(2018,4,25));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(13),DEBIT),vat.balance(2018,4,25));
+        assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2018,4,25));
     }
 }
 ```
+

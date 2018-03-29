@@ -5,6 +5,36 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**added currency parameter to SimpleTransaction**
+
+
+[a972b7f4334c5cd](https://github.com/ghacupha/book-keeper/commit/a972b7f4334c5cd) Edwin Njeru *2018-03-29 16:08:07*
+
+**simplified account pattern to only implement directed accounting transaction pattern**
+
+
+[bf67a14b0a76fd8](https://github.com/ghacupha/book-keeper/commit/bf67a14b0a76fd8) Edwin Njeru *2018-03-29 15:35:58*
+
+**simplified account pattern to only implement directed accounting transaction pattern**
+
+
+[adf6ba14643217b](https://github.com/ghacupha/book-keeper/commit/adf6ba14643217b) Edwin Njeru *2018-03-29 15:07:25*
+
+**Used filtered streams to capture debits abd credits in the DirectedTransaction. Created more intuitive naming for Account implementation**
+
+
+[08b8f29d9446f36](https://github.com/ghacupha/book-keeper/commit/08b8f29d9446f36) Edwin Njeru *2018-03-28 12:23:15*
+
+**failed account-reversal test. To review later using spotbugs**
+
+
+[09709770ed39efa](https://github.com/ghacupha/book-keeper/commit/09709770ed39efa) Edwin Njeru *2018-03-26 15:15:47*
+
+**added configurations for maven reversing java version to 1.8_162 to resolve maven-integration issues**
+
+
+[7674e3d3da5e389](https://github.com/ghacupha/book-keeper/commit/7674e3d3da5e389) Edwin Njeru *2018-03-26 13:22:58*
+
 **release preparation**
 
 
@@ -189,12 +219,12 @@ Changelog for ghacupha book-keeper.
 
 [c366bc1cdb1e91f](https://github.com/ghacupha/book-keeper/commit/c366bc1cdb1e91f) ghacupha *2018-03-18 09:02:18*
 
-**amended wrong type in the forAccount**
+**amended wrong type in the account**
 
 
 [9f80fed5aabbb7d](https://github.com/ghacupha/book-keeper/commit/9f80fed5aabbb7d) ghacupha *2018-03-18 08:58:38*
 
-**added tests for the forAccount**
+**added tests for the account**
 
 
 [23bbdf320d952d3](https://github.com/ghacupha/book-keeper/commit/23bbdf320d952d3) ghacupha *2018-03-18 08:57:42*
