@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -45,13 +46,14 @@ public final class SimpleTransaction implements Transaction {
     private final TimePoint date;
 
     private boolean wasPosted;
-    private Currency currency;
+    private final Currency currency;
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
 
-    public SimpleTransaction(TimePoint date) {
+    SimpleTransaction(TimePoint date, Currency currency) {
 
         this.date = date;
+        this.currency = currency;
     }
 
     private static Double mapCashToDouble(Entry entry) {
@@ -84,20 +86,15 @@ public final class SimpleTransaction implements Transaction {
     @Override
     public void addEntry(AccountSide accountSide, Cash amount, Account account, EntryDetails details) throws ImmutableEntryException, MismatchedCurrencyException {
 
+        log.debug("Attempting to add entry {} amount of : {} in account : {} narration : {}",accountSide,amount,account,details);
         // assign currency
-        if (currency == null) {
-            if (amount.getCurrency() != account.getCurrency()) {
-                String message = String.format("The account currency which is %s, ought to match the account currency, but found %s", amount.getCurrency(), account.getCurrency());
-                throw new MismatchedCurrencyException(message);
-            } else {
-                this.currency = account.getCurrency();
-            }
-        } else if (wasPosted) {
+        if (wasPosted) {
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");
         } else if (!account.getCurrency().equals(this.currency) || !amount.getCurrency().equals(this.currency)) {
             throw new MismatchedCurrencyException("Cannot add entry whose getCurrency differs to that of the transaction");
         } else {
-            entries.add(new SimpleEntry(accountSide, account, amount, date, details, this));
+            log.debug("Adding entry  : {} into transaction : {}",details,this);
+            entries.add(new SimpleEntry(accountSide, account, amount, date, details));
         }
     }
 
@@ -123,6 +120,8 @@ public final class SimpleTransaction implements Transaction {
 
         } else {
 
+            log.debug("Posting : {} entries ...",entries.size());
+
             entries.forEach(Entry::post);
 
             wasPosted = true;
@@ -140,5 +139,33 @@ public final class SimpleTransaction implements Transaction {
     public Set<Entry> getEntries() {
 
         return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(entries));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SimpleTransaction that = (SimpleTransaction) o;
+        return wasPosted == that.wasPosted && Objects.equals(date, that.date) && Objects.equals(currency, that.currency) && Objects.equals(entries, that.entries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, wasPosted, currency, entries);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("SimpleTransaction{");
+        sb.append("date=").append(date);
+        sb.append(", wasPosted=").append(wasPosted);
+        sb.append(", currency=").append(currency);
+        sb.append(", entries=").append(entries);
+        sb.append('}');
+        return sb.toString();
     }
 }

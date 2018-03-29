@@ -35,8 +35,6 @@ public class AccountBalance {
     public AccountBalance(Cash amount, AccountSide accountSide) {
         this.amount = amount;
         this.accountSide = accountSide;
-
-        log.debug("AccountBalance created : {}", this);
     }
 
     public static AccountBalance newBalance(Cash amount, AccountSide accountSide) {

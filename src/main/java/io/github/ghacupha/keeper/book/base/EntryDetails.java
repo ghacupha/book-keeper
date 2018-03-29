@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class EntryDetails {
+public final class EntryDetails {
 
     private final String narration;
 
@@ -30,6 +30,14 @@ public class EntryDetails {
 
     public EntryDetails(String narration) {
         this.narration = narration;
+    }
+
+    public String getNarration() {
+        return narration;
+    }
+
+    public Map<String, Object> getEntryMap() {
+        return entryMap;
     }
 
     public void setAttribute(String label, Object attribute){

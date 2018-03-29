@@ -25,6 +25,7 @@ import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
 import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.keeper.book.util.ImmutableListCollector;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public final class SimpleAccount implements Account {
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
 
-    public SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
+    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
@@ -74,6 +75,8 @@ public final class SimpleAccount implements Account {
         } else {
 
             entries.add(entry); // done
+
+            log.debug("Entry : {} has been added into account : {}",entry,this);
         }
     }
 

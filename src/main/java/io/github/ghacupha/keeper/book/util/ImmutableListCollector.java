@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.base;
+package io.github.ghacupha.keeper.book.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

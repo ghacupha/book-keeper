@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AccountDetails {
+public final class AccountDetails {
 
     private final String name;
 

@@ -189,12 +189,12 @@ Changelog for ghacupha book-keeper.
 
 [c366bc1cdb1e91f](https://github.com/ghacupha/book-keeper/commit/c366bc1cdb1e91f) ghacupha *2018-03-18 09:02:18*
 
-**amended wrong type in the account**
+**amended wrong type in the forAccount**
 
 
 [9f80fed5aabbb7d](https://github.com/ghacupha/book-keeper/commit/9f80fed5aabbb7d) ghacupha *2018-03-18 08:58:38*
 
-**added tests for the account**
+**added tests for the forAccount**
 
 
 [23bbdf320d952d3](https://github.com/ghacupha/book-keeper/commit/23bbdf320d952d3) ghacupha *2018-03-18 08:57:42*

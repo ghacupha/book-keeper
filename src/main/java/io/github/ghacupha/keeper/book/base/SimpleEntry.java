@@ -18,7 +18,6 @@ package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -34,7 +33,7 @@ public final class SimpleEntry implements Entry {
     private static final Logger log = LoggerFactory.getLogger(SimpleEntry.class);
 
     // pointer to the Account
-    private final Account account;
+    private final Account forAccount;
 
     private final Cash amount;
 
@@ -45,19 +44,13 @@ public final class SimpleEntry implements Entry {
 
     private final EntryDetails entryDetails;
 
-    private final Transaction transaction;
 
-    public SimpleEntry(AccountSide accountSide, Account account, Cash amount, TimePoint bookingDate, EntryDetails entryDetails, Transaction transaction) {
-        this.account = account;
+    public SimpleEntry(AccountSide accountSide, Account forAccount, Cash amount, TimePoint bookingDate, EntryDetails entryDetails) {
+        this.forAccount = forAccount;
         this.accountSide = accountSide;
         this.amount = amount;
         this.bookingDate = bookingDate;
         this.entryDetails = entryDetails;
-        this.transaction = transaction;
-    }
-
-    public Account getAccount() {
-        return account;
     }
 
     @Override
@@ -88,14 +81,20 @@ public final class SimpleEntry implements Entry {
     @Override
     public void post() {
         try {
-            account.addEntry(this);
+            log.debug("Adding entry : {} into account : {}",this,forAccount);
+            forAccount.addEntry(this);
         } catch (UntimelyBookingDateException e) {
-            log.error("Could not post the entry : {} into account : {}", this, account, e.getStackTrace());
+            log.error("Could not post the entry : {} into forAccount : {}", this, forAccount, e.getStackTrace());
 
-            log.error("Cause : the Entry booking date :{} is sooner than the account's opening date {} ", bookingDate, account.getOpeningDate(), e.getStackTrace());
+            log.error("Cause : the Entry booking date :{} is sooner than the forAccount's opening date {} ", bookingDate, forAccount.getOpeningDate(), e.getStackTrace());
         } catch (MismatchedCurrencyException e) {
-            log.error("Could not post the entry : {} into the account : {} ", this, account, e.getStackTrace());
-            log.error("Cause the entry's currency : {} does not match the account's currency : {}", amount.getCurrency(), account.getCurrency(), e.getStackTrace());
+            log.error("Could not post the entry : {} into the forAccount : {} ", this, forAccount, e.getStackTrace());
+            log.error("Cause the entry's currency : {} does not match the forAccount's currency : {}", amount.getCurrency(), forAccount.getCurrency(), e.getStackTrace());
         }
+    }
+
+    @Override
+    public String toString() {
+        return entryDetails.toString();
     }
 }

@@ -8,7 +8,6 @@ import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Currency;
@@ -31,7 +30,7 @@ public class DirectedSimpleAccountTest {
     public void directedTransactionWorks() throws Exception, UnableToPostException, MismatchedCurrencyException, ImmutableEntryException {
 
         // Create the transaction
-        Transaction payForBillBoards = new SimpleTransaction(new SimpleDate(2017,11,2));
+        Transaction payForBillBoards = new SimpleTransaction(new SimpleDate(2017,11,2),Currency.getInstance("KES"));
 
         payForBillBoards.addEntry(DEBIT,HardCash.shilling(200),advertisement,new EntryDetails("Billboards ltd inv 10"));
         payForBillBoards.addEntry(CREDIT,HardCash.shilling(32),vat,new EntryDetails("VAT for billBoards"));
@@ -49,7 +48,7 @@ public class DirectedSimpleAccountTest {
         assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,11,30));
 
         // Reversal Transaction
-        Transaction reimbursement = new SimpleTransaction(new SimpleDate(2017,12,20));
+        Transaction reimbursement = new SimpleTransaction(new SimpleDate(2017,12,20), Currency.getInstance("KES"));
 
         reimbursement.addEntry(DEBIT,HardCash.shilling(150),advertisement,new EntryDetails("Reimburse Edwin For Meeting expenses with Billboard guys"));
         reimbursement.addEntry(CREDIT,HardCash.shilling(150), edwinsAccount,new EntryDetails("Reimbursement for meeting expenses with billboard guys"));
@@ -74,7 +73,7 @@ public class DirectedSimpleAccountTest {
         assertEquals(AccountBalance.newBalance(HardCash.shilling(168),CREDIT),chequeAccount.balance(2017,11,5));
 
         // Someone screwed up the taxes, we have to reverse
-        Transaction taxReversal = new SimpleTransaction(SimpleDate.on(2018,4,20));
+        Transaction taxReversal = new SimpleTransaction(SimpleDate.on(2018,4,20), Currency.getInstance("KES"));
 
         taxReversal.addEntry(DEBIT,HardCash.shilling(45),vat,new EntryDetails("Reversal of Excess VAT"));
         taxReversal.addEntry(CREDIT,HardCash.shilling(45),advertisement,new EntryDetails("Reversal of Excess VAT"));
