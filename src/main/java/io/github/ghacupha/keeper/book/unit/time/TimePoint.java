@@ -24,16 +24,16 @@ package io.github.ghacupha.keeper.book.unit.time;
  *
  * @author edwin.njeru
  */
-public interface TimePoint extends Comparable {
+public interface TimePoint extends Comparable<TimePoint> {
 
     /**
-     * @param arg Moment by which we compare this
+     * @param arg SimpleDate by which we compare this
      * @return True if the moment is after this
      */
     boolean after(TimePoint arg);
 
     /**
-     * @param arg Moment by which we compare this
+     * @param arg SimpleDate by which we compare this
      * @return True if the moment is before this
      */
     boolean before(TimePoint arg);
@@ -53,9 +53,6 @@ public interface TimePoint extends Comparable {
      * @return new instance of {@link TimePoint} with days less the argument
      */
     TimePoint minusDays(int arg);
-
-    @Override
-    int compareTo(Object arg);
 
     @Override
     boolean equals(Object arg);

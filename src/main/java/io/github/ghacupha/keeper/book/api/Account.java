@@ -20,36 +20,48 @@ import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
+import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 
 import java.util.Currency;
 
 /**
- * Forms a collection of related {@link Entry}. The {@link org.joda.money.CurrencyUnit} of the
- * {@link Entry} must the same with that of the {@link Account}
- *
- * @author edwin.njeru
+ * A collection of {@link Entry} items
  */
 public interface Account {
 
     /**
-     * Adds a new entry to the account
      *
-     * @param entry {@link Entry} to be added to the account
+     * @param entry {@link Entry} to be added to this
      */
-    void addEntry(Entry entry) throws UntimelyBookingDateException, MismatchedCurrencyException;
+    void addEntry(Entry entry) throws MismatchedCurrencyException, UntimelyBookingDateException;
 
     /**
-     * Gives the account balance as at the {@link TimePoint} given
-     *
-     * @param asAt {@link TimePoint} effective which we require the account balance
-     * @return {@link AccountBalance} effective at the {@link TimePoint} provided
+     * Returns the balance of the Account
+     * @param asAt {@link TimePoint} at which is Effective
+     * @return {@link AccountBalance}
      */
     AccountBalance balance(TimePoint asAt);
 
     /**
+     *
+     * @return Currency of the account
+     */
+    Currency getCurrency();
+
+    /**
+     *
+     * @return {@link AccountSide} position of {@link Account} in the
+     * balance sheet
+     */
+    AccountSide accountSide();
+
+    TimePoint openingDate();
+
+    /**
      * Similar to the balance query for a given date except the date is provided through a
      * simple varags int argument
+     *
      * @param asAt The date as at when the {@link AccountBalance} we want is effective given
      *             in the following order
      *             i) Year
@@ -57,18 +69,7 @@ public interface Account {
      *             iii) Date
      * @return {@link AccountBalance} effective the date specified by the varargs
      */
-    AccountBalance balance(int... asAt);
-
-    /**
-     * Gives the balance at the current {@link TimePoint} for this {@link Account}
-     *
-     * @return The {@link AccountBalance} as of now
-     */
-    AccountBalance balance();
-
-    Currency getCurrency();
+    public AccountBalance balance(int... asAt);
 
     TimePoint getOpeningDate();
-
-    AccountSide getAccountSide();
 }

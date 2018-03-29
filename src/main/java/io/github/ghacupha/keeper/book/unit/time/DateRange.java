@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 /**
- * Represents a range {@link Moment} objects of {@link TimePoint} start, and {@link TimePoint} end
+ * Represents a range {@link SimpleDate} objects of {@link TimePoint} start, and {@link TimePoint} end
  * <p>
  * adopted from Martin Fowler's Range implementation in {@literal https://martinfowler.com/eaaDev/Range.html}
  *
@@ -35,7 +35,7 @@ public class DateRange implements Comparable {
     /**
      * Empty DateRange created by providing any end date that is sooner than the start date
      */
-    private static final DateRange empty = new DateRange(new Moment(2000, 4, 1), new Moment(2000, 1, 1));
+    private static final DateRange empty = new DateRange(new SimpleDate(2000, 4, 1), new SimpleDate(2000, 1, 1));
     private TimePoint start;
     private TimePoint end;
 
@@ -45,16 +45,16 @@ public class DateRange implements Comparable {
     }
 
     public DateRange(LocalDate start, LocalDate end) {
-        this(new Moment(start.getYear(), start.getMonthValue(), start.getDayOfMonth()), new Moment(end.getYear(), end.getMonthValue(), end.getDayOfMonth()));
+        this(new SimpleDate(start.getYear(), start.getMonthValue(), start.getDayOfMonth()), new SimpleDate(end.getYear(), end.getMonthValue(), end.getDayOfMonth()));
     }
 
     // open ended constructor
-    public static DateRange upTo(Moment end) {
-        return new DateRange(Moment.PAST, end);
+    public static DateRange upTo(SimpleDate end) {
+        return new DateRange(SimpleDate.PAST, end);
     }
 
-    public static DateRange startingOn(Moment start) {
-        return new DateRange(start, Moment.FUTURE);
+    public static DateRange startingOn(SimpleDate start) {
+        return new DateRange(start, SimpleDate.FUTURE);
     }
 
     public static DateRange combination(DateRange[] args) {

@@ -23,7 +23,7 @@ import java.math.RoundingMode;
  *
  * @author edwin.njeru
  */
-public interface Cash extends Comparable, IsNumberical, HasDenomination {
+public interface Cash extends Comparable<Cash>, IsNumberical, HasDenomination {
 
     /**
      * @param arg {@link Cash} amount for comparison

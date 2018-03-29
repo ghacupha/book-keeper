@@ -23,37 +23,37 @@ import java.time.LocalDate;
  *
  * @author edwin.njeru
  */
-public class Moment implements TimePoint {
+public class SimpleDate implements TimePoint {
 
-    static final Moment PAST = new Moment(LocalDate.MIN);
-    static final Moment FUTURE = new Moment(LocalDate.MAX);
+    static final SimpleDate PAST = new SimpleDate(LocalDate.MIN);
+    static final SimpleDate FUTURE = new SimpleDate(LocalDate.MAX);
 
     private LocalDate base;
 
-    private Moment(LocalDate arg) {
+    private SimpleDate(LocalDate arg) {
         initialize(arg);
     }
 
-    public Moment(int year, int month, int day) {
+    public SimpleDate(int year, int month, int day) {
         initialize(LocalDate.of(year, month, day));
     }
 
-    public Moment() {
+    public SimpleDate() {
         initialize(LocalDate.now());
     }
 
     public static TimePoint newMoment(int year, int month, int day) {
-        return new Moment(year, month, day);
+        return new SimpleDate(year, month, day);
     }
 
     public static TimePoint now() {
 
-        return new Moment();
+        return new SimpleDate();
     }
 
     public static TimePoint on(int year, int month, int dayOfMonth) {
 
-        return new Moment(year, month, dayOfMonth);
+        return new SimpleDate(year, month, dayOfMonth);
     }
 
     private void initialize(LocalDate arg) {
@@ -71,27 +71,27 @@ public class Moment implements TimePoint {
     }
 
     @Override
-    public Moment addDays(int arg) {
-        return new Moment(this.base.plusDays(arg));
+    public SimpleDate addDays(int arg) {
+        return new SimpleDate(this.base.plusDays(arg));
     }
 
     @Override
-    public Moment minusDays(int arg) {
-        return new Moment(this.base.minusDays(arg));
+    public SimpleDate minusDays(int arg) {
+        return new SimpleDate(this.base.minusDays(arg));
     }
 
     @Override
-    public int compareTo(Object arg) {
-        Moment other = (Moment) arg;
+    public int compareTo(TimePoint arg) {
+        SimpleDate other = (SimpleDate) arg;
         return this.base.compareTo(other.base);
     }
 
     @Override
     public boolean equals(Object arg) {
-        if (!(arg instanceof Moment)) {
+        if (!(arg instanceof SimpleDate)) {
             return false;
         }
-        Moment other = (Moment) arg;
+        SimpleDate other = (SimpleDate) arg;
         return (base.equals(other.base));
     }
 
@@ -106,7 +106,7 @@ public class Moment implements TimePoint {
     }
 
     private LocalDate getDay(TimePoint arg) {
-        Moment moment = (Moment) arg;
-        return moment.base;
+        SimpleDate simpleDate = (SimpleDate) arg;
+        return simpleDate.base;
     }
 }

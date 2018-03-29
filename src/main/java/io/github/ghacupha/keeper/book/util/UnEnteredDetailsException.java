@@ -14,24 +14,9 @@
  *    limitations under the License.
  */
 
-package io.github.ghacupha.keeper.book.base;
+package io.github.ghacupha.keeper.book.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collector;
-
-public class ImmutableListCollector {
-
-    /**
-     * @param <t> Type of collection
-     * @return An Immutable {@link List} {@link Collection}
-     */
-    public static <t> Collector<t, List<t>, List<t>> toImmutableList() {
-        return Collector.of(ArrayList::new, List::add, (left, right) -> {
-            left.addAll(right);
-            return left;
-        }, Collections::unmodifiableList);
+public class UnEnteredDetailsException extends Exception {
+    public UnEnteredDetailsException(String message) {
     }
 }

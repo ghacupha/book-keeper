@@ -11,48 +11,48 @@ public class TimePointTest {
 
     @Before
     public void setUp() throws Exception {
-        timePoint = new Moment(2018,5,12);
+        timePoint = new SimpleDate(2018,5,12);
     }
 
     @Test
     public void addition() throws Exception {
 
-        //assertEquals(timePoint.addDays(5),new Moment(2018,5,17));
-        assertTrue(timePoint.addDays(5).equals(new Moment(2018,5,17)));
-        assertTrue(timePoint.addDays(30).equals(new Moment(2018,6,11)));
+        //assertEquals(timePoint.addDays(5),new SimpleDate(2018,5,17));
+        assertTrue(timePoint.addDays(5).equals(new SimpleDate(2018,5,17)));
+        assertTrue(timePoint.addDays(30).equals(new SimpleDate(2018,6,11)));
 
     }
 
     @Test
     public void minusDays() throws Exception {
 
-        assertTrue(timePoint.minusDays(5).equals(new Moment(2018,5,7)));
-        assertTrue(timePoint.minusDays(30).equals(new Moment(2018,4,12)));
+        assertTrue(timePoint.minusDays(5).equals(new SimpleDate(2018,5,7)));
+        assertTrue(timePoint.minusDays(30).equals(new SimpleDate(2018,4,12)));
     }
 
     @Test
     public void after() throws Exception {
-        assertTrue(timePoint.after(new Moment(2018,5,11)));
-        assertTrue(timePoint.after(new Moment(2018,3,31)));
+        assertTrue(timePoint.after(new SimpleDate(2018,5,11)));
+        assertTrue(timePoint.after(new SimpleDate(2018,3,31)));
     }
 
     @Test
     public void before() throws Exception {
-        assertTrue(timePoint.before(new Moment(2018,7,1)));
-        assertTrue(timePoint.before(new Moment(2018,5,13)));
+        assertTrue(timePoint.before(new SimpleDate(2018,7,1)));
+        assertTrue(timePoint.before(new SimpleDate(2018,5,13)));
     }
 
     @Test
     public void newTimePoint() throws Exception {
-        TimePoint testPoint = new Moment();
+        TimePoint testPoint = new SimpleDate();
 
-        assertTrue(new Moment().after(testPoint.minusDays(1)));
-        assertTrue(new Moment().before(testPoint.addDays(1)));
+        assertTrue(new SimpleDate().after(testPoint.minusDays(1)));
+        assertTrue(new SimpleDate().before(testPoint.addDays(1)));
     }
 
     @Test
     public void toStringTest() throws Exception {
 
-        assertEquals("2018-05-08",new Moment(2018,5,8).toString());
+        assertEquals("2018-05-08",new SimpleDate(2018,5,8).toString());
     }
 }

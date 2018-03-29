@@ -20,39 +20,25 @@ import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
-import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
-import io.github.ghacupha.keeper.book.util.UnableToPostException;
+
+import java.util.Currency;
 
 /**
- * Collection of this {@link Entry} objects forms the {@link Account}, which is one of the
- * descriptors for an account
- * The {@link EntryDetails} is used as a descriptor, that could contain stuff like details, categories,
- * parties involved, invoice numbers etc
+ * Unit of Account pattern implementation
  *
  * @author edwin.njeru
  */
 public interface Entry {
 
-    Entry newEntry(Account journal, EntryAttributes entryAttributes, Cash amount, TimePoint bookingDate);
+    EntryDetails getEntryDetails();
 
-    EntryAttributes getEntryAttributes();
+    Currency getCurrency();
 
-    void setEntryAttributes(EntryAttributes entryAttributes) throws ImmutableEntryException;
-
-    Cash getAmount();
+    AccountSide getAccountSide();
 
     TimePoint getBookingDate();
 
-    /**
-     * Posts the transactions into respective {@link io.github.ghacupha.keeper.book.api.Account} item.
-     * This method is only to be used by a {@link Transaction} object
-     *
-     * @throws UnableToPostException {@link UnableToPostException} thrown when the related {@link Transaction} is not balanced
-     *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
-     */
-    void post();
+    Cash getAmount();
 
-    default AccountSide getAccountSide() {
-        return AccountSide.DEBIT;
-    }
+    void post();
 }

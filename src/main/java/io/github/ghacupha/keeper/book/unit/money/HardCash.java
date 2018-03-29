@@ -48,11 +48,11 @@ public class HardCash implements Cash {
     }
 
     /**
-     * Creates {@link Cash} with double amount and an ISO-4217 currency code
+     * Creates {@link Cash} with double amount and an ISO-4217 getCurrency code
      *
      * @param value          amount of Cash in double
-     * @param currencyString currency code in ISO-4217 denotation
-     * @return {@link Cash} amount in the string currency specified
+     * @param currencyString getCurrency code in ISO-4217 denotation
+     * @return {@link Cash} amount in the string getCurrency specified
      */
     public static Cash of(double value, String currencyString) {
 
@@ -203,7 +203,7 @@ public class HardCash implements Cash {
      *                              from being compared to this object.
      */
     @Override
-    public int compareTo(Object arg) {
+    public int compareTo(Cash arg) {
 
         HardCash other = (HardCash) arg;
 

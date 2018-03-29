@@ -16,40 +16,32 @@
 
 package io.github.ghacupha.keeper.book.api;
 
+import io.github.ghacupha.keeper.book.balance.AccountSide;
+import io.github.ghacupha.keeper.book.base.EntryDetails;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
 
-import java.util.Currency;
+import java.util.Set;
 
 /**
- * This interface allows us to enter a collection of {@link Entry} items into respective {@link Account}
- * objects at the same time, as it is conventionally done in a typical business case
- *
- * @author edwin.njeru
+ * A collection of {@link Entry} items being posted at the same time
  */
 public interface Transaction {
 
     /**
-     * This method creates a {@link Entry} and adds that to the {@link Account} in the parameter
-     * and also adds it to this {@link Transaction} provided the {@link Transaction} is not already posted
      *
-     * @param amount     {@link Cash} amount being posted to the journal
-     * @param account    {@link Account} into which the {@link Entry} is being added
-     * @param attributes {@link EntryAttributes} related to the Entry being added to the {@link Account} that is
-     *                   being created in this method.
-     * @throws ImmutableEntryException     Thrown if the {@link Transaction} is already posted when this method is running
-     * @throws MismatchedCurrencyException Thrown if the {@link Currency} of the {@link Entry} or {@link Account}
-     *                                     is mismatched with the {@link Currency} of this {@link Transaction}
+     * @param accountSide {@link AccountSide} in which the entry is for
+     * @param account {@link Account} into which the {@link Entry} is posted
+     * @param details {@link EntryDetails} specifications of the {@link Entry}
      */
-    void add(Cash amount, Account account, EntryAttributes attributes) throws ImmutableEntryException, MismatchedCurrencyException;
+    void addEntry(AccountSide accountSide, Cash amount, Account account, EntryDetails details) throws ImmutableEntryException, MismatchedCurrencyException;
 
     /**
-     * Posts the transactions into respective {@link Account} items
-     *
-     * @throws UnableToPostException {@link UnableToPostException} thrown when the transaction is not balanced
-     *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
+     * Adds the {@link Entry} items into the accounts involved in this {@link Transaction}
      */
-    void post() throws UnableToPostException, MismatchedCurrencyException;
+    void post() throws UnableToPostException;
+
+    Set<Entry> getEntries();
 }
