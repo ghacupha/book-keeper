@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**removed deleted classes from the Exception classes' comments**
+
+
+[cb712d5171910f4](https://github.com/ghacupha/book-keeper/commit/cb712d5171910f4) Edwin Njeru *2018-03-29 16:46:24*
+
 **added currency parameter to SimpleTransaction**
 
 
