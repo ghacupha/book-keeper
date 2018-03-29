@@ -16,10 +16,8 @@
 
 package io.github.ghacupha.keeper.book.util;
 
-import io.github.ghacupha.keeper.book.api.DirectedTransaction;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.base.AccountingTransaction;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**

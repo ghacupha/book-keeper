@@ -8,6 +8,11 @@ Changelog for ghacupha book-keeper.
 **added currency parameter to SimpleTransaction**
 
 
+[67cf8253b53bd26](https://github.com/ghacupha/book-keeper/commit/67cf8253b53bd26) Edwin Njeru *2018-03-29 16:34:05*
+
+**added currency parameter to SimpleTransaction**
+
+
 [a972b7f4334c5cd](https://github.com/ghacupha/book-keeper/commit/a972b7f4334c5cd) Edwin Njeru *2018-03-29 16:08:07*
 
 **simplified account pattern to only implement directed accounting transaction pattern**
