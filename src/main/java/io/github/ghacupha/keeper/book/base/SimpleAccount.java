@@ -18,7 +18,6 @@ package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
-import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
@@ -27,7 +26,6 @@ import io.github.ghacupha.keeper.book.unit.time.DateRange;
 import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
-import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +43,6 @@ public final class SimpleAccount implements Account {
 
     private final Currency currency;
     private final AccountDetails accountDetails;
-
-    // pointer for the account side
     private volatile AccountSide accountSide;
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
@@ -158,7 +154,7 @@ public final class SimpleAccount implements Account {
         return HardCash.of(this.getEntries()
             .parallelStream()
             .filter(entry -> dateRange.includes(entry.getBookingDate()))
-            .filter(SimpleAccount::entryIsCreditingUs)
+            .filter(entry -> entry.getAccountSide() == CREDIT)
             .map(entry -> entry.getAmount().getNumber().doubleValue())
             .reduce(0.00,(acc,value) -> acc + value), this.getCurrency());
     }
@@ -167,14 +163,11 @@ public final class SimpleAccount implements Account {
         return HardCash.of(this.getEntries()
             .parallelStream()
             .filter(entry -> dateRange.includes(entry.getBookingDate()))
-            .filter(SimpleAccount::entryIsDebitingUs)
+            .filter(entry -> entry.getAccountSide() == DEBIT)
             .map(entry -> entry.getAmount().getNumber().doubleValue())
             .reduce(0.00,(acc,value) -> acc + value), this.getCurrency());
     }
 
-    private static boolean entryIsDebitingUs(Entry entry) {
-        return entry.getAccountSide() == DEBIT;
-    }
     private static boolean entryIsCreditingUs(Entry entry) {
         return entry.getAccountSide() == CREDIT;
     }

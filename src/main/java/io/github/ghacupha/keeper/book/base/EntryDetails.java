@@ -62,5 +62,12 @@ public class EntryDetails {
         return Objects.hash(narration, entryMap);
     }
 
-
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("EntryDetails{");
+        sb.append("narration='").append(narration).append('\'');
+        sb.append(", entryMap=").append(entryMap);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -25,6 +25,8 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Currency;
@@ -37,6 +39,8 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 
 public final class SimpleTransaction implements Transaction {
+
+    private static final Logger log = LoggerFactory.getLogger(SimpleTransaction.class);
 
     private final TimePoint date;
 
@@ -55,11 +59,19 @@ public final class SimpleTransaction implements Transaction {
     }
 
     private static boolean predicateCredits(Entry entry) {
-        return entry.getAccountSide() == CREDIT;
+        boolean credit;
+        log.debug("Checking if entry {} is credit ", entry.getEntryDetails());
+        credit = entry.getAccountSide() == CREDIT;
+        log.debug("Entry : {} is credit {}", entry.getEntryDetails(), credit);
+        return credit;
     }
 
     private static boolean predicateDebits(Entry entry) {
-        return entry.getAccountSide() == DEBIT;
+        boolean debit;
+        log.debug("Checking if entry {} is debit ", entry.getEntryDetails());
+        debit = entry.getAccountSide() == DEBIT;
+        log.debug("Entry : {} is credit {}", entry.getEntryDetails(), debit);
+        return debit;
     }
 
     /**
@@ -73,19 +85,19 @@ public final class SimpleTransaction implements Transaction {
     public void addEntry(AccountSide accountSide, Cash amount, Account account, EntryDetails details) throws ImmutableEntryException, MismatchedCurrencyException {
 
         // assign currency
-        if(currency == null){
-            if(amount.getCurrency() != account.getCurrency()){
-                String message = String.format("The account currency which is %s, ought to match the account currency, but found %s",amount.getCurrency(),account.getCurrency());
+        if (currency == null) {
+            if (amount.getCurrency() != account.getCurrency()) {
+                String message = String.format("The account currency which is %s, ought to match the account currency, but found %s", amount.getCurrency(), account.getCurrency());
                 throw new MismatchedCurrencyException(message);
             } else {
                 this.currency = account.getCurrency();
             }
-        }else if (wasPosted) {
+        } else if (wasPosted) {
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");
         } else if (!account.getCurrency().equals(this.currency) || !amount.getCurrency().equals(this.currency)) {
             throw new MismatchedCurrencyException("Cannot add entry whose getCurrency differs to that of the transaction");
         } else {
-            entries.add(new SimpleEntry(accountSide,account, amount, date, details, this));
+            entries.add(new SimpleEntry(accountSide, account, amount, date, details, this));
         }
     }
 
@@ -96,11 +108,18 @@ public final class SimpleTransaction implements Transaction {
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
     @Override
-    public void post() throws UnableToPostException {
+    public void post() throws UnableToPostException, ImmutableEntryException {
 
-        if (!canPost()) {
+        if (balanced() != 0) {
 
-            throw new UnableToPostException("The debits are not balanced with the credits");
+            if (balanced() > 0) {
+
+                throw new UnableToPostException(String.format("The debits are more than credits by : %s", balanced()));
+
+            } else {
+
+                throw new UnableToPostException(String.format("The credits are more than debits by : %s", balanced() * -1));
+            }
 
         } else {
 
@@ -110,19 +129,11 @@ public final class SimpleTransaction implements Transaction {
         }
     }
 
-    private boolean canPost() {
+    private double balanced() {
 
-        double debits = entries
-            .parallelStream()
-            .filter(SimpleTransaction::predicateDebits)
-            .map(SimpleTransaction::mapCashToDouble)
-            .reduce(0.00,(acc,val) -> acc + val);
+        double debits = entries.stream().filter(SimpleTransaction::predicateDebits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
 
-        return debits == entries
-            .parallelStream()
-            .filter(SimpleTransaction::predicateCredits)
-            .map(SimpleTransaction::mapCashToDouble)
-            .reduce(0.00,(acc,val) -> acc + val);
+        return debits - entries.stream().filter(SimpleTransaction::predicateCredits).map(SimpleTransaction::mapCashToDouble).reduce(0.00, (acc, val) -> acc + val);
     }
 
     @Override

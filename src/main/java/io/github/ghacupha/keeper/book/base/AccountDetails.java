@@ -20,6 +20,7 @@ import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.UnEnteredDetailsException;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AccountDetails {
@@ -60,5 +61,33 @@ public class AccountDetails {
         } else {
             return accountDetails.get(label);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AccountDetails that = (AccountDetails) o;
+        return Objects.equals(name, that.name) && Objects.equals(number, that.number) && Objects.equals(openingDate, that.openingDate) && Objects.equals(accountDetails, that.accountDetails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, number, openingDate, accountDetails);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("AccountDetails{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", number='").append(number).append('\'');
+        sb.append(", openingDate=").append(openingDate);
+        sb.append(", accountDetails=").append(accountDetails);
+        sb.append('}');
+        return sb.toString();
     }
 }

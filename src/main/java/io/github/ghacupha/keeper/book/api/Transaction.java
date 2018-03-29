@@ -41,7 +41,7 @@ public interface Transaction {
     /**
      * Adds the {@link Entry} items into the accounts involved in this {@link Transaction}
      */
-    void post() throws UnableToPostException;
+    void post() throws UnableToPostException, ImmutableEntryException;
 
     Set<Entry> getEntries();
 }

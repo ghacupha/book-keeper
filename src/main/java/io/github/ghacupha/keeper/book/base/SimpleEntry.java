@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Currency;
 
-public class SimpleEntry implements Entry {
+public final class SimpleEntry implements Entry {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleEntry.class);
 
