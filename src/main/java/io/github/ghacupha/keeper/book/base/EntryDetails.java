@@ -72,9 +72,9 @@ public final class EntryDetails {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("EntryDetails{");
-        sb.append("narration='").append(narration).append('\'');
-        sb.append(", entryMap=").append(entryMap);
+        final StringBuffer sb = new StringBuffer("{");
+        sb.append("'").append(narration).append('\'');
+        sb.append(", otherEntryDetails=").append(entryMap);
         sb.append('}');
         return sb.toString();
     }

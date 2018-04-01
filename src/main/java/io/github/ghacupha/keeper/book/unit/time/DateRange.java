@@ -90,7 +90,7 @@ public class DateRange implements Comparable {
     }
 
     public boolean includes(TimePoint arg) {
-        log.debug("Checking if : {} includes timePoint : {}", this, arg);
+        log.trace("Checking if : {} includes timePoint : {}", this, arg);
         return !arg.before(start) && !arg.after(end);
     }
 

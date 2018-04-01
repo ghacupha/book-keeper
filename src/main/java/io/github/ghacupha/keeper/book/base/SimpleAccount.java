@@ -20,8 +20,6 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
 import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -59,6 +57,8 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 public final class SimpleAccount implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleAccount.class);
+
+    private AccountAppraisalDelegate evalulationDelegate = new AccountAppraisalDelegate(this);
 
     private final Currency currency;
     private final AccountDetails accountDetails;
@@ -109,7 +109,7 @@ public final class SimpleAccount implements Account {
 
         log.debug("Account balance enquiry raised as at {}, for account : {}", asAt, this);
 
-        AccountBalance balance = balance(new DateRange(accountDetails.getOpeningDate(), asAt));
+        AccountBalance balance = evalulationDelegate.balance(new DateRange(accountDetails.getOpeningDate(), asAt));
 
         log.debug("Returning accounting balance for {} as at : {} as : {}", this, asAt, balance);
 
@@ -118,7 +118,7 @@ public final class SimpleAccount implements Account {
 
     /**
      * Similar to the balance query for a given date except the date is provided through a
-     * simple varags int argument
+     * simple {@code VarArgs} int argument
      *
      * @param asAt The date as at when the {@link AccountBalance} we want is effective given
      *             in the following order
@@ -137,59 +137,6 @@ public final class SimpleAccount implements Account {
         return balance;
     }
 
-    private AccountBalance balance(DateRange dateRange){
-
-        Cash debits = getDebits(dateRange);
-
-        Cash credits = getCredits(dateRange);
-
-        if (debits.isZero() || credits.isZero()) {
-            if(!debits.isZero() && credits.isZero()){
-                return new AccountBalance(debits, DEBIT);
-            } else if(debits.isZero() && !credits.isZero()){
-                return new AccountBalance(credits, CREDIT);
-            }
-        } else if (this.accountSide == DEBIT) {
-
-            if (credits.isMoreThan(debits)) {
-                return new AccountBalance(credits.minus(debits).abs(), CREDIT);
-            }
-
-            if (!credits.isMoreThan(debits)) {
-                return new AccountBalance(credits.minus(debits).abs(), DEBIT);
-            }
-        } else if (this.accountSide == CREDIT) {
-
-            if (debits.isMoreThan(credits)) {
-                return new AccountBalance(debits.minus(credits).abs(), DEBIT);
-            }
-
-            if (!debits.isMoreThan(credits)) {
-                return new AccountBalance(debits.minus(credits).abs(), CREDIT);
-            }
-        }
-
-        return new AccountBalance(HardCash.of(0.0,this.currency),this.accountSide);
-    }
-
-    private Cash getCredits(DateRange dateRange) {
-        return HardCash.of(this.getEntries()
-            .parallelStream()
-            .filter(entry -> dateRange.includes(entry.getBookingDate()))
-            .filter(entry -> entry.getAccountSide() == CREDIT)
-            .map(entry -> entry.getAmount().getNumber().doubleValue())
-            .reduce(0.00,(acc,value) -> acc + value), this.getCurrency());
-    }
-
-    private Cash getDebits(DateRange dateRange) {
-        return HardCash.of(this.getEntries()
-            .parallelStream()
-            .filter(entry -> dateRange.includes(entry.getBookingDate()))
-            .filter(entry -> entry.getAccountSide() == DEBIT)
-            .map(entry -> entry.getAmount().getNumber().doubleValue())
-            .reduce(0.00,(acc,value) -> acc + value), this.getCurrency());
-    }
-
     /**
      * @return Currency of the account
      */
@@ -198,9 +145,10 @@ public final class SimpleAccount implements Account {
         return currency;
     }
 
-    private List<Entry> getEntries() {
+    @Override
+    public List<Entry> getEntries() {
 
-        return entries.stream().collect(ImmutableListCollector.toImmutableList());
+        return new CopyOnWriteArrayList<>(entries.parallelStream().collect(ImmutableListCollector.toImmutableList()));
     }
 
     @Override
@@ -211,5 +159,20 @@ public final class SimpleAccount implements Account {
     @Override
     public String toString() {
         return this.accountDetails.getNumber()+" "+this.accountDetails.getName();
+    }
+
+    /**
+     * @return Shows the side of the balance sheet to which this belongs which could be either
+     * {@link AccountSide#DEBIT} or {@link AccountSide#CREDIT}
+     * @implSpec As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
+     * allowing inexpensive evaluation of the {@link AccountBalance} without causing circular reference. Otherwise anyone else who needs
+     * to know the {@code AccountSide} of this needs to query the {@link AccountBalance} first, and from it acquire the {@link AccountSide}.
+     * Also note that the object's {@link AccountSide} is never really exposed since this implementation is returning a value based on its
+     * current status.
+     */
+    @Override
+    public AccountSide getAccountSide() {
+
+        return this.accountSide == DEBIT ? DEBIT : CREDIT;
     }
 }

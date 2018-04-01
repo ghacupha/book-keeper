@@ -18,12 +18,13 @@ package io.github.ghacupha.keeper.book.api;
 
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
+import io.github.ghacupha.keeper.book.base.AccountAppraisalDelegate;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
-import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 
 import java.util.Currency;
+import java.util.List;
 
 /**
  * A collection of {@link Entry} items.
@@ -73,4 +74,20 @@ public interface Account {
      * @return {@link TimePoint} date when the account was opened
      */
     TimePoint getOpeningDate();
+
+    /**
+     * @implSpec As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
+     * allowing inexpensive evaluation of the {@link AccountBalance} without causing circular reference. Otherwise anyone else who needs
+     * to know the {@code AccountSide} of this needs to query the {@link AccountBalance} first, and from it acquire the {@link AccountSide}
+     *
+     * @return Shows the side of the balance sheet to which this belongs which could be either
+     * {@link AccountSide#DEBIT} or {@link AccountSide#CREDIT}
+     */
+    AccountSide getAccountSide();
+
+    /**
+     *
+     * @return Returns this object's current copy of the {@link Entry} items
+     */
+    List<Entry> getEntries();
 }

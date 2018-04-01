@@ -72,17 +72,17 @@ public final class SimpleTransaction implements Transaction {
 
     private static boolean predicateCredits(Entry entry) {
         boolean credit;
-        log.debug("Checking if entry {} is credit ", entry.getEntryDetails());
+        log.trace("Checking if entry {} is credit ", entry.getEntryDetails());
         credit = entry.getAccountSide() == CREDIT;
-        log.debug("Entry : {} is credit {}", entry.getEntryDetails(), credit);
+        log.trace("Entry : {} is credit {}", entry.getEntryDetails(), credit);
         return credit;
     }
 
     private static boolean predicateDebits(Entry entry) {
         boolean debit;
-        log.debug("Checking if entry {} is debit ", entry.getEntryDetails());
+        log.trace("Checking if entry {} is debit ", entry.getEntryDetails());
         debit = entry.getAccountSide() == DEBIT;
-        log.debug("Entry : {} is credit {}", entry.getEntryDetails(), debit);
+        log.trace("Entry : {} is credit {}", entry.getEntryDetails(), debit);
         return debit;
     }
 
@@ -104,7 +104,9 @@ public final class SimpleTransaction implements Transaction {
             throw new MismatchedCurrencyException("Cannot add entry whose getCurrency differs to that of the transaction");
         } else {
             log.debug("Adding entry  : {} into transaction : {}",details,this);
-            entries.add(new SimpleEntry(accountSide, account, amount, date, details));
+            Entry tempEntry = new SimpleEntry(accountSide, account, amount, date, details);
+            entries.add(tempEntry);
+            log.debug("Entry {} has been added to {}",tempEntry,this);
         }
     }
 
@@ -171,7 +173,7 @@ public final class SimpleTransaction implements Transaction {
 
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append(label).append('\'');
+        sb.append('\'').append(label).append('\'');
         sb.append(", date=").append(date);
         sb.append(", currency=").append(currency);
         sb.append(", entries=").append(entries);
