@@ -64,7 +64,24 @@ public final class SimpleAccount implements Account {
     private final AccountDetails accountDetails;
     private volatile AccountSide accountSide;
 
-    private final List<Entry> entries = new CopyOnWriteArrayList<>();
+    private volatile List<Entry> entries = new CopyOnWriteArrayList<>();
+
+    /**
+     * This constructor will one day allow someone to implement the {@link List} interface with anything,
+     * including a database and assign the same to this {@link Account} making this object persistent.
+     * @param accountSide {@link AccountSide} to which this account belongs by default
+     * @param currency {@link Currency} to be used for all {@link Entry} items to be added to this account
+     * @param accountDetails {@link AccountDetails} describes the basic nature of this account from business domain's perspective
+     * @param entries {@link List<Entry>} collection allowing assignment of a Collection interface for this account. One day this
+     *                                   parameter will allow a dev to something like implement the list interface with a backend
+     *                                   like a database or some Restful service making changes in this account persistent.
+     */
+    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails,List<Entry> entries) {
+        this.currency = currency;
+        this.accountSide = accountSide;
+        this.accountDetails = accountDetails;
+        this.entries=entries;
+    }
 
     SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
         this.currency = currency;
