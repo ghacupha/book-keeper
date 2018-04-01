@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**Made the SimpleAccount and the SimpleTransaction more thread-safe by adding volatile fields**
+
+
+[ad094fa9fe28690](https://github.com/ghacupha/book-keeper/commit/ad094fa9fe28690) ghacupha *2018-04-01 10:31:35*
+
 **configured builds to ensure the commands are working**
 
 

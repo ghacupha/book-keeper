@@ -31,6 +31,7 @@ import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
@@ -106,11 +107,11 @@ public final class SimpleAccount implements Account {
     @Override
     public AccountBalance balance(TimePoint asAt) {
 
-        log.debug("Account balance enquiry raised as at {}", asAt);
+        log.debug("Account balance enquiry raised as at {}, for account : {}", asAt, this);
 
         AccountBalance balance = balance(new DateRange(accountDetails.getOpeningDate(), asAt));
 
-        log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
+        log.debug("Returning accounting balance for {} as at : {} as : {}", this, asAt, balance);
 
         return balance;
     }
@@ -131,7 +132,7 @@ public final class SimpleAccount implements Account {
 
         AccountBalance balance = balance(new SimpleDate(asAt[0],asAt[1],asAt[2]));
 
-        log.debug("Returning accounting balance as at : {} as : {}", asAt, balance);
+        log.debug("Returning accounting balance for {} ,as at : {} as : {}",this, Arrays.toString(asAt), balance);
 
         return balance;
     }

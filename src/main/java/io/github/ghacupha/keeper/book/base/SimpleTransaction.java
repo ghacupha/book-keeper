@@ -48,6 +48,8 @@ public final class SimpleTransaction implements Transaction {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleTransaction.class);
 
+    private final String label;
+
     private final TimePoint date;
 
     private volatile boolean wasPosted;
@@ -55,10 +57,13 @@ public final class SimpleTransaction implements Transaction {
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
 
-    SimpleTransaction(TimePoint date, Currency currency) {
+    SimpleTransaction(String label,TimePoint date, Currency currency) {
 
+        this.label = label;
         this.date = date;
         this.currency = currency;
+
+        log.info("SimpleTransaction created {}",this);
     }
 
     private static Double mapCashToDouble(Entry entry) {
@@ -148,26 +153,26 @@ public final class SimpleTransaction implements Transaction {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         SimpleTransaction that = (SimpleTransaction) o;
-        return wasPosted == that.wasPosted && Objects.equals(date, that.date) && Objects.equals(currency, that.currency) && Objects.equals(entries, that.entries);
+        return wasPosted == that.wasPosted &&
+                Objects.equals(label, that.label) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(currency, that.currency) &&
+                Objects.equals(entries, that.entries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, wasPosted, currency, entries);
+
+        return Objects.hash(label, date, wasPosted, currency, entries);
     }
 
-    @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("SimpleTransaction{");
-        sb.append("date=").append(date);
-        sb.append(", wasPosted=").append(wasPosted);
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append(label).append('\'');
+        sb.append(", date=").append(date);
         sb.append(", currency=").append(currency);
         sb.append(", entries=").append(entries);
         sb.append('}');
