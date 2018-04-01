@@ -26,7 +26,13 @@ import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import java.util.Currency;
 
 /**
- * A collection of {@link Entry} items
+ * A collection of {@link Entry} items.
+ * @implNote The specification of this interface hides the fact that the {@link Account} contains an {@link AccountSide}
+ * field. This reduces excessive of the implementation internals, but if the implementation does not contain
+ * an {@link AccountSide} then the point of this interface is moot. Therefore the only to safely access the
+ * {@link AccountSide} is through the {@link AccountBalance}.
+ *
+ * @author edwin.njeru
  */
 public interface Account {
 
@@ -44,21 +50,6 @@ public interface Account {
     AccountBalance balance(TimePoint asAt);
 
     /**
-     *
-     * @return Currency of the account
-     */
-    Currency getCurrency();
-
-    /**
-     *
-     * @return {@link AccountSide} position of {@link Account} in the
-     * balance sheet
-     */
-    AccountSide accountSide();
-
-    TimePoint openingDate();
-
-    /**
      * Similar to the balance query for a given date except the date is provided through a
      * simple varags int argument
      *
@@ -69,7 +60,17 @@ public interface Account {
      *             iii) Date
      * @return {@link AccountBalance} effective the date specified by the varargs
      */
-    public AccountBalance balance(int... asAt);
+    AccountBalance balance(int... asAt);
 
+    /**
+     *
+     * @return Currency of the account
+     */
+    Currency getCurrency();
+
+    /**
+     *
+     * @return {@link TimePoint} date when the account was opened
+     */
     TimePoint getOpeningDate();
 }

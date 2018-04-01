@@ -28,24 +28,29 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Currency;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 
+/**
+ * Immutable implementation of the {@link Transaction} interface once created nothing about it can change, except
+ * addition of entries. The underlying {@link Collection} cannot be re-assigned once created, and is implemented by
+ * {@link List} whose implementation involved a data structure that copies itself for every mutative procedure that
+ * is done, in this case involving addition of {@link Entry} items. There is a boolean that says whether or not the
+ * {@link Transaction} has been posted, which is dangerously non final, but is volatile nevertheless.
+ *
+ * @author edwin.njeru
+ */
 public final class SimpleTransaction implements Transaction {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleTransaction.class);
 
     private final TimePoint date;
 
-    private boolean wasPosted;
+    private volatile boolean wasPosted;
     private final Currency currency;
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
@@ -105,7 +110,7 @@ public final class SimpleTransaction implements Transaction {
      *                               That is if the items posted on the debit are more than those posted on the credit or vice versa.
      */
     @Override
-    public void post() throws UnableToPostException, ImmutableEntryException {
+    public void post() throws UnableToPostException {
 
         if (balanced() != 0) {
 

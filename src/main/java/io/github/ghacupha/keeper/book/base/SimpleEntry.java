@@ -28,6 +28,22 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Currency;
 
+/**
+ * <p>This is a thread-safe implementation of the {@link Entry} interface in which all internal states are final upon
+ * initialization.</p>
+ * <p>It contains the following fields:</p>
+ * <p>1. {@link Account} representing the account to which it belongs.</p>
+ * <p>2. {@link Cash} amount represented by this accounting {@link Entry}</p>
+ * <p>3. {@link AccountSide} which shows whether the account is a {@link AccountSide#DEBIT} or {@link AccountSide#CREDIT}</p>
+ * <p>4. {@link TimePoint} field showing the date on which this {@code Entry} was booked</p>
+ * <p>5. {@link EntryDetails} field is a simple representation of the particulars of this {@code Entry}, the minimum of
+ * which is a "narration" of what the {@code Entry} entails.</p>.
+ *
+ * Needless to say since this object contains an immutable Cash amount, the {@link Currency} of whatever money is contained
+ * in this entry is consequently immutable,as is the {@link AccountSide}.
+ *
+ * @author edwin.njeru
+ */
 public final class SimpleEntry implements Entry {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleEntry.class);
@@ -35,17 +51,19 @@ public final class SimpleEntry implements Entry {
     // pointer to the Account
     private final Account forAccount;
 
+    // how much the entry will contain, money wise
     private final Cash amount;
 
     // AccountSide
     private final AccountSide accountSide;
 
+    // Date when the entry is booked
     private final TimePoint bookingDate;
 
+    // description of the Entry
     private final EntryDetails entryDetails;
 
-
-    public SimpleEntry(AccountSide accountSide, Account forAccount, Cash amount, TimePoint bookingDate, EntryDetails entryDetails) {
+    SimpleEntry(AccountSide accountSide, Account forAccount, Cash amount, TimePoint bookingDate, EntryDetails entryDetails) {
         this.forAccount = forAccount;
         this.accountSide = accountSide;
         this.amount = amount;

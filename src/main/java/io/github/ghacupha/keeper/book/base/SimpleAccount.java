@@ -31,6 +31,7 @@ import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -38,6 +39,22 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
 import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 
+/**
+ * Implements the {@link Account} interface and maintains states for {@link Currency}, {@link AccountDetails} and
+ * {@link AccountSide}. The Currency and AccountDetails are final upon initialization, but the AccountSide remains
+ * volatile, inorder to represent the changing nature of the account as the {@link Entry} items are added. This is
+ * also assigned on initialization allowing the client to describe default {@link AccountSide} of the {@link Account}.
+ *
+ * @implNote Some non-guaranteed care has been taken to make the Implementation as thread-safe as possible. This may not
+ * be obviously evident by the usual use of words like "synchronized" et al. In fact synchronization would probably just
+ * slow us down. Instead what has been done is that the {@link Collection} of {@link Entry} items, which is the whole
+ * concept of this Account pattern, has been implemented using a {@link List} interface implementation that creates a new
+ * copy of itself every time time a mutative process is carried out. It's iterator as a result is guaranteed never to throw
+ * {@code ConcurrentModificationException} and it does not reflect additions, removals or changes to the list, once they
+ * have been created.
+ *
+ * @author edwin.njeru
+ */
 public final class SimpleAccount implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleAccount.class);
@@ -178,21 +195,6 @@ public final class SimpleAccount implements Account {
     @Override
     public Currency getCurrency() {
         return currency;
-    }
-
-    /**
-     * @return {@link AccountSide} position of {@link Account} in the
-     * balance sheet
-     */
-    @Override
-    public AccountSide accountSide() {
-        return accountSide;
-    }
-
-    @Override
-    public TimePoint openingDate() {
-
-        return accountDetails.getOpeningDate();
     }
 
     private List<Entry> getEntries() {

@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**configured builds to ensure the commands are working**
+
+
+[d6a3390ae8ade68](https://github.com/ghacupha/book-keeper/commit/d6a3390ae8ade68) Edwin Njeru *2018-03-29 16:51:41*
+
 **removed deleted classes from the Exception classes' comments**
 
 
