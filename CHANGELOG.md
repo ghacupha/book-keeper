@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**created the AssignableCollectionAccount and also a constructor allowing assignment of the Collection in the simpleAccount laying the ground work for assignment of the underlying collection for the account and further allow implementation of persistent Entries into the Account**
+
+
+[dc753f5f07db654](https://github.com/ghacupha/book-keeper/commit/dc753f5f07db654) ghacupha *2018-04-01 14:09:03*
+
 **created the AccountAppraisalDelegate and refactored the Account#balance method into the delegate allowing other Account implementations of the Account interface to reuse this method. This makes a way to implement the PersistentAccount I have been thinking about, without so much repetition**
 
 
