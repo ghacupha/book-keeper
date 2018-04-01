@@ -17,13 +17,14 @@
 package io.github.ghacupha.keeper.book.util;
 
 import io.github.ghacupha.keeper.book.api.Entry;
+import io.github.ghacupha.keeper.book.api.Transaction;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**
- * This exception is thrown when the {@link AccountingTransaction} client
+ * This exception is thrown when the {@link Transaction} client
  * tries to post a transaction when the sum of the {@link Entry} items does not
- * evaluate to zero, or when the caller of {@link DirectedTransaction#post()}
+ * evaluate to zero, or when the caller of {@link Transaction#post()}
  * does not first ensure that {@link Cash} amounts of {@link AccountSide#CREDIT} {@link Entry} items
  * are not equivalent to the {@link Cash} amounts of {@link AccountSide#CREDIT} {@link Entry} items
  *

@@ -5,6 +5,16 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**created the AccountAppraisalDelegate and refactored the Account#balance method into the delegate allowing other Account implementations of the Account interface to reuse this method. This makes a way to implement the PersistentAccount I have been thinking about, without so much repetition**
+
+
+[9768b159c1522a7](https://github.com/ghacupha/book-keeper/commit/9768b159c1522a7) ghacupha *2018-04-01 13:27:36*
+
+**Made the SimpleAccount and the SimpleTransaction more thread-safe by adding volatile fields**
+
+
+[64891fe42fdb467](https://github.com/ghacupha/book-keeper/commit/64891fe42fdb467) ghacupha *2018-04-01 12:33:21*
+
 **Made the SimpleAccount and the SimpleTransaction more thread-safe by adding volatile fields**
 
 

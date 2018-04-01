@@ -16,7 +16,15 @@
 
 package io.github.ghacupha.keeper.book.util;
 
+/**
+ * Exception thrown when some detail is queried from the {@link io.github.ghacupha.keeper.book.base.EntryDetails} or the
+ * {@link io.github.ghacupha.keeper.book.base.AccountDetails} objects when they have not yet been set or added
+ *
+ * @author edwin.njeru
+ */
 public class UnEnteredDetailsException extends Exception {
+
     public UnEnteredDetailsException(String message) {
+        super(message);
     }
 }

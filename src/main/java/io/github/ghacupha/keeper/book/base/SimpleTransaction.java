@@ -28,7 +28,12 @@ import io.github.ghacupha.keeper.book.util.UnableToPostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -57,13 +62,13 @@ public final class SimpleTransaction implements Transaction {
 
     private final List<Entry> entries = new CopyOnWriteArrayList<>();
 
-    SimpleTransaction(String label,TimePoint date, Currency currency) {
+    SimpleTransaction(String label, TimePoint date, Currency currency) {
 
         this.label = label;
         this.date = date;
         this.currency = currency;
 
-        log.info("SimpleTransaction created {}",this);
+        log.info("SimpleTransaction created {}", this);
     }
 
     private static Double mapCashToDouble(Entry entry) {
@@ -96,17 +101,17 @@ public final class SimpleTransaction implements Transaction {
     @Override
     public void addEntry(AccountSide accountSide, Cash amount, Account account, EntryDetails details) throws ImmutableEntryException, MismatchedCurrencyException {
 
-        log.debug("Attempting to add entry {} amount of : {} in account : {} narration : {}",accountSide,amount,account,details);
+        log.debug("Attempting to add entry {} amount of : {} in account : {} narration : {}", accountSide, amount, account, details);
         // assign currency
         if (wasPosted) {
             throw new ImmutableEntryException("Cannot add entry to a transaction that's already posted");
         } else if (!account.getCurrency().equals(this.currency) || !amount.getCurrency().equals(this.currency)) {
             throw new MismatchedCurrencyException("Cannot add entry whose getCurrency differs to that of the transaction");
         } else {
-            log.debug("Adding entry  : {} into transaction : {}",details,this);
+            log.debug("Adding entry  : {} into transaction : {}", details, this);
             Entry tempEntry = new SimpleEntry(accountSide, account, amount, date, details);
             entries.add(tempEntry);
-            log.debug("Entry {} has been added to {}",tempEntry,this);
+            log.debug("Entry {} has been added to {}", tempEntry, this);
         }
     }
 
@@ -132,7 +137,7 @@ public final class SimpleTransaction implements Transaction {
 
         } else {
 
-            log.debug("Posting : {} entries ...",entries.size());
+            log.debug("Posting : {} entries ...", entries.size());
 
             entries.parallelStream().forEach(Entry::post);
 
@@ -155,8 +160,12 @@ public final class SimpleTransaction implements Transaction {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SimpleTransaction that = (SimpleTransaction) o;
         return wasPosted == that.wasPosted &&
                 Objects.equals(label, that.label) &&
