@@ -58,7 +58,7 @@ public final class SimpleAccount implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleAccount.class);
 
-    private AccountAppraisalDelegate evalulationDelegate = new AccountAppraisalDelegate(this);
+    private AccountAppraisalDelegate appraisalDelegate = new AccountAppraisalDelegate(this);
 
     private final Currency currency;
     private final AccountDetails accountDetails;
@@ -76,14 +76,14 @@ public final class SimpleAccount implements Account {
      *                                   parameter will allow a dev to something like implement the list interface with a backend
      *                                   like a database or some Restful service making changes in this account persistent.
      */
-    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails,List<Entry> entries) {
+    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails,final List<Entry> entries) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
         this.entries=entries;
     }
 
-    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
+    SimpleAccount(final AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
@@ -126,7 +126,7 @@ public final class SimpleAccount implements Account {
 
         log.debug("Account balance enquiry raised as at {}, for account : {}", asAt, this);
 
-        AccountBalance balance = evalulationDelegate.balance(new DateRange(accountDetails.getOpeningDate(), asAt));
+        AccountBalance balance = appraisalDelegate.balance(new DateRange(accountDetails.getOpeningDate(), asAt));
 
         log.debug("Returning accounting balance for {} as at : {} as : {}", this, asAt, balance);
 
