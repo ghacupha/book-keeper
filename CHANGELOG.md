@@ -5,6 +5,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**finalised ammendments to the delegate. ToDo checkstyle checks**
+
+
+[01d68fdda7a2bf8](https://github.com/ghacupha/book-keeper/commit/01d68fdda7a2bf8) ghacupha *2018-04-02 08:13:02*
+
 **created the AssignableCollectionAccount and also a constructor allowing assignment of the Collection in the simpleAccount laying the ground work for assignment of the underlying collection for the account and further allow implementation of persistent Entries into the Account**
 
 
