@@ -118,4 +118,15 @@ public class AssignableCollectionAccount implements Account {
     public List<Entry> getEntries() {
         return null;
     }
+
+    @Override
+    public AccountDetails getAccountDetails() {
+        return accountDetails;
+    }
+
+    @Override
+    public void setAccountSide(final AccountSide accountSide) {
+
+        this.accountSide = accountSide;
+    }
 }

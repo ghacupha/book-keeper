@@ -20,6 +20,9 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
+import io.github.ghacupha.keeper.book.base.state.AccountCreditState;
+import io.github.ghacupha.keeper.book.base.state.AccountDebitState;
+import io.github.ghacupha.keeper.book.base.state.AccountState;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 import io.github.ghacupha.keeper.book.unit.money.HardCash;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
@@ -42,9 +45,18 @@ public class AccountAppraisalDelegate {
 
     private final Account account;
 
+    private AccountState accountSideState;
+
+    private final AccountState debitAccountState;
+    private final AccountState creditAccountState;
+
     AccountAppraisalDelegate(Account account) {
 
         this.account = account;
+        debitAccountState = new AccountDebitState(this.account);
+        creditAccountState = new AccountCreditState(this.account);
+
+        this.accountSideState = account.getAccountSide() == DEBIT ? debitAccountState : creditAccountState;
     }
 
     public AccountBalance balance(DateRange dateRange){
@@ -59,24 +71,9 @@ public class AccountAppraisalDelegate {
             } else if(debits.isZero() && !credits.isZero()){
                 return new AccountBalance(credits, CREDIT);
             }
-        } else if (account.getAccountSide() == DEBIT) {
+        } else {
 
-            if (credits.isMoreThan(debits)) {
-                return new AccountBalance(credits.minus(debits).abs(), CREDIT);
-            }
-
-            if (!credits.isMoreThan(debits)) {
-                return new AccountBalance(credits.minus(debits).abs(), DEBIT);
-            }
-        } else if (account.getAccountSide() == CREDIT) {
-
-            if (debits.isMoreThan(credits)) {
-                return new AccountBalance(debits.minus(credits).abs(), DEBIT);
-            }
-
-            if (!debits.isMoreThan(credits)) {
-                return new AccountBalance(debits.minus(credits).abs(), CREDIT);
-            }
+           return accountSideState.getAccountBalance(debits,credits);
         }
 
         return new AccountBalance(HardCash.of(0.0,account.getCurrency()),account.getAccountSide());

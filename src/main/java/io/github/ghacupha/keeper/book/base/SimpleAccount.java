@@ -20,6 +20,7 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
+import io.github.ghacupha.keeper.book.base.state.AccountState;
 import io.github.ghacupha.keeper.book.unit.time.DateRange;
 import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
@@ -63,6 +64,8 @@ public final class SimpleAccount implements Account {
     private final AccountDetails accountDetails;
     private volatile AccountSide accountSide;
 
+    private AccountState accountState;
+
     private volatile List<Entry> entries = new CopyOnWriteArrayList<>();
 
     /**
@@ -83,7 +86,7 @@ public final class SimpleAccount implements Account {
         this.entries = entries;
     }
 
-    SimpleAccount(final AccountSide accountSide, Currency currency, AccountDetails accountDetails) {
+    public SimpleAccount(final AccountSide accountSide, Currency currency, AccountDetails accountDetails) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
@@ -196,5 +199,17 @@ public final class SimpleAccount implements Account {
 
         // The original accountSide remains. No side effects
         return this.accountSide == DEBIT ? DEBIT : CREDIT;
+    }
+
+    @Override
+    public AccountDetails getAccountDetails() {
+
+        return accountDetails;
+    }
+
+    @Override
+    public void setAccountSide(final AccountSide accountSide) {
+
+        this.accountSide = accountSide;
     }
 }

@@ -19,6 +19,7 @@ package io.github.ghacupha.keeper.book.api;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.AccountAppraisalDelegate;
+import io.github.ghacupha.keeper.book.base.AccountDetails;
 import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
@@ -90,4 +91,8 @@ public interface Account {
      * @return Returns this object's current copy of the {@link Entry} items
      */
     List<Entry> getEntries();
+
+    AccountDetails getAccountDetails();
+
+    void setAccountSide(AccountSide accountSide);
 }
