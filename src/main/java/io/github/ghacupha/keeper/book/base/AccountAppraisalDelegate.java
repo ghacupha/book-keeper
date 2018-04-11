@@ -34,7 +34,7 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
  * method is going to be an expensive method, which could most likely trigger a circular dependency loop. There needs to be a method
  * for getting the current {@code AccountSide} without gritting your teeth. So uncle Bob please forgive me for I have sinned,
  * but there is just no practical inexpensive way of doing this stuff, and still be able to use this delegate for any
- * {@link Account} implementation.
+ * {@link Account} implementation. This delegate is designed to serve up a balance for any {@link Account} implementation
  *
  * @author edwin.njeru
  */

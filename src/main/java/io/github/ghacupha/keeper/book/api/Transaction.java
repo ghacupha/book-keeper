@@ -43,5 +43,9 @@ public interface Transaction {
      */
     void post() throws UnableToPostException, ImmutableEntryException;
 
+    /**
+     *
+     * @return Collection of {@link Entry} items in the Transaction
+     */
     Set<Entry> getEntries();
 }

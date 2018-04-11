@@ -44,6 +44,7 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
  * volatile, inorder to represent the changing nature of the account as the {@link Entry} items are added. This is
  * also assigned on initialization allowing the client to describe default {@link AccountSide} of the {@link Account}.
  *
+ * @author edwin.njeru
  * @implNote Some non-guaranteed care has been taken to make the Implementation as thread-safe as possible. This may not
  * be obviously evident by the usual use of words like "synchronized" et al. In fact synchronization would probably just
  * slow us down. Instead what has been done is that the {@link Collection} of {@link Entry} items, which is the whole
@@ -51,14 +52,12 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
  * copy of itself every time time a mutative process is carried out. It's iterator as a result is guaranteed never to throw
  * {@code ConcurrentModificationException} and it does not reflect additions, removals or changes to the list, once they
  * have been created.
- *
- * @author edwin.njeru
  */
 public final class SimpleAccount implements Account {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleAccount.class);
 
-    private AccountAppraisalDelegate appraisalDelegate = new AccountAppraisalDelegate(this);
+    private final AccountAppraisalDelegate appraisalDelegate = new AccountAppraisalDelegate(this);
 
     private final Currency currency;
     private final AccountDetails accountDetails;
@@ -69,21 +68,22 @@ public final class SimpleAccount implements Account {
     /**
      * This constructor will one day allow someone to implement the {@link List} interface with anything,
      * including a database and assign the same to this {@link Account} making this object persistent.
-     * @param accountSide {@link AccountSide} to which this account belongs by default
-     * @param currency {@link Currency} to be used for all {@link Entry} items to be added to this account
+     *
+     * @param accountSide    {@link AccountSide} to which this account belongs by default
+     * @param currency       {@link Currency} to be used for all {@link Entry} items to be added to this account
      * @param accountDetails {@link AccountDetails} describes the basic nature of this account from business domain's perspective
-     * @param entries {@link List<Entry>} collection allowing assignment of a Collection interface for this account. One day this
-     *                                   parameter will allow a dev to something like implement the list interface with a backend
-     *                                   like a database or some Restful service making changes in this account persistent.
+     * @param entries        {@link List<Entry>} collection allowing assignment of a Collection interface for this account. One day this
+     *                       parameter will allow a dev to something like implement the list interface with a backend
+     *                       like a database or some Restful service making changes in this account persistent.
      */
-    SimpleAccount(AccountSide accountSide,Currency currency,  AccountDetails accountDetails,final List<Entry> entries) {
+    SimpleAccount(AccountSide accountSide, Currency currency, AccountDetails accountDetails, final List<Entry> entries) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
-        this.entries=entries;
+        this.entries = entries;
     }
 
-    SimpleAccount(final AccountSide accountSide,Currency currency,  AccountDetails accountDetails) {
+    SimpleAccount(final AccountSide accountSide, Currency currency, AccountDetails accountDetails) {
         this.currency = currency;
         this.accountSide = accountSide;
         this.accountDetails = accountDetails;
@@ -111,7 +111,7 @@ public final class SimpleAccount implements Account {
 
             entries.add(entry); // done
 
-            log.debug("Entry : {} has been added into account : {}",entry,this);
+            log.debug("Entry : {} has been added into account : {}", entry, this);
         }
     }
 
@@ -137,19 +137,19 @@ public final class SimpleAccount implements Account {
      * Similar to the balance query for a given date except the date is provided through a
      * simple {@code VarArgs} int argument
      *
-     * @param asAt The date as at when the {@link AccountBalance} we want is effective given
-     *             in the following order
-     *             i) Year
-     *             ii) Month
-     *             iii) Date
+     * @param asAt <p>The date as at when the {@link AccountBalance} we want is effective given
+     *             in the following order:</p>
+     *             <p>i) Year</p>
+     *             <p>ii) Month</p>
+     *             <p>iii) Date</p>
      * @return {@link AccountBalance} effective the date specified by the varargs
      */
     @Override
     public AccountBalance balance(int... asAt) {
 
-        AccountBalance balance = balance(new SimpleDate(asAt[0],asAt[1],asAt[2]));
+        AccountBalance balance = balance(new SimpleDate(asAt[0], asAt[1], asAt[2]));
 
-        log.debug("Returning accounting balance for {} ,as at : {} as : {}",this, Arrays.toString(asAt), balance);
+        log.debug("Returning accounting balance for {} ,as at : {} as : {}", this, Arrays.toString(asAt), balance);
 
         return balance;
     }
@@ -165,7 +165,11 @@ public final class SimpleAccount implements Account {
     @Override
     public List<Entry> getEntries() {
 
-        return new CopyOnWriteArrayList<>(entries.parallelStream().collect(ImmutableListCollector.toImmutableList()));
+        return new CopyOnWriteArrayList<>(
+                entries
+                        .parallelStream()
+                        .collect(
+                                ImmutableListCollector.toImmutableList()));
     }
 
     @Override
@@ -175,7 +179,7 @@ public final class SimpleAccount implements Account {
 
     @Override
     public String toString() {
-        return this.accountDetails.getNumber()+" "+this.accountDetails.getName();
+        return this.accountDetails.getName()+" "+this.accountDetails.getNumber();
     }
 
     /**
@@ -190,6 +194,7 @@ public final class SimpleAccount implements Account {
     @Override
     public AccountSide getAccountSide() {
 
+        // The original accountSide remains. No side effects
         return this.accountSide == DEBIT ? DEBIT : CREDIT;
     }
 }

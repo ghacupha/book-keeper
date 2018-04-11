@@ -30,15 +30,41 @@ import java.util.Currency;
  */
 public interface Entry {
 
+    /**
+     *
+     * @return Description of the {@link Entry}
+     */
     EntryDetails getEntryDetails();
 
+    /**
+     *
+     * @return Currency of the monetary amounts to be save in this
+     */
     Currency getCurrency();
 
+    /**
+     *
+     * @return {@link AccountSide} to which this Entry is aggregating the
+     * Account balance
+     */
     AccountSide getAccountSide();
 
+    /**
+     *
+     * @return Booking date of the Entry
+     */
     TimePoint getBookingDate();
 
+    /**
+     *
+     * @return The amount being posted into the Account and encapsulated
+     * by the Entry
+     */
     Cash getAmount();
 
+    /**
+     * Assigns this Entry with a specific account into which it is aggregated as
+     * {@code AccountBalance}
+     */
     void post();
 }
