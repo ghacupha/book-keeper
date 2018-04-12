@@ -11,7 +11,7 @@
 
     <groupId>io.github.ghacupha</groupId>
     <artifactId>book-keeper</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
     <name>book-keeper</name>
     <description>Demo project to illustrate typical double-entry book keeping workflow</description>
@@ -53,7 +53,7 @@
         <surefireArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</surefireArgLine>
         <failsafeArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</failsafeArgLine>
         <env.TRAVIS_JOB_ID />
-
+        <changelog.template.file>${project.basedir}/config/changelog.mustache</changelog.template.file>
         <maven.compiler.fork>true</maven.compiler.fork>
         <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
         <project.reporting.outputDirectory>"documentation"</project.reporting.outputDirectory>
@@ -103,7 +103,8 @@
         <doclint>none</doclint>
 
         <!-- Properties for maven-checkstyle-plugin -->
-        <checkstyle.config.location>${project.basedir}/src/main/checkstyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.config.headerFile>${project.basedir}/config/License_Header.txt</checkstyle.config.headerFile>
+        <checkstyle.config.location>${project.basedir}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.config.consoleOutput>true</checkstyle.config.consoleOutput>
         <checkstyle.config.failsOnError>true</checkstyle.config.failsOnError>
         <checkstyle.config.includeResources>false</checkstyle.config.includeResources>
@@ -410,6 +411,7 @@
                         <configuration>
                             <!-- A file on filesystem //-->
                             <file>CHANGELOG.md</file>
+                            <templateFile>${changelog.template.file}</templateFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -449,6 +451,8 @@
                 </executions>
                 <configuration>
                     <excludes>module-info.java</excludes>
+                    <headerFile>${checkstyle.config.headerFile}</headerFile>
+                    <configLocation>${checkstyle.config.location}</configLocation>
                 </configuration>
             </plugin>
             <!-- Setup Jar file manifest entries -->
@@ -753,6 +757,75 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>-->
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                	<groupId>org.eclipse.m2e</groupId>
+                	<artifactId>lifecycle-mapping</artifactId>
+                	<version>1.0.0</version>
+                	<configuration>
+                		<lifecycleMappingMetadata>
+                			<pluginExecutions>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							org.apache.felix
+                						</groupId>
+                						<artifactId>
+                							maven-bundle-plugin
+                						</artifactId>
+                						<versionRange>
+                							[2.5.4,)
+                						</versionRange>
+                						<goals>
+                							<goal>manifest</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							org.apache.maven.plugins
+                						</groupId>
+                						<artifactId>
+                							maven-checkstyle-plugin
+                						</artifactId>
+                						<versionRange>
+                							[2.17,)
+                						</versionRange>
+                						<goals>
+                							<goal>checkstyle</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							se.bjurr.gitchangelog
+                						</groupId>
+                						<artifactId>
+                							git-changelog-maven-plugin
+                						</artifactId>
+                						<versionRange>
+                							[1.54,)
+                						</versionRange>
+                						<goals>
+                							<goal>git-changelog</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                			</pluginExecutions>
+                		</lifecycleMappingMetadata>
+                	</configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -786,6 +859,8 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
+                    <configLocation>${maven.checkstyle.configLocation}</configLocation>
+                    <headerFile>${checkstyle.config.headerFile}</headerFile>
                     <includeResources>false</includeResources>
                     <includeTestResources>false</includeTestResources>
                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
@@ -910,4 +985,10 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <inceptionYear>2018</inceptionYear>
+    <url>https://github.com/ghacupha/book-keeper</url>
+    <issueManagement>
+    	<system>Github</system>
+    	<url>https://github.com/ghacupha/book-keeper/issues</url>
+    </issueManagement>
 </project>

@@ -5,6 +5,21 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**Replaced multiple IFs in the AccountAppraisalDelegate by implementing State pattern to represent the AccountSide of the Account implementation**
+
+
+[6023932b2c45152](https://github.com/ghacupha/book-keeper/commit/6023932b2c45152) Edwin Njeru *2018-04-11 16:29:54*
+
+**Additional comments and review of aggregation algorithms getCredits() and getDebits()**
+
+
+[5ecf210986080b9](https://github.com/ghacupha/book-keeper/commit/5ecf210986080b9) Edwin Njeru *2018-04-11 15:03:38*
+
+**finalised ammendments to the delegate. ToDo checkstyle checks**
+
+
+[a8e1e3a94dc02af](https://github.com/ghacupha/book-keeper/commit/a8e1e3a94dc02af) ghacupha *2018-04-02 08:17:21*
+
 **finalised ammendments to the delegate. ToDo checkstyle checks**
 
 

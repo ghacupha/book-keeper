@@ -130,7 +130,7 @@
   </module>
   <!-- Header inlined due to m2e -->
   <module name="RegexpHeader">
-    <property name="header" value="^/\*[*]?\n^ \*  Copyright 2018 Edwin Njeru"/>
+    <property name="header" value="^/\*[*]?\n^ \* Copyright 2018 edwin.njeru"/>
     <property name="fileExtensions" value="java"/>
     <property name="severity" value="error"/>
   </module>

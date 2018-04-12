@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2018 edwin.njeru
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 /*
  *  Copyright 2018 Edwin Njeru
  *
@@ -64,6 +79,7 @@ public final class SimpleAccount implements Account {
     private final AccountDetails accountDetails;
     private volatile AccountSide accountSide;
 
+    @SuppressWarnings("unused")
     private AccountState accountState;
 
     private volatile List<Entry> entries = new CopyOnWriteArrayList<>();
@@ -76,7 +92,7 @@ public final class SimpleAccount implements Account {
      * @param currency       {@link Currency} to be used for all {@link Entry} items to be added to this account
      * @param accountDetails {@link AccountDetails} describes the basic nature of this account from business domain's perspective
      * @param entries        {@link List<Entry>} collection allowing assignment of a Collection interface for this account. One day this
-     *                       parameter will allow a dev to something like implement the list interface with a backend
+     *                       parameter will allow a dev to something like implement the list interface with a back end
      *                       like a database or some Restful service making changes in this account persistent.
      */
     SimpleAccount(AccountSide accountSide, Currency currency, AccountDetails accountDetails, final List<Entry> entries) {
