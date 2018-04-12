@@ -5,6 +5,16 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**preparing for version 1.2.0**
+
+
+[8ce478151d20ca0](https://github.com/ghacupha/book-keeper/commit/8ce478151d20ca0) Edwin Njeru *2018-04-12 08:37:29*
+
+**preparing for version 1.2.0**
+
+
+[6896ce16916e5b8](https://github.com/ghacupha/book-keeper/commit/6896ce16916e5b8) Edwin Njeru *2018-04-12 08:37:04*
+
 **Replaced multiple IFs in the AccountAppraisalDelegate by implementing State pattern to represent the AccountSide of the Account implementation**
 
 
