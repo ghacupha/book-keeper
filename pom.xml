@@ -809,6 +809,12 @@
             <artifactId>joda-money</artifactId>
             <version>0.12</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -826,6 +832,16 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>25.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ghacupha</groupId>
+            <artifactId>cash</artifactId>
+            <version>v1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ghacupha</groupId>
+            <artifactId>time-point</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

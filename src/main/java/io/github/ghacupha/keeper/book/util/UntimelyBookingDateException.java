@@ -18,11 +18,10 @@ package io.github.ghacupha.keeper.book.util;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.base.AccountDetails;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 
 /**
- * This exception is thrown when the {@link TimePoint} bookingDate
- * of the {@link Entry} is sooner than the {@link TimePoint} openingDate attribute of the
+ * This exception is thrown when the {@code TimePoint} bookingDate
+ * of the {@link Entry} is sooner than the {@code TimePoint} openingDate attribute of the
  * {@link AccountDetails} attribute of an {@link Account}
  *
  * @author edwin.njeru

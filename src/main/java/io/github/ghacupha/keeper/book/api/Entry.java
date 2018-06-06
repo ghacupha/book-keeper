@@ -15,10 +15,10 @@
  */
 package io.github.ghacupha.keeper.book.api;
 
+import io.github.ghacupha.cash.Cash;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.EntryDetails;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
+import io.github.ghacupha.time.point.TimePoint;
 
 import java.util.Currency;
 

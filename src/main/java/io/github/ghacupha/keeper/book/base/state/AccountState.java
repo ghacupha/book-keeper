@@ -15,9 +15,9 @@
  */
 package io.github.ghacupha.keeper.book.base.state;
 
+import io.github.ghacupha.cash.Cash;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**
  * The Account could either be in {@link AccountSide#CREDIT} or {@code AccountSide#DEBT}
@@ -34,7 +34,7 @@ public interface AccountState {
      * @param credits The amount of money on the credit side
      * @return AccountBalance of the client
      */
-    AccountBalance getAccountBalance(Cash debits,Cash credits);
+    AccountBalance getAccountBalance(Cash debits, Cash credits);
 
     /**
      *

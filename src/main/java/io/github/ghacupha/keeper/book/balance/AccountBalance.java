@@ -15,7 +15,7 @@
  */
 package io.github.ghacupha.keeper.book.balance;
 
-import io.github.ghacupha.keeper.book.unit.money.Cash;
+import io.github.ghacupha.cash.Cash;
 
 /**
  * Represents the amount and sign of the amount you could find in an account. Using this

@@ -15,8 +15,8 @@
  */
 package io.github.ghacupha.keeper.book;
 
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.money.HardCash;
+import io.github.ghacupha.cash.Cash;
+import io.github.ghacupha.cash.HardCash;
 import org.joda.money.CurrencyMismatchException;
 import org.junit.Before;
 import org.junit.Test;

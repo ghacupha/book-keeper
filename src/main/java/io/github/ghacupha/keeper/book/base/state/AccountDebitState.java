@@ -15,11 +15,10 @@
  */
 package io.github.ghacupha.keeper.book.base.state;
 
+import io.github.ghacupha.cash.Cash;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.base.state.AccountState;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 import static io.github.ghacupha.keeper.book.balance.AccountSide.CREDIT;
 

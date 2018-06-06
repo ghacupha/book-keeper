@@ -15,13 +15,13 @@
  */
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.cash.Cash;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
+import io.github.ghacupha.time.point.TimePoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

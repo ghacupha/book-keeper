@@ -19,9 +19,9 @@ import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
+import io.github.ghacupha.time.point.TimePoint;
 
 import java.util.Currency;
 import java.util.List;

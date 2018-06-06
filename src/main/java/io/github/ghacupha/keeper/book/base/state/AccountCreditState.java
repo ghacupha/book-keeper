@@ -15,10 +15,10 @@
  */
 package io.github.ghacupha.keeper.book.base.state;
 
+import io.github.ghacupha.cash.Cash;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
 
@@ -43,7 +43,7 @@ public class AccountCreditState implements AccountState {
      * @return {@link AccountBalance} of the {@link Account}
      */
     @Override
-    public AccountBalance getAccountBalance(final Cash debits,final Cash credits) {
+    public AccountBalance getAccountBalance(final Cash debits, final Cash credits) {
 
         if(credits.isMoreThan(debits)){
             return new AccountBalance(credits.minus(debits).abs(),account.getAccountSide());

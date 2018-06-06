@@ -20,12 +20,12 @@ import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.state.AccountState;
-import io.github.ghacupha.keeper.book.unit.time.DateRange;
-import io.github.ghacupha.keeper.book.unit.time.SimpleDate;
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.ImmutableListCollector;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UntimelyBookingDateException;
+import io.github.ghacupha.time.point.DateRange;
+import io.github.ghacupha.time.point.SimpleDate;
+import io.github.ghacupha.time.point.TimePoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

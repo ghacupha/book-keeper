@@ -15,8 +15,8 @@
  */
 package io.github.ghacupha.keeper.book.base;
 
-import io.github.ghacupha.keeper.book.unit.time.TimePoint;
 import io.github.ghacupha.keeper.book.util.UnEnteredDetailsException;
+import io.github.ghacupha.time.point.TimePoint;
 
 import java.util.Map;
 import java.util.Objects;

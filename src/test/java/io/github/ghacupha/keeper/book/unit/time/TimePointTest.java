@@ -15,6 +15,8 @@
  */
 package io.github.ghacupha.keeper.book.unit.time;
 
+import io.github.ghacupha.time.point.SimpleDate;
+import io.github.ghacupha.time.point.TimePoint;
 import org.junit.Before;
 import org.junit.Test;
 

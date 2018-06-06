@@ -15,6 +15,8 @@
  */
 package io.github.ghacupha.keeper.book.base;
 
+import io.github.ghacupha.cash.Cash;
+import io.github.ghacupha.cash.HardCash;
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Entry;
 import io.github.ghacupha.keeper.book.balance.AccountBalance;
@@ -22,9 +24,7 @@ import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.base.state.AccountCreditState;
 import io.github.ghacupha.keeper.book.base.state.AccountDebitState;
 import io.github.ghacupha.keeper.book.base.state.AccountState;
-import io.github.ghacupha.keeper.book.unit.money.Cash;
-import io.github.ghacupha.keeper.book.unit.money.HardCash;
-import io.github.ghacupha.keeper.book.unit.time.DateRange;
+import io.github.ghacupha.time.point.DateRange;
 
 import java.util.List;
 
