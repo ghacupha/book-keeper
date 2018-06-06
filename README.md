@@ -14,6 +14,8 @@ is not created or destroyed (as per double-entry requirements), only transferred
 not created or destroyed, but transferred from one account to another. Any transaction must have accounts where we are debiting
 and accounts we are crediting, and the debit entries must be equivalent to credit entries and in the same currency.
 
+### Usage
+
 ```java
 import static io.github.ghacupha.cash.HardCash.shilling;
 import static io.github.ghacupha.keeper.book.balance.AccountBalance.newBalance;
