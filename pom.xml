@@ -35,12 +35,6 @@
 
     <properties>
 
-        <!-- Github Releases -->
-        <book-keeper.release.version>1.2-SNAPSHOT</book-keeper.release.version>
-        <book-keeper.artifactId>book-keeper</book-keeper.artifactId>
-
-        <book-keeper.osgi.packages>io.github.ghacupha.keeper.book.*</book-keeper.osgi.packages>
-        <book-keeper.module.name>book-keeper</book-keeper.module.name>
         <build.profile.id>dev</build.profile.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -50,13 +44,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <it.skip>false</it.skip>
         <skip.unit.tests>false</skip.unit.tests>
-        <surefireArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</surefireArgLine>
-        <failsafeArgLine>-Dapp.env=LOCAL -Dapp.domain=localhost -Dapp.port=9901</failsafeArgLine>
-        <env.TRAVIS_JOB_ID />
         <changelog.template.file>${project.basedir}/config/changelog.mustache</changelog.template.file>
         <maven.compiler.fork>true</maven.compiler.fork>
         <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
-        <project.reporting.outputDirectory>"documentation"</project.reporting.outputDirectory>
         <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
         <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
 
@@ -64,38 +54,26 @@
         <git-changelog-maven-plugin.version>1.54</git-changelog-maven-plugin.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
-        <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
         <maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
         <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
-        <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
         <maven-plugin-plugin.version>3.5</maven-plugin-plugin.version>
         <maven-pmd-plugin.version>3.9.0</maven-pmd-plugin.version>
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
         <maven-repository-plugin.version>2.4</maven-repository-plugin.version>
         <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
-        <github-release-plugin.version>1.1.2-SNAPSHOT</github-release-plugin.version>
         <!-- v3.6 doesn't work with theme -->
-        <maven-site-plugin.version>3.4</maven-site-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <maven-surefire-report-plugin.version>2.20.1</maven-surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <spotbugs-maven-plugin.version>3.1.0-RC6</spotbugs-maven-plugin.version>
-        <!-- Properties for maven-compiler-plugin -->
-        <!--<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.fork>true</maven.compiler.fork>-->
 
         <!-- Properties for maven-javadoc-plugin -->
         <author>true</author>
@@ -340,42 +318,8 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Release dist files to GitHub -->
-                    <!-- This will create a tag on GitHub on deploy -->
-                    <!-- The release commit must have been pushed first -->
-                    <plugin>
-                        <groupId>de.jutzig</groupId>
-                        <artifactId>github-release-plugin</artifactId>
-                        <version>${github-release-plugin.version}</version>
-                        <configuration>
-                            <releaseName>Release v${project.version}</releaseName>
-                            <tag>v${project.version}</tag>
-                            <overwriteArtifact>true</overwriteArtifact>
-                            <fileSets>
-                                <fileSet>
-                                    <directory>${project.build.directory}</directory>
-                                    <includes>
-                                        <include>${book-keeper.artifactId}*-dist.tar.gz</include>
-                                        <include>${book-keeper.artifactId}*-dist.zip</include>
-                                    </includes>
-                                </fileSet>
-                            </fileSets>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>github-releases</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>release</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
-            <properties>
-                <additionalparam></additionalparam>
-            </properties>
         </profile>
     </profiles>
 
@@ -466,38 +410,8 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
-                        <manifestEntries>
-                            <Automatic-Module-Name>${book-keeper.module.name}</Automatic-Module-Name>
-                        </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>
-            <!-- Setup OSGi bundle data, with fix for Java 9 -->
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.5.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>biz.aQute.bnd</groupId>
-                        <artifactId>biz.aQute.bndlib</artifactId>
-                        <version>3.5.0</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                        <configuration>
-                            <instructions>
-                                <Export-Package>${book-keeper.osgi.packages}</Export-Package>
-                            </instructions>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!-- Setup Javadoc jar -->
             <plugin>
@@ -612,11 +526,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven-gpg-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven-install-plugin.version}</version>
                 </plugin>
@@ -629,11 +538,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>${maven-jxr-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -662,53 +566,14 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>${maven-site-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>${maven-surefire-report-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-toolchains-plugin</artifactId>
                     <version>${maven-toolchains-plugin.version}</version>
                 </plugin>
-                <!--<plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.felix</groupId>
-                                        <artifactId>maven-bundle-plugin</artifactId>
-                                        <versionRange>[2.5.4,)</versionRange>
-                                        <goals>
-                                            <goal>manifest</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>-->
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
                 <plugin>
                 	<groupId>org.eclipse.m2e</groupId>
@@ -810,7 +675,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
-                    <configLocation>${maven.checkstyle.configLocation}</configLocation>
+                    <configLocation>${checkstyle.config.location}</configLocation>
                     <headerFile>${checkstyle.config.headerFile}</headerFile>
                     <includeResources>false</includeResources>
                     <includeTestResources>false</includeTestResources>
@@ -830,15 +695,6 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin>
-            <!-- Setup Surefire report -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${maven-surefire-report-plugin.version}</version>
-                <configuration>
-                    <showSuccess>true</showSuccess>
-                </configuration>
             </plugin>
             <!-- Setup changes (release notes) -->
             <plugin>
