@@ -128,12 +128,6 @@
     </module>
     <property name="severity" value="warning"/>
   </module>
-  <!-- Header inlined due to m2e -->
-  <module name="RegexpHeader">
-    <property name="header" value="^/\*[*]?\n^ \* Copyright 2018 edwin.njeru"/>
-    <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
-  </module>
   <module name="SuppressionCommentFilter">
     <property name="offCommentFormat" value="CSOFF"/>
     <property name="onCommentFormat" value="CSON"/>
