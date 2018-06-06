@@ -29,6 +29,16 @@ import java.util.Set;
  */
 public interface Transaction {
 
+    default void entry(AccountSide accountSide, Cash amount, Account account, EntryDetails details){
+        try {
+            addEntry(accountSide, amount,account,details);
+        } catch (ImmutableEntryException e) {
+            e.printStackTrace();
+        } catch (MismatchedCurrencyException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      * @param accountSide {@link AccountSide} in which the entry is for

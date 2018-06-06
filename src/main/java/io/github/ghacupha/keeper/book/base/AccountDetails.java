@@ -38,6 +38,10 @@ public final class AccountDetails {
         this.openingDate = openingDate;
     }
 
+    public static AccountDetails accountDetails(String name, String number, TimePoint openingDate){
+        return new AccountDetails(name, number, openingDate);
+    }
+
     String getName() {
         return name;
     }

@@ -31,6 +31,10 @@ public final class EntryDetails {
         this.narration = narration;
     }
 
+    public static EntryDetails details(String narration){
+        return new EntryDetails(narration);
+    }
+
     public String getNarration() {
         return narration;
     }

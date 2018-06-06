@@ -6,6 +6,21 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**Added time and money libraries**
+
+
+[4ed3b7a6c6194c5](https://github.com/ghacupha/book-keeper/commit/4ed3b7a6c6194c5) Edwin Njeru *2018-06-06 10:11:23*
+
+**removed units of time and money from the library**
+
+
+[652495155b2fe87](https://github.com/ghacupha/book-keeper/commit/652495155b2fe87) Edwin Njeru *2018-06-06 09:59:46*
+
+**updated the license in the unix startup script**
+
+
+[12dcab7cb96d2c1](https://github.com/ghacupha/book-keeper/commit/12dcab7cb96d2c1) Edwin Njeru *2018-06-06 09:57:15*
+
 **Fixed checkstyle issues with the tags**
 
 

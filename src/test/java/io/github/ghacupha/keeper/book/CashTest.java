@@ -46,19 +46,19 @@ public class CashTest {
     @Test
     public void isMoreThan1() throws Exception {
 
-        assertTrue(cash.isMoreThan(HardCash.of(106.49,"KES")));
+        assertTrue(cash.isMoreThan(HardCash.of(106.49, "KES")));
     }
 
     @Test(expected = CurrencyMismatchException.class)
     public void cannotCashWithDifferentCurrencies() throws Exception {
 
-        assertTrue(cash.isMoreThan(HardCash.of(106.49,"USD")));
+        assertTrue(cash.isMoreThan(HardCash.of(106.49, "USD")));
     }
 
     @Test
     public void isLessThan() throws Exception {
 
-        assertTrue(cash.isLessThan(HardCash.of(106.51,"KES")));
+        assertTrue(cash.isLessThan(HardCash.of(106.51, "KES")));
     }
 
     @Test
@@ -75,33 +75,33 @@ public class CashTest {
     @Test
     public void plus() throws Exception {
 
-        assertEquals(HardCash.shilling(206.53),cash.plus(HardCash.shilling(100.03)));
+        assertEquals(HardCash.shilling(206.53), cash.plus(HardCash.shilling(100.03)));
     }
 
     @Test
     public void minus() throws Exception {
 
-        assertEquals(HardCash.shilling(105.00),cash.minus(HardCash.of(1.5,"KES")));
+        assertEquals(HardCash.shilling(105.00), cash.minus(HardCash.of(1.5, "KES")));
     }
 
     @Test
     public void multiply() throws Exception {
 
-        assertEquals(HardCash.shilling(319.50),cash.multiply(3));
-        assertEquals(HardCash.shilling(319.50),cash.multiply(3, RoundingMode.HALF_EVEN));
-        assertEquals(HardCash.shilling(319.50),cash.multiply(3, RoundingMode.HALF_DOWN));
+        assertEquals(HardCash.shilling(319.50), cash.multiply(3));
+        assertEquals(HardCash.shilling(319.50), cash.multiply(3, RoundingMode.HALF_EVEN));
+        assertEquals(HardCash.shilling(319.50), cash.multiply(3, RoundingMode.HALF_DOWN));
     }
 
     @Test
     public void divide() throws Exception {
 
-        assertEquals(HardCash.shilling(32.08),cash.divide(3.32));
-        assertEquals(HardCash.shilling(32.08),cash.divide(3.32,RoundingMode.HALF_DOWN));
-        assertEquals(HardCash.shilling(32.27),cash.divide(3.3,RoundingMode.HALF_EVEN));
+        assertEquals(HardCash.shilling(32.08), cash.divide(3.32));
+        assertEquals(HardCash.shilling(32.08), cash.divide(3.32, RoundingMode.HALF_DOWN));
+        assertEquals(HardCash.shilling(32.27), cash.divide(3.3, RoundingMode.HALF_EVEN));
     }
 
     @Test
     public void ABSworks() {
-        assertEquals(HardCash.dollar(32.08),HardCash.dollar(-32.08).abs());
+        assertEquals(HardCash.dollar(32.08), HardCash.dollar(-32.08).abs());
     }
 }

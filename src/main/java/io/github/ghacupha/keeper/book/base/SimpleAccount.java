@@ -92,6 +92,10 @@ public final class SimpleAccount implements Account {
         this.accountDetails = accountDetails;
     }
 
+    public static Account makeAccount(final AccountSide accountSide, Currency currency, AccountDetails accountDetails){
+        return new SimpleAccount(accountSide, currency, accountDetails);
+    }
+
     /**
      * @param entry {@link Entry} to be added to this
      */

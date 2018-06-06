@@ -70,6 +70,10 @@ public final class SimpleTransaction implements Transaction {
         log.info("SimpleTransaction created {}", this);
     }
 
+    public static Transaction getTransaction(String label, TimePoint date, Currency currency){
+        return new SimpleTransaction(label, date, currency);
+    }
+
     private static Double mapCashToDouble(Entry entry) {
         return entry.getAmount().getNumber().doubleValue();
     }
