@@ -569,10 +569,6 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-        </plugins>
-        <!-- Manage plugin versions -->
-        <pluginManagement>
-            <plugins>
                 <!-- Maven build and reporting plugins (alphabetical) -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -783,7 +779,6 @@
                 	</configuration>
                 </plugin>
             </plugins>
-        </pluginManagement>
 
     </build>
 
