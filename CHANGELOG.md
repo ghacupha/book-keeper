@@ -6,6 +6,11 @@ Changelog for ghacupha book-keeper.
 ## Unreleased
 ### No issue
 
+**Fixed checkstyle issues with the tags**
+
+
+[48267f98e1a9fa1](https://github.com/ghacupha/book-keeper/commit/48267f98e1a9fa1) Edwin Njeru *2018-06-06 09:44:21*
+
 **Configured mycilia header styles**
 
 
