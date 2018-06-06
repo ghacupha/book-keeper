@@ -2,8 +2,13 @@
 
 Changelog for ghacupha book-keeper.
 
-## Unreleased
+## 1.2.0
 ### No issue
+
+**preparing for version 1.2.0**
+
+
+[8bb58d9ec32ffaa](https://github.com/ghacupha/book-keeper/commit/8bb58d9ec32ffaa) Edwin Njeru *2018-04-12 08:38:59*
 
 **preparing for version 1.2.0**
 
