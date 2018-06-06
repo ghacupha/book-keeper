@@ -70,6 +70,7 @@
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
         <maven-repository-plugin.version>2.4</maven-repository-plugin.version>
         <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+        <codehaus.license.maven.plugin.version>1.16</codehaus.license.maven.plugin.version>
         <!-- v3.6 doesn't work with theme -->
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
@@ -79,6 +80,12 @@
         <author>true</author>
         <notimestamp>true</notimestamp>
         <doclint>none</doclint>
+
+        <!--Mycila License plugin-->
+        <mycila.license.maven.plugin.version>3.0</mycila.license.maven.plugin.version>
+        <license.header.location>com/mycila/maven/plugin/license/templates/APACHE-2.txt</license.header.location>
+        <license.maven.owner>Edwin Njeru</license.maven.owner>
+        <license.maven.email>mailnjeru@gmail.com</license.maven.email>
 
         <!-- Properties for maven-checkstyle-plugin -->
         <checkstyle.config.headerFile>${project.basedir}/config/License_Header.txt</checkstyle.config.headerFile>
@@ -643,8 +650,56 @@
                 		</lifecycleMappingMetadata>
                 	</configuration>
                 </plugin>
-            </plugins>
+            <!-- Setup scaffolding mycila license maven plugin-->
+            <!--Use with mvn "mvn license:check", "mvn license:format" & "mvn license:remove"-->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${mycila.license.maven.plugin.version}</version>
+                <configuration>
+                    <header>${license.header.location}</header>
+                    <properties>
+                        <owner>${license.maven.owner}</owner>
+                        <email>${license.maven.email}</email>
+                    </properties>
+                    <excludes>
+                        <exclude>**/README</exclude>
+                        <exclude>**/CHANGELOG.md</exclude>
+                        <exclude>**/LICENSE</exclude>
+                        <exclude>**/.idea/**</exclude>
+                        <exclude>**/.mvn/**</exclude>
+                        <exclude>**/.okhttpcache/**</exclude>
+                        <exclude>**/target/**</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
+            <!-- Setup codehaus mojo license management plugin-->
+            <!-- Invocation by 'mvn package'-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${codehaus.license.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>download-licenses</id>
+                        <goals>
+                            <goal>download-licenses</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <!-- ==================================================================== -->
