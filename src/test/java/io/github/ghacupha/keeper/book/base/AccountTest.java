@@ -17,7 +17,6 @@ package io.github.ghacupha.keeper.book.base;
 
 import io.github.ghacupha.keeper.book.api.Account;
 import io.github.ghacupha.keeper.book.api.Transaction;
-import io.github.ghacupha.keeper.book.balance.AccountBalance;
 import io.github.ghacupha.keeper.book.util.ImmutableEntryException;
 import io.github.ghacupha.keeper.book.util.MismatchedCurrencyException;
 import io.github.ghacupha.keeper.book.util.UnableToPostException;
