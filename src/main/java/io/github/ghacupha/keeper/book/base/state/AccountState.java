@@ -20,7 +20,7 @@ import io.github.ghacupha.keeper.book.balance.AccountSide;
 import io.github.ghacupha.keeper.book.unit.money.Cash;
 
 /**
- * The Account could either be in {@link AccountSide#CREDIT} or {@link AccountSide#DEBT}
+ * The Account could either be in {@link AccountSide#CREDIT} or {@code AccountSide#DEBT}
  * This interface maintains the methods common to all these states to allow
  * reuse
  * 
@@ -30,9 +30,9 @@ public interface AccountState {
 
     /**
      * Get AccountBalance given the sum of debits and sum of credits
-     * @param debits
-     * @param credits
-     * @return
+     * @param debits The amount of money on the debit side
+     * @param credits The amount of money on the credit side
+     * @return AccountBalance of the client
      */
     AccountBalance getAccountBalance(Cash debits,Cash credits);
 

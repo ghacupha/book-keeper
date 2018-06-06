@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * A collection of {@link Entry} items.
- * @implNote The specification of this interface hides the fact that the {@link Account} contains an {@link AccountSide}
+ * The specification of this interface hides the fact that the {@link Account} contains an {@link AccountSide}
  * field. This reduces excessive of the implementation internals, but if the implementation does not contain
  * an {@link AccountSide} then the point of this interface is moot. Therefore the only to safely access the
  * {@link AccountSide} is through the {@link AccountBalance}.
@@ -76,7 +76,7 @@ public interface Account {
     TimePoint getOpeningDate();
 
     /**
-     * @implSpec As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
+     * As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
      * allowing inexpensive evaluation of the {@link AccountBalance} without causing circular reference. Otherwise anyone else who needs
      * to know the {@code AccountSide} of this needs to query the {@link AccountBalance} first, and from it acquire the {@link AccountSide}
      *

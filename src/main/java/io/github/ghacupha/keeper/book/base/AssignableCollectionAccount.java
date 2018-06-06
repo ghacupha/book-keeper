@@ -102,7 +102,7 @@ public class AssignableCollectionAccount implements Account {
     /**
      * @return Shows the side of the balance sheet to which this belongs which could be either
      * {@link AccountSide#DEBIT} or {@link AccountSide#CREDIT}
-     * @implSpec As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
+     * As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
      * allowing inexpensive evaluation of the {@link AccountBalance} without causing circular reference. Otherwise anyone else who needs
      * to know the {@code AccountSide} of this needs to query the {@link AccountBalance} first, and from it acquire the {@link AccountSide}
      */

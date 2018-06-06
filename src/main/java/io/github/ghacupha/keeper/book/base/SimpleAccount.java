@@ -45,7 +45,7 @@ import static io.github.ghacupha.keeper.book.balance.AccountSide.DEBIT;
  * also assigned on initialization allowing the client to describe default {@link AccountSide} of the {@link Account}.
  *
  * @author edwin.njeru
- * @implNote Some non-guaranteed care has been taken to make the Implementation as thread-safe as possible. This may not
+ * Some non-guaranteed care has been taken to make the Implementation as thread-safe as possible. This may not
  * be obviously evident by the usual use of words like "synchronized" et al. In fact synchronization would probably just
  * slow us down. Instead what has been done is that the {@link Collection} of {@link Entry} items, which is the whole
  * concept of this Account pattern, has been implemented using a {@link List} interface implementation that creates a new
@@ -188,7 +188,7 @@ public final class SimpleAccount implements Account {
     /**
      * @return Shows the side of the balance sheet to which this belongs which could be either
      * {@link AccountSide#DEBIT} or {@link AccountSide#CREDIT}
-     * @implSpec As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
+     * As per implementation notes this is for use only by the {@link AccountAppraisalDelegate}
      * allowing inexpensive evaluation of the {@link AccountBalance} without causing circular reference. Otherwise anyone else who needs
      * to know the {@code AccountSide} of this needs to query the {@link AccountBalance} first, and from it acquire the {@link AccountSide}.
      * Also note that the object's {@link AccountSide} is never really exposed since this implementation is returning a value based on its

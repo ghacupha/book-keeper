@@ -1,6 +1,41 @@
+
 # Changelog
 
 Changelog for ghacupha book-keeper.
+
+## Unreleased
+### No issue
+
+**Configured mycilia header styles**
+
+
+[b493f2f551873e4](https://github.com/ghacupha/book-keeper/commit/b493f2f551873e4) Edwin Njeru *2018-06-06 09:36:35*
+
+**Removed mycilia license plugin version and removed license header checking from the checkstyle config**
+
+
+[d6e1b9d6d7583dc](https://github.com/ghacupha/book-keeper/commit/d6e1b9d6d7583dc) Edwin Njeru *2018-06-06 09:10:22*
+
+**Added jitpack repository**
+
+
+[f5f5cf7c47afb7f](https://github.com/ghacupha/book-keeper/commit/f5f5cf7c47afb7f) Edwin Njeru *2018-06-06 09:05:35*
+
+**Removed additional unnecessary plugins**
+
+
+[d10c170440a7ec5](https://github.com/ghacupha/book-keeper/commit/d10c170440a7ec5) Edwin Njeru *2018-06-06 09:02:33*
+
+**Removed unnecessary plugin management**
+
+
+[5ef71a0aa8ebab0](https://github.com/ghacupha/book-keeper/commit/5ef71a0aa8ebab0) Edwin Njeru *2018-06-06 08:52:24*
+
+**Removed maven site plugin**
+
+
+[1db7c579635fa03](https://github.com/ghacupha/book-keeper/commit/1db7c579635fa03) Edwin Njeru *2018-06-06 08:43:46*
+
 
 ## 1.2.0
 ### No issue
