@@ -123,3 +123,22 @@ public class AccountTest {
 }
 ```
 
+### Installation
+
+The library is availbale as a snapshot. Just add the following to your pom
+
+    <repositories>
+       <repository>
+        <id>sonatype-nexus-snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+    
+    <dependency>
+        <groupId>io.github.ghacupha</groupId>
+        <artifactId>book-keeper</artifactId>
+        <version>1.2-SNAPSHOT</version>
+     </dependency>
+     
+
+
